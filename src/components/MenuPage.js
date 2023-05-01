@@ -36,21 +36,21 @@ const MenuPage = () => {
     },
 
     {
-      id: 2,
+      id: 5,
       name: "Pizza",
       image: "https://via.placeholder.com/150",
       price: 12.99,
       rating: 4.0,
     },
     {
-      id: 3,
+      id: 6,
       name: "Salad",
       image: "https://via.placeholder.com/150",
       price: 7.99,
       rating: 4.2,
     },
     {
-      id: 4,
+      id: 7,
       name: "Sandwich",
       image: "https://via.placeholder.com/150",
       price: 6.99,
@@ -58,21 +58,21 @@ const MenuPage = () => {
     },
 
     {
-      id: 2,
+      id: 8,
       name: "Pizza",
       image: "https://via.placeholder.com/150",
       price: 12.99,
       rating: 4.0,
     },
     {
-      id: 3,
+      id: 9,
       name: "Salad",
       image: "https://via.placeholder.com/150",
       price: 7.99,
       rating: 4.2,
     },
     {
-      id: 4,
+      id: 10,
       name: "Sandwich",
       image: "https://via.placeholder.com/150",
       price: 6.99,
