@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaStar, FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
+import { MdOutlineFastfood } from "react-icons/md";
 
 const MenuPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -12,6 +13,50 @@ const MenuPage = () => {
       price: 8.99,
       rating: 4.5,
     },
+    {
+      id: 2,
+      name: "Pizza",
+      image: "https://via.placeholder.com/150",
+      price: 12.99,
+      rating: 4.0,
+    },
+    {
+      id: 3,
+      name: "Salad",
+      image: "https://via.placeholder.com/150",
+      price: 7.99,
+      rating: 4.2,
+    },
+    {
+      id: 4,
+      name: "Sandwich",
+      image: "https://via.placeholder.com/150",
+      price: 6.99,
+      rating: 4.8,
+    },
+
+    {
+      id: 2,
+      name: "Pizza",
+      image: "https://via.placeholder.com/150",
+      price: 12.99,
+      rating: 4.0,
+    },
+    {
+      id: 3,
+      name: "Salad",
+      image: "https://via.placeholder.com/150",
+      price: 7.99,
+      rating: 4.2,
+    },
+    {
+      id: 4,
+      name: "Sandwich",
+      image: "https://via.placeholder.com/150",
+      price: 6.99,
+      rating: 4.8,
+    },
+
     {
       id: 2,
       name: "Pizza",
@@ -67,7 +112,7 @@ const MenuPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-24 pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {menuItems.map((item) => {
@@ -78,7 +123,7 @@ const MenuPage = () => {
           return (
             <div
               key={item.id}
-              className="flex flex-col md:w-96 w-80 items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:-translate-y-1"
+              className="flex flex-col pb-4 md:w-96 w-80 h-96 items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:-translate-y-1"
             >
               <img
                 src={item.image}
@@ -119,26 +164,29 @@ const MenuPage = () => {
             </div>
           );
         })}
-      </div>{" "}
-      <div className="flex items-center justify-between w-full px-8 py-4 bg-white shadow-lg fixed bottom-0">
-        <div>
-          <h2 className="text-lg font-bold">Cart</h2>
-          <p className="text-gray-600">{cartItems.length} items</p>
-        </div>
-        <div className="flex items-center">
-          {cartItems.length > 0 && (
-            <button className="bg-[#E8772E] text-white py-2 px-4 rounded-full mr-4 hover:bg-[#E8772E]-dark">
-              <FaShoppingCart /> Checkout
-            </button>
-          )}
-          <p className="text-xl font-bold">
-            $
-            {cartItems
-              .reduce((total, item) => total + item.quantity * item.price, 0)
-              .toFixed(2)}
-          </p>
-        </div>
       </div>
+      {cartItems.length>0 && (
+        <div className="flex items-center justify-between w-full rounded-full md:px-16 px-12 py-4 bg-white shadow-lg fixed bottom-0 mb-2 ">
+          <div>
+            <h2 className="text-lg font-bold">Cart</h2>
+            <p className="text-gray-600">{cartItems.length} items</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            
+            <p className="text-xl font-bold">
+              $
+              {cartItems
+                .reduce((total, item) => total + item.quantity * item.price, 0)
+                .toFixed(2)}
+            </p>
+            {cartItems.length > 0 && (
+              <button className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#E8772E]-dark">
+                <MdOutlineFastfood className="" /> <span>Checkout</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
