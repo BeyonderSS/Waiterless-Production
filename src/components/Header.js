@@ -15,21 +15,21 @@ const Header = () => {
     <nav className="fixed top-0 w-full z-50 flex items-center justify-between flex-wrap bg-[#E8772E] p-6">
       <div>
         {!session ? (
-          <a
-            href="#"
+          <button
+            
             className=" text-sm px-4 py-2 leading-none border rounded text-white hover:text-[#E8772E] bg-primary hover:border-transparent hover:text-primary hover:bg-white  transition ease-in-out mt-4 lg:mt-0"
             onClick={signIn}
           >
             LogIn
-          </a>
+          </button>
         ) : (
-          <a
-            href="#"
+          <button
+            
             className=" text-sm px-4 py-2 leading-none border rounded text-white hover:text-[#E8772E] bg-primary hover:border-transparent hover:text-primary hover:bg-white transition ease-in-out mt-4 lg:mt-0"
             onClick={signOut}
           >
             LogOut
-          </a>
+          </button>
         )}
       </div>
       <div className="flex items-center flex-shrink-0 space-x-4 text-white mr-6">
