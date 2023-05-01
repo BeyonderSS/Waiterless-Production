@@ -1,42 +1,50 @@
-import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import Link from "next/link";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-[#E8772E] pt-10 pb-6">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap">
-          <div className="w-full lg:w-1/3 px-4 mb-4 lg:mb-0">
-            <h3 className="text-white font-bold text-xl mb-2">FlorishersEdge</h3>
-            <p className="text-white text-sm">Made with love and passion by FlorishersEdge</p>
-          </div>
-          <div className="w-full lg:w-1/3 px-4">
-            <h3 className="text-white font-bold text-xl mb-2">Terms and Conditions</h3>
-            <ul className="list-reset">
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" className="text-white text-sm hover:text-gray-400">Privacy Policy</a>
-              </li>
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" className="text-white text-sm hover:text-gray-400">Terms of Use</a>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full lg:w-1/3 px-4">
-            <h3 className="text-white font-bold text-xl mb-2">Contact Us</h3>
-            <ul className="list-reset">
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" className="text-white text-sm hover:text-gray-400">Email</a>
-              </li>
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" className="text-white text-sm hover:text-gray-400">Phone</a>
-              </li>
-            </ul>
-            <div className="mt-4">
-              <a href="#" className="text-white hover:text-gray-400 mr-4"><FaFacebook /></a>
-              <a href="#" className="text-white hover:text-gray-400 mr-4"><FaTwitter /></a>
-              <a href="#" className="text-white hover:text-gray-400"><FaInstagram /></a>
-            </div>
-          </div>
+    <footer className="bg-[#E8772E] text-gray-500">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="text-center md:text-left mb-4 md:mb-0">
+          <Link href="/" legacyBehavior>
+            <a className="text-gray-200 text-2xl font-bold uppercase tracking-wide">
+              WaiterLess{" "}
+            </a>
+          </Link>
+        </div>
+        <div className="text-center">
+          <ul className="flex flex-col md:flex-row">
+            <li className="mt-3 md:mt-0 md:ml-6 text-sm">
+              <Link href="/Support/ContactUs" legacyBehavior>
+                <a className="text-white hover:text-gray-100">Contact Us</a>
+              </Link>
+            </li>
+            <li className="mt-3 md:mt-0 md:ml-6 text-sm">
+              <Link href="/" legacyBehavior>
+                <a className="text-white hover:text-gray-100">
+                  Help &amp; Support
+                </a>
+              </Link>
+            </li>
+            <li className="mt-3 md:mt-0 md:ml-6 text-sm">
+              <Link href="/" legacyBehavior>
+                <a className="text-white hover:text-gray-100">Feedback</a>
+              </Link>
+            </li>
+            <li className="mt-3 md:mt-0 md:ml-6 text-sm">
+              <a
+                href="https://florishers-edge-landing-page.vercel.app/"
+                className="text-white hover:text-gray-100"
+              >
+                Made by Flourishers Edge
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="text-center md:text-right mt-4 md:mt-0">
+          <p className="text-sm text-white">
+            &copy; {currentYear} WaierLess. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

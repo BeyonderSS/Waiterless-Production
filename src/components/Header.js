@@ -18,7 +18,7 @@ const Header = () => {
         <svg className="h-8 w-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1 15H9l2.339-6.33L9 8h2l1.449 3.934L14 8h2l-2.339 2.67L15 17h-2z"/>
         </svg>
-        <span className="font-semibold text-3xl tracking-tight">WaiterLess</span>
+        <span className="font-semibold uppercase text-3xl tracking-tight">WaiterLess</span>
       </div>
    <div></div>
       
