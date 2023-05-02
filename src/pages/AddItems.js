@@ -16,25 +16,20 @@ const AddItems = () => {
   const [formData, setFormData] = useState({
     dishName: "",
     price: "",
-    image: null,
     rating: "",
     id: "",
   });
-  
+  const [image ,setImage] = useState(null)
   const [url , setUrl]= useState(null)
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setFormData({ ...formData, image: reader.result });
-      // console.log(reader.result)
-    };
+  const handleImageChange = (e) => {
+   if(e.target.files[0]){
+    setImage(e.target.files[0])
+   }
   };
 
   const handleSubmit = async (event) => {
@@ -52,12 +47,13 @@ const AddItems = () => {
     // Upload image to Firebase Storage
     const storageRef = getStorage();
     const imageRef = ref(storageRef, `images/${formData.id}`);
-    await uploadBytes(imageRef, formData.image).then(()=>{
+    await uploadBytes(imageRef, image).then(()=>{
       getDownloadURL(imageRef).then((url)=>{
         setUrl(url);
       }).catch((error)=>{
         console.log(error.message,"error getting url")
       })
+      setImage(null)
     }).catch((error)=>{
       console.log(error.message)
     })
@@ -67,7 +63,7 @@ const AddItems = () => {
       await addDoc(itemsRef, {
         dishName: formData.dishName,
         price: formData.price,
-        image: `images/${formData.id}`,
+        image: url,
         rating: formData.rating,
         id: formData.id,
       });

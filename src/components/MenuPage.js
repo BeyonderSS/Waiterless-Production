@@ -69,7 +69,7 @@ const MenuPage = () => {
               className="flex flex-col pb-4 md:w-96 w-80 h-96 items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:-translate-y-1"
             >
               <img
-                src={`data:image/png;base64,${item.image}`}
+                src={item.image}
                 alt={item.dishName}
                 className="h-48 w-full object-cover mb-4"
               />
