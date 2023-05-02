@@ -198,12 +198,22 @@ const AddItems = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
+           
+          {uploaded ?(
           <button
+            type="submit"
+            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+          >
+            Upload Data 
+          </button>
+          ):(
+              <button
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
             Add Item
           </button>
+          )}
         </form>
       </div>
     </div>
