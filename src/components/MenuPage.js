@@ -1,85 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaStar, FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
 import { MdOutlineFastfood } from "react-icons/md";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { firestore } from "../utils/initFirebase";
 
 const MenuPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
 
-  const menuItems = [
-    {
-      id: 1,
-      name: "Burger",
-      image: "https://via.placeholder.com/150",
-      price: 8.99,
-      rating: 4.5,
-    },
-    {
-      id: 2,
-      name: "Pizza",
-      image: "https://via.placeholder.com/150",
-      price: 12.99,
-      rating: 4.0,
-    },
-    {
-      id: 3,
-      name: "Salad",
-      image: "https://via.placeholder.com/150",
-      price: 7.99,
-      rating: 4.2,
-    },
-    {
-      id: 4,
-      name: "Sandwich",
-      image: "https://via.placeholder.com/150",
-      price: 6.99,
-      rating: 4.8,
-    },
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      const menuCollectionRef = collection(firestore, "Menu");
+      const menuQuery = query(menuCollectionRef);
+      const menuSnapshot = await getDocs(menuQuery);
+      const menuData = menuSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMenuItems(menuData);
+    };
+    fetchMenuItems();
+  }, []);
 
-    {
-      id: 5,
-      name: "Pizza",
-      image: "https://via.placeholder.com/150",
-      price: 12.99,
-      rating: 4.0,
-    },
-    {
-      id: 6,
-      name: "Salad",
-      image: "https://via.placeholder.com/150",
-      price: 7.99,
-      rating: 4.2,
-    },
-    {
-      id: 7,
-      name: "Sandwich",
-      image: "https://via.placeholder.com/150",
-      price: 6.99,
-      rating: 4.8,
-    },
-
-    {
-      id: 8,
-      name: "Pizza",
-      image: "https://via.placeholder.com/150",
-      price: 12.99,
-      rating: 4.0,
-    },
-    {
-      id: 9,
-      name: "Salad",
-      image: "https://via.placeholder.com/150",
-      price: 7.99,
-      rating: 4.2,
-    },
-    {
-      id: 10,
-      name: "Sandwich",
-      image: "https://via.placeholder.com/150",
-      price: 6.99,
-      rating: 4.8,
-    },
-  ];
-
+  
   const handleAddToCart = (item) => {
     const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
     if (existingItem) {
@@ -112,7 +55,7 @@ const MenuPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-24 pb-8">
+    <div className="flex flex-col items-center  min-h-screen   pt-24 bg-gray-100  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {menuItems.map((item) => {
@@ -126,12 +69,12 @@ const MenuPage = () => {
               className="flex flex-col pb-4 md:w-96 w-80 h-96 items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform hover:-translate-y-1"
             >
               <img
-                src={item.image}
-                alt={item.name}
+                src={`data:image/png;base64,${item.image}`}
+                alt={item.dishName}
                 className="h-48 w-full object-cover mb-4"
               />
-              <h2 className="text-lg font-bold">{item.name}</h2>
-              <p className="text-gray-600">${item.price}</p>
+              <h2 className="text-lg font-bold">{item.dishName}</h2>
+              <p className="text-gray-600">₹{item.price}</p>
               <div className="flex items-center">
                 {[...Array(Math.round(item.rating))].map((_, i) => (
                   <FaStar key={i} className="text-yellow-500 mr-1" />
@@ -155,28 +98,28 @@ const MenuPage = () => {
                 </div>
               ) : (
                 <button
-                  className="bg-[#E8772E] text-white py-2 px-4 rounded-full mt-4 hover:bg-[#E8772E]-dark"
+                  className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#E8772E]-dark"
                   onClick={() => handleAddToCart(item)}
                 >
-                  Add to cart
+                  <FaShoppingCart className="mr-2" />
+                  <span> Add to Cart</span>
                 </button>
               )}
             </div>
           );
         })}
       </div>
-      {cartItems.length>0 && (
+      {cartItems.length > 0 && (
         <div className="flex items-center justify-between w-full rounded-full md:px-16 px-12 py-4 bg-white shadow-lg fixed bottom-0 mb-2 ">
           <div>
             <h2 className="text-lg font-bold">Cart</h2>
             <p className="text-gray-600">{cartItems.length} items</p>
           </div>
           <div className="flex items-center space-x-2">
-            
             <p className="text-xl font-bold">
               $
               {cartItems
-                .reduce((total, item) => total + item.quantity * item.price, 0)
+                .reduce((acc, item) => acc + item.quantity * item.price, 0)
                 .toFixed(2)}
             </p>
             {cartItems.length > 0 && (
@@ -186,7 +129,7 @@ const MenuPage = () => {
             )}
           </div>
         </div>
-      )}
+      )}{" "}
     </div>
   );
 };

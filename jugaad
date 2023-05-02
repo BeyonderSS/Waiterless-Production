@@ -1,0 +1,14 @@
+  const [url , setUrl]= useState(null)
+
+
+ const storageRef = getStorage();
+    const imageRef = ref(storageRef, `images/${formData.id}`);
+    await uploadBytes(imageRef, formData.image).then(()=>{
+      getDownloadURL(imageRef).then((url)=>{
+        setUrl(url);
+      }).catch((error)=>{
+        console.log(error.message,"error getting url")
+      })
+    }).catch((error)=>{
+      console.log(error.message)
+    })
