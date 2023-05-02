@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import { Bellota_Text } from 'next/font/google';
 import "@/styles/globals.css";
 import { SessionProvider } from 'next-auth/react';
-import  { AuthProvider } from '../../context/AuthContext';
+import  { AuthProvider } from '../context/AuthContext';
 
 const bellotaTextBold = Bellota_Text({
   weight: '700',

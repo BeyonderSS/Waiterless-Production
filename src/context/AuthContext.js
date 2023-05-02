@@ -7,7 +7,7 @@ import {
   signInWithRedirect,
   signOut,
 } from "firebase/auth";
-import { auth, firestore } from "../src/utils/initFirebase";
+import { auth, firestore } from "../utils/initFirebase";
 import { useContext } from "react";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
