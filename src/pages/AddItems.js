@@ -107,6 +107,8 @@ const AddItems = () => {
           rating: "",
           id: "",
         });
+        setUrl(null)
+        setUploaded(false)
       }
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -204,14 +206,14 @@ const AddItems = () => {
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
-            Upload Data 
+            Add Item
           </button>
           ):(
               <button
             type="submit"
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
           >
-            Add Item
+             Upload Data 
           </button>
           )}
         </form>
