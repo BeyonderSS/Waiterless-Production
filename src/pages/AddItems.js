@@ -8,10 +8,11 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { firestore } from "../utils/initFirebase";
 
 const AddItems = () => {
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [formData, setFormData] = useState({
     dishName: "",
@@ -19,8 +20,11 @@ const AddItems = () => {
     rating: "",
     id: "",
   });
-  const [image ,setImage] = useState(null)
+ 
+  const [image ,setImage] = useState("")
   const [url , setUrl]= useState(null)
+  const [uploaded, setUploaded] = useState(false);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -31,6 +35,42 @@ const AddItems = () => {
     setImage(e.target.files[0])
    }
   };
+
+
+  const handleUpload = () => {
+    if (image == "") {
+      alert("Please add the file");
+    }
+    const storage = getStorage();
+
+    const storageRef = ref(storage, `images/${formData.id}`);
+
+    const uploadTask = uploadBytesResumable(storageRef, image);
+
+    setUploaded(false);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+         setUrl(downloadURL)
+          
+        });
+        setUploaded(true);
+      }
+    );
+  };
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,25 +85,14 @@ const AddItems = () => {
     }
 
     // Upload image to Firebase Storage
-    const storageRef = getStorage();
-    const imageRef = ref(storageRef, `images/${formData.id}`);
-    await uploadBytes(imageRef, image).then(()=>{
-      getDownloadURL(imageRef).then((url)=>{
-        setUrl(url);
-      }).catch((error)=>{
-        console.log(error.message,"error getting url")
-      })
-      setImage(null)
-    }).catch((error)=>{
-      console.log(error.message)
-    })
-
+  handleUpload()
     // Add item to Firestore
+   
     try {
       await addDoc(itemsRef, {
         dishName: formData.dishName,
         price: formData.price,
-        image: await url,
+        image: url,
         rating: formData.rating,
         id: formData.id,
       });
@@ -123,6 +152,7 @@ console.log(url)
             </label>
             <input
               type="file"
+              accept="/image/*"
               id="image"
               name="image"
               onChange={handleImageChange}
@@ -170,8 +200,6 @@ console.log(url)
           >
             Add Item
           </button>
-
-          hgbiuh
         </form>
       </div>
     </div>
