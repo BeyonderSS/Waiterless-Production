@@ -4,8 +4,7 @@ import AddItems from "./AddItems";
 export default function Home() {
   return (
     <main >
-      <MenuPage/>
-      {/* <AddItems/> */}
+      Home
     </main>
   )
 }
