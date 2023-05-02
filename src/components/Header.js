@@ -1,12 +1,11 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
-
+const {user,signInWithGoogle,handleSignOut} = useAuth();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -14,11 +13,11 @@ const Header = () => {
   return (
     <nav className="fixed top-0 w-full z-50 flex items-center justify-between flex-wrap bg-[#E8772E] p-6">
       <div>
-        {!session ? (
+        {!user ? (
           <button
             
             className=" text-sm px-4 py-2 leading-none border rounded text-white hover:text-[#E8772E] bg-primary hover:border-transparent hover:text-primary hover:bg-white  transition ease-in-out mt-4 lg:mt-0"
-            onClick={signIn}
+            onClick={signInWithGoogle}
           >
             LogIn
           </button>
@@ -26,7 +25,7 @@ const Header = () => {
           <button
             
             className=" text-sm px-4 py-2 leading-none border rounded text-white hover:text-[#E8772E] bg-primary hover:border-transparent hover:text-primary hover:bg-white transition ease-in-out mt-4 lg:mt-0"
-            onClick={signOut}
+            onClick={handleSignOut}
           >
             LogOut
           </button>

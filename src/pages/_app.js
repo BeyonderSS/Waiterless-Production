@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import { Bellota_Text } from 'next/font/google';
 import "@/styles/globals.css";
 import { SessionProvider } from 'next-auth/react';
+import  { AuthProvider } from '@/context/AuthContext';
 
 const bellotaTextBold = Bellota_Text({
   weight: '700',
@@ -12,12 +13,12 @@ const bellotaTextBold = Bellota_Text({
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <AuthProvider>
     <main className={bellotaTextBold.className}>
       <Header/>
       <Component {...pageProps} />
       <Footer/>
     </main>
-    </SessionProvider>
+    </AuthProvider>
   );
 }
