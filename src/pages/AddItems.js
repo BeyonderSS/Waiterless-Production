@@ -63,7 +63,7 @@ const AddItems = () => {
       await addDoc(itemsRef, {
         dishName: formData.dishName,
         price: formData.price,
-        image: url,
+        image: await url,
         rating: formData.rating,
         id: formData.id,
       });
