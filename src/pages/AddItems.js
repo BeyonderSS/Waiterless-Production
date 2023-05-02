@@ -8,7 +8,13 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { firestore } from "../utils/initFirebase";
 
 const AddItems = () => {
@@ -20,9 +26,9 @@ const AddItems = () => {
     rating: "",
     id: "",
   });
- 
-  const [image ,setImage] = useState("")
-  const [url , setUrl]= useState(null)
+
+  const [image, setImage] = useState("");
+  const [url, setUrl] = useState(null);
   const [uploaded, setUploaded] = useState(false);
 
   const handleInputChange = (event) => {
@@ -31,11 +37,10 @@ const AddItems = () => {
   };
 
   const handleImageChange = (e) => {
-   if(e.target.files[0]){
-    setImage(e.target.files[0])
-   }
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
   };
-
 
   const handleUpload = () => {
     if (image == "") {
@@ -61,16 +66,12 @@ const AddItems = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-         setUrl(downloadURL)
-          
+          setUrl(downloadURL);
         });
         setUploaded(true);
       }
     );
   };
-
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -85,31 +86,34 @@ const AddItems = () => {
     }
 
     // Upload image to Firebase Storage
-  handleUpload()
+    handleUpload();
     // Add item to Firestore
-   
+
     try {
-      await addDoc(itemsRef, {
-        dishName: formData.dishName,
-        price: formData.price,
-        image: url,
-        rating: formData.rating,
-        id: formData.id,
-      });
-      alert("Item added to menu.");
-      setFormData({
-        dishName: "",
-        price: "",
-        image: null,
-        rating: "",
-        id: "",
-      });
+      if (uploaded == true) {
+        await addDoc(itemsRef, {
+          dishName: formData.dishName,
+          price: formData.price,
+          image: url,
+          rating: formData.rating,
+          id: formData.id,
+        });
+        alert("Item added to menu.");
+
+        setFormData({
+          dishName: "",
+          price: "",
+          image: null,
+          rating: "",
+          id: "",
+        });
+      }
     } catch (error) {
       console.error("Error adding document: ", error);
       alert("Error adding item to menu.");
     }
   };
-console.log(url)
+  console.log(url);
   return (
     <div className="h-screen md:pt-40 pt-24 bg-gray-100">
       <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">
