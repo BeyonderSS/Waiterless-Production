@@ -13,15 +13,15 @@ const {user,signInWithGoogle,handleSignOut} = useAuth();
     <>
   {/* component */}
   {/* follow me on twitter @asad_codes */}
-  <div className="flex flex-wrap">
-    <section className="relative mx-auto">
+  <div className="flex fixed flex-wrap w-full z-50">
+    <section className=" w-full">
       {/* navbar */}
-      <nav className="flex justify-between bg-[#E8772E] text-white w-screen">
+      <nav className="flex justify-between bg-[#E8772E] text-white w-full">
         <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-          <a className="text-3xl font-bold font-heading" href="#">
+          <Link className="text-3xl cursor-pointer font-bold font-heading" href="/">
             {/* <img class="h-9" src="logo.png" alt="logo"> */}
             WaiterLess
-          </a>
+          </Link>
           {/* Nav Links */}
           <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
             <li>
@@ -143,21 +143,7 @@ const {user,signInWithGoogle,handleSignOut} = useAuth();
     </section>
   </div>
   {/* Does this resource worth a follow? */}
-  <div className="absolute bottom-0 right-0 mb-4 mr-4 z-10">
-    <div>
-      <a
-        title="Follow me on twitter"
-        href="https://www.twitter.com/asad_codes"
-        target="_blank"
-        className="block w-16 h-16 rounded-full transition-all shadow hover:shadow-lg transform hover:scale-110 hover:rotate-12"
-      >
-        <img
-          className="object-cover object-center w-full h-full rounded-full"
-          src="https://www.imore.com/sites/imore.com/files/styles/large/public/field/image/2019/12/twitter-logo.jpg"
-        />
-      </a>
-    </div>
-  </div>
+ 
 </>
 
   );
