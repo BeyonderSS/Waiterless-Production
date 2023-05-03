@@ -118,13 +118,19 @@ const Header = () => {
           <div
             className={`${
               isOpen ? " translate-y-0" : "-translate-y-24"
-            } w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-[#E8772E] -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
+            } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-[#E8772E] -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
-            <div className="pt-20 flex flex-row space-x-20 p-5 justify-center items-center text-white text-xl uppercase font-semibold">
-            {/* <div className="cursor-pointer">Menu</div>
-            <div className="cursor-pointer">Home</div>
-            <div className="cursor-pointer">Login</div> */}
-            <p>Hey, {user.displayName} Have a Great Meal! </p>
+            <div className="pt-20 flex flex-row p-5 justify-center items-center text-white text-xl uppercase font-semibold">
+              {user ? (
+                <p>Hey, {user.displayName} Have a Great Meal! </p>
+              ) : (
+                <div className="flex flex-row  space-x-20">
+                  {" "}
+                  <div className="cursor-pointer">Menu</div>
+                  <div className="cursor-pointer">Home</div>
+                  <div className="cursor-pointer">Login</div>
+                </div>
+              )}
             </div>
           </div>
         </section>
