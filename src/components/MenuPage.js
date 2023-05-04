@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaStar, FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
+import {
+  FaStar,
+  FaShoppingCart,
+  FaPlus,
+  FaMinus,
+  FaCross,
+} from "react-icons/fa";
 import { MdOutlineFastfood } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { BarLoader } from "react-spinners";
+import Checkout from "./Checkout";
+import { RxCross1 } from "react-icons/rx";
 
 const MenuPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -15,6 +23,14 @@ const MenuPage = () => {
   const [loading, setloading] = useState(false);
   const menuRef = useRef();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem('cartItems');
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,6 +74,8 @@ const MenuPage = () => {
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
   };
 
   const handleRemoveFromCart = (item) => {
@@ -75,6 +93,8 @@ const MenuPage = () => {
       );
       setCartItems(updatedCartItems);
     }
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
   };
 
   return (
@@ -152,52 +172,66 @@ const MenuPage = () => {
           })}
         </div>
       )}
-      {cartItems.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, scale: 1, y: 200 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 1, y: 200 }}
-          transition={{
-            duration: 0.5,
-            delay: 0,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
-          className="flex items-center justify-between w-full rounded-t-3xl md:px-16 px-12 py-4 bg-white shadow-lg fixed bottom-0  "
-        >
-          <div>
-            <h2 className="text-lg font-bold">Cart</h2>
-            <p className="text-gray-600">{cartItems.length} items</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <p className="text-xl font-bold">
-              $
-              {cartItems
-                .reduce((acc, item) => acc + item.quantity * item.price, 0)
-                .toFixed(2)}
-            </p>
-            {cartItems.length > 0 && (
-              <motion.button
-                onClick={toggleMenu}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#E8772E]-dark"
-              >
-                <MdOutlineFastfood className="" /> <span>Checkout</span>
-              </motion.button>
-            )}
-          </div>
-        </motion.div>
-      )}{" "}
+      <div
+        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-4 bg-white shadow-lg fixed bottom-0 ${
+          cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
+        }`}
+      >
+        {cartItems.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 1, y: 200 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 1, y: 200 }}
+            transition={{
+              duration: 0.5,
+              delay: 0,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-white shadow-lg fixed bottom-0"
+          >
+            <div>
+              <h2 className="text-lg font-bold">Cart</h2>
+              <p className="text-gray-600">{cartItems.length} items</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <p className="text-xl font-bold">
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                  .toFixed(2)}
+              </p>
+              {cartItems.length > 0 && (
+                <motion.button
+                  onClick={toggleMenu}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#E8772E]-dark"
+                >
+                  <MdOutlineFastfood className="" /> <span>Checkout</span>
+                </motion.button>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </div>
       {/* checkout section  */}
       <div
         ref={menuRef}
-        onClick={() => setIsMenuOpen(false)}
-        className={`scrollbar-none scrollbar-thumb-gray-400/20 h-screen scrollbar-track-gray-100 transform duration-500 ease-in-out fixed top-0   w-full z-50 overflow-y-auto bg-[#E8772E] rounded-l-md shadow-sm ${
+        className={`scrollbar-none scrollbar-thumb-gray-400/20  scrollbar-track-gray-100 transform duration-500 ease-in-out fixed top-0   w-full z-50 overflow-y-auto  rounded-l-md shadow-sm ${
           isMenuOpen ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        Checkout content here
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          className="absolute top-4 right-4 "
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <RxCross1 className="h-10 md:w-7 w-7" />
+        </motion.button>
+        <Checkout />
       </div>
     </div>
   );
