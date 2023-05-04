@@ -96,7 +96,6 @@ const MenuPage = () => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
   };
-
   return (
     <div className="flex flex-col items-center  min-h-screen pt-24 bg-gray-100  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
@@ -195,7 +194,7 @@ const MenuPage = () => {
             </div>
             <div className="flex items-center space-x-2">
               <p className="text-xl font-bold">
-                $
+              ₹
                 {cartItems
                   .reduce((acc, item) => acc + item.quantity * item.price, 0)
                   .toFixed(2)}
@@ -226,12 +225,14 @@ const MenuPage = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          className="absolute top-4 right-4 "
+          className="absolute top-4 right-4 z-50 "
           onClick={() => setIsMenuOpen(false)}
         >
           <RxCross1 className="h-10 md:w-7 w-7" />
         </motion.button>
-        <Checkout />
+        <article>
+        <Checkout cartItems={cartItems}/>
+        </article>
       </div>
     </div>
   );
