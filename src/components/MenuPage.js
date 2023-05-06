@@ -1,15 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  FaStar,
-  FaShoppingCart,
-  FaPlus,
-  FaMinus,
-  FaCross,
-} from "react-icons/fa";
+import { FaStar, FaPlus, FaMinus } from "react-icons/fa";
 import { MdOutlineFastfood } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { BarLoader } from "react-spinners";
 import Checkout from "./Checkout";
@@ -25,12 +18,11 @@ const MenuPage = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
-    const storedCartItems = localStorage.getItem('cartItems');
+    const storedCartItems = localStorage.getItem("cartItems");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     }
   }, []);
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -74,8 +66,7 @@ const MenuPage = () => {
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
 
   const handleRemoveFromCart = (item) => {
@@ -93,18 +84,17 @@ const MenuPage = () => {
       );
       setCartItems(updatedCartItems);
     }
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
   return (
-    <div className="flex flex-col items-center  min-h-screen pt-24 bg-gray-100  pb-8">
+    <div className="flex flex-col items-center  min-h-screen pt-24 bg-[#FEFCE8]  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
       {loading ? (
         <div className="flex justify-center items-center">
-          <BarLoader color="#E8772E" />
+          <BarLoader color="#E64848" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
           {menuItems.map((item) => {
             const existingItem = cartItems.find(
               (cartItem) => cartItem.id === item.id
@@ -113,66 +103,78 @@ const MenuPage = () => {
             return (
               <div
                 key={item.id}
-                className="flex flex-col pb-4 md:w-96 w-80 h-96 items-center justify-center bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 transform "
+                class="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
               >
+                <div class="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
+                  <div>
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      {item.dishName}
+                    </h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                      ₹{item.price}
+                    </p>
+                    <div className="flex items-center">
+                      {[...Array(Math.round(item.rating))].map((_, i) => (
+                        <FaStar key={i} className="text-yellow-500 mr-1" />
+                      ))}
+                    </div>
+                    {quantity > 0 ? (
+                      <div className="flex items-center mt-4">
+                        <motion.button
+                          whileTap={{ scale: 0.9 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 17,
+                          }}
+                          className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
+                          onClick={() => handleRemoveFromCart(item)}
+                        >
+                          <FaMinus />
+                        </motion.button>
+                        <span className="text-lg font-bold">{quantity}</span>
+                        <motion.button
+                          whileTap={{ scale: 0.9 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 17,
+                          }}
+                          className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
+                          onClick={() => handleAddToCart(item)}
+                        >
+                          <FaPlus />
+                        </motion.button>
+                      </div>
+                    ) : (
+                      <motion.button
+                        whileTap={{ scale: 0.9 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 17,
+                        }}
+                        className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        <MdOutlineFastfood className="mr-2" />
+                        <span> Add</span>
+                      </motion.button>
+                    )}
+                  </div>
+                </div>
                 <img
+                  class="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                   src={item.image}
                   alt={item.dishName}
-                  className=" w-full h-60 object-cover mb-4"
                 />
-                <h2 className="text-lg font-bold">{item.dishName}</h2>
-                <p className="text-gray-600">₹{item.price}</p>
-                <div className="flex items-center">
-                  {[...Array(Math.round(item.rating))].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-500 mr-1" />
-                  ))}
-                </div>
-                {quantity > 0 ? (
-                  <div className="flex items-center mt-4">
-                    <motion.button
-                      whileTap={{ scale: 0.9 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 17,
-                      }}
-                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#E8772E]-dark mr-2"
-                      onClick={() => handleRemoveFromCart(item)}
-                    >
-                      <FaMinus />
-                    </motion.button>
-                    <span className="text-lg font-bold">{quantity}</span>
-                    <motion.button
-                      whileTap={{ scale: 0.9 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 17,
-                      }}
-                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#E8772E]-dark ml-2"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <FaPlus />
-                    </motion.button>
-                  </div>
-                ) : (
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#E8772E]-dark"
-                    onClick={() => handleAddToCart(item)}
-                  >
-                    <FaShoppingCart className="mr-2" />
-                    <span> Add to Cart</span>
-                  </motion.button>
-                )}
               </div>
             );
           })}
         </div>
       )}
       <div
-        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-4 bg-white shadow-lg fixed bottom-0 ${
+        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 bg-[#FEFCE8] shadow-lg fixed bottom-0 ${
           cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
         }`}
       >
@@ -186,7 +188,7 @@ const MenuPage = () => {
               delay: 0,
               ease: [0, 0.71, 0.2, 1.01],
             }}
-            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-white shadow-lg fixed bottom-0"
+            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-[#FEFCE8]  shadow-2xl fixed bottom-0"
           >
             <div>
               <h2 className="text-lg font-bold">Cart</h2>
@@ -194,7 +196,7 @@ const MenuPage = () => {
             </div>
             <div className="flex items-center space-x-2">
               <p className="text-xl font-bold">
-              ₹
+                ₹
                 {cartItems
                   .reduce((acc, item) => acc + item.quantity * item.price, 0)
                   .toFixed(2)}
@@ -205,7 +207,7 @@ const MenuPage = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#E8772E]-dark"
+                  className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#BA3B0A]"
                 >
                   <MdOutlineFastfood className="" /> <span>Checkout</span>
                 </motion.button>
@@ -231,7 +233,7 @@ const MenuPage = () => {
           <RxCross1 className="h-10 md:w-7 w-7" />
         </motion.button>
         <article>
-        <Checkout cartItems={cartItems}/>
+          <Checkout cartItems={cartItems} />
         </article>
       </div>
     </div>

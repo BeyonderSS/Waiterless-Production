@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { BiDish } from "react-icons/bi";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
   const { user, signInWithGoogle, handleSignOut } = useAuth();
@@ -69,7 +69,7 @@ const Header = () => {
                   </div>
                 )}
                 <a className="flex items-center hover:text-gray-200" href="#">
-                  <BiDish className="h-8 w-8 hover:text-gray-200" />
+                  <IoMdNotificationsOutline className="h-8 w-8 hover:text-gray-200" />
                 </a>
                 {/* Sign In / Register      */}
                 <div className="flex items-center hover:text-gray-200">
@@ -105,7 +105,7 @@ const Header = () => {
 
             {/* Responsive navbar */}
             <a className="xl:hidden flex mr-6 items-center" href="#">
-              <BiDish className="h-8 w-8 hover:text-gray-200" />
+              <IoMdNotificationsOutline className="h-8 w-8 hover:text-gray-200" />
             </a>
             <button
               className="navbar-burger self-center mr-12 xl:hidden"
@@ -117,20 +117,23 @@ const Header = () => {
           {/* responsive nav bar  */}
           <div
             className={`${
-              isOpen ? " translate-y-0" : "-translate-y-24"
+              isOpen ? " translate-y-0" : "-translate-y-52"
             } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-[#E8772E] -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center text-white text-xl uppercase font-semibold">
-              {user ? (
-                <p>Hey, {user.displayName} Have a Great Meal! </p>
-              ) : (
-                <div className="flex flex-row  space-x-20">
-                  {" "}
-                  <div className="cursor-pointer">Menu</div>
-                  <div className="cursor-pointer">Home</div>
-                  <div className="cursor-pointer">Login</div>
-                </div>
-              )}
+              <div className="flex flex-row  space-x-20">
+                {user ? (
+                  <div>
+                    <button onClick={handleSignOut} className="cursor-pointer">
+                      Welcome {user.displayName}
+                    </button>
+                  </div>
+                ) : (
+                  <button onClick={signInWithGoogle} className="cursor-pointer">
+                    Login
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </section>
