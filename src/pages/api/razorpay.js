@@ -1,8 +1,9 @@
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
-
 export default async function handler(req, res) {
   if (req.method === "POST") {
+    const { amount } = req.body;
+
     // Initialize razorpay object
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY,
@@ -12,7 +13,6 @@ export default async function handler(req, res) {
     // Create an order -> generate the OrderID -> Send it to the Front-end
     // Also, check the amount and currency on the backend (Security measure)
     const payment_capture = 1;
-    const amount = 499;
     const currency = "INR";
     const options = {
       amount: (amount * 100).toString(),
