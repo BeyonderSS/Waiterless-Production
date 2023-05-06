@@ -16,32 +16,26 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
   const [grandTotal, setGrandTotal] = useState(0);
-  if (user) {
-    try {
-      useEffect(() => {
-        const fetchOrders = async () => {
-          const querySnapshot = await getDocs(
-            query(
-              collection(firestore, "Orders"),
-              where("status", "==", "new"),
-              where("paymentStatus", "==", "pending"),
-              where("userEmail", "==", user.email)
-            )
-          );
-          const filteredOrders = querySnapshot.docs
-            .map((doc) => ({ id: doc.id, ...doc.data() }))
-            .filter(
-              (order) =>
-                order.status === "new" && order.paymentStatus === "pending"
-            );
-          setOrders(filteredOrders);
-        };
-        fetchOrders();
-      }, [user.email]);
-    } catch {
-      console.log("error");
-    }
-  }
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const querySnapshot = await getDocs(
+        query(
+          collection(firestore, "Orders"),
+          where("status", "==", "new"),
+          where("paymentStatus", "==", "pending"),
+          where("userEmail", "==", user.email)
+        )
+      );
+      const filteredOrders = querySnapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter(
+          (order) => order.status === "new" && order.paymentStatus === "pending"
+        );
+      setOrders(filteredOrders);
+    };
+    fetchOrders();
+  }, [user.email]);
 
   useEffect(() => {
     const total = orders.reduce((acc, order) => acc + order.total, 0);
