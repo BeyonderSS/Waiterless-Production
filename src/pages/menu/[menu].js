@@ -35,7 +35,7 @@ const Menu = () => {
           </div>
         </div>
       ) : (
-        <MenuPage />
+        <MenuPage tableNo={tableNo} />
       )}
     </div>
   );

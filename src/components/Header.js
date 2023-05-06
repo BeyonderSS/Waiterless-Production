@@ -120,13 +120,16 @@ const Header = () => {
               isOpen ? " translate-y-0" : "-translate-y-52"
             } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-[#E8772E] -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
-            <div className="pt-20 flex flex-row p-5 justify-center items-center text-white text-xl uppercase font-semibold">
+            <div className="pt-20 flex flex-row p-5 justify-center items-center text-white  uppercase font-semibold">
               <div className="flex flex-row  space-x-20">
                 {user ? (
-                  <div>
+                  <div className=" flex flex-col justify-center items-center">
                     <button onClick={handleSignOut} className="cursor-pointer">
                       Welcome {user.displayName}
-                    </button>
+                    </button>{" "}
+                    <Link href="/Orders" className="cursor-pointer">
+                      Your Orders
+                    </Link>
                   </div>
                 ) : (
                   <button onClick={signInWithGoogle} className="cursor-pointer">

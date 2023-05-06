@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { FaStar } from "react-icons/fa";
 
-const Checkout = ({ cartItems }) => {
+const PrePaidCheckout = ({ cartItems }) => {
   const router = useRouter();
   const makePayment = async () => {
     const res = await initializeRazorpay();
@@ -84,7 +84,7 @@ const Checkout = ({ cartItems }) => {
                 onClick={makePayment}
                 className="mt-4 inline-flex w-full items-center justify-center rounded bg-orange-600 py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-orange-500 sm:text-lg"
               >
-                Place Order
+               Confirm &  Place Order
               </button>
             </div>
           </div>
@@ -152,4 +152,4 @@ const Checkout = ({ cartItems }) => {
   );
 };
 
-export default Checkout;
+export default PrePaidCheckout;

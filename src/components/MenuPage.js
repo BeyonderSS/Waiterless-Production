@@ -5,10 +5,12 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
 import { BarLoader } from "react-spinners";
-import Checkout from "./Checkout";
-import { RxCross1 } from "react-icons/rx";
 
-const MenuPage = () => {
+import { RxCross1 } from "react-icons/rx";
+import PrePaidCheckout from "./PrePaidCheckout";
+import PostPaidCheckout from "./PostPaidCheckout";
+
+const MenuPage = ({ tableNo }) => {
   const [cartItems, setCartItems] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [showCheckout, setShowCheckout] = useState(false);
@@ -16,13 +18,25 @@ const MenuPage = () => {
   const [loading, setloading] = useState(false);
   const menuRef = useRef();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
+  const clearCart = () => {
+    // implementation to clear the cart
+    // for example, you could set cartItems to an empty array
+    setCartItems([]);
+  };
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     }
   }, []);
+  function handleCartItemsChange(cartItems) {
+    if (cartItems.length === 0) {
+      setIsMenuOpen(false);
+    }
+  }
+  useEffect(() => {
+    handleCartItemsChange(cartItems);
+  }, [cartItems]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,7 +80,6 @@ const MenuPage = () => {
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
 
   const handleRemoveFromCart = (item) => {
@@ -84,8 +97,8 @@ const MenuPage = () => {
       );
       setCartItems(updatedCartItems);
     }
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
+
   return (
     <div className="flex flex-col items-center  min-h-screen pt-24 bg-[#FEFCE8]  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
@@ -103,14 +116,14 @@ const MenuPage = () => {
             return (
               <div
                 key={item.id}
-                class="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
+                className="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
               >
-                <div class="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
+                <div className="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
                   <div>
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {item.dishName}
                     </h5>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                       ₹{item.price}
                     </p>
                     <div className="flex items-center">
@@ -164,7 +177,7 @@ const MenuPage = () => {
                   </div>
                 </div>
                 <img
-                  class="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                  className="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                   src={item.image}
                   alt={item.dishName}
                 />
@@ -233,7 +246,11 @@ const MenuPage = () => {
           <RxCross1 className="h-10 md:w-7 w-7" />
         </motion.button>
         <article>
-          <Checkout cartItems={cartItems} />
+          <PostPaidCheckout
+            clearCart={clearCart}
+            tableNo={tableNo}
+            cartItems={cartItems}
+          />
         </article>
       </div>
     </div>
