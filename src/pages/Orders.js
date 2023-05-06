@@ -17,33 +17,36 @@ const Orders = () => {
   const { user } = useAuth();
   const [grandTotal, setGrandTotal] = useState(0);
   if (user) {
-    useEffect(() => {
-      const fetchOrders = async () => {
-        const querySnapshot = await getDocs(
-          query(
-            collection(firestore, "Orders"),
-            where("status", "==", "new"),
-            where("paymentStatus", "==", "pending"),
-            where("userEmail", "==", user.email)
-          )
-        );
-        const filteredOrders = querySnapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter(
-            (order) =>
-              order.status === "new" && order.paymentStatus === "pending"
+    try {
+      useEffect(() => {
+        const fetchOrders = async () => {
+          const querySnapshot = await getDocs(
+            query(
+              collection(firestore, "Orders"),
+              where("status", "==", "new"),
+              where("paymentStatus", "==", "pending"),
+              where("userEmail", "==", user.email)
+            )
           );
-        setOrders(filteredOrders);
-      };
-      fetchOrders();
-    }, [user.email]);
+          const filteredOrders = querySnapshot.docs
+            .map((doc) => ({ id: doc.id, ...doc.data() }))
+            .filter(
+              (order) =>
+                order.status === "new" && order.paymentStatus === "pending"
+            );
+          setOrders(filteredOrders);
+        };
+        fetchOrders();
+      }, [user.email]);
+    } catch {
+      console.log("error");
+    }
   }
 
   useEffect(() => {
     const total = orders.reduce((acc, order) => acc + order.total, 0);
     setGrandTotal(total);
   }, [orders]);
-
 
   const makePayment = async () => {
     const res = await initializeRazorpay();
