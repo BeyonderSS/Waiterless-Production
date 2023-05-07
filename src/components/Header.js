@@ -22,7 +22,7 @@ const Header = () => {
       >
         <section className=" w-full ">
           {/* navbar */}
-          <nav className="flex rounded-b-2xl justify-between bg-[#E8772E] text-white w-full">
+          <nav className="flex rounded-b-2xl justify-between bg-white/30 backdrop-blur-sm text-orange-500 w-full">
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <Link
                 className="text-3xl cursor-pointer font-bold font-heading"
@@ -33,17 +33,17 @@ const Header = () => {
               {/* Nav Links */}
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
                 <li>
-                  <Link className="hover:text-gray-200" href="/">
+                  <Link className="hover:text-orange-800" href="/">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-gray-200" href="/Menu">
+                  <Link className="hover:text-orange-800" href="/Menu">
                     Menu
                   </Link>
                 </li>
                 <li>
-                  <a className="hover:text-gray-200" href="#">
+                  <a className="hover:text-orange-800" href="#">
                     Collections
                   </a>
                 </li>
@@ -51,7 +51,7 @@ const Header = () => {
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
                 {user && (
-                  <div className="hover:text-gray-200">
+                  <div className="hover:text-orange-800">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -68,11 +68,11 @@ const Header = () => {
                     </svg>
                   </div>
                 )}
-                <a className="flex items-center hover:text-gray-200" href="#">
-                  <IoMdNotificationsOutline className="h-8 w-8 hover:text-gray-200" />
+                <a className="flex items-center hover:text-orange-800" href="#">
+                  <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
                 </a>
                 {/* Sign In / Register      */}
-                <div className="flex items-center hover:text-gray-200">
+                <div className="flex items-center hover:text-orange-800">
                   {user ? (
                     <div onClick={handleSignOut} className="cursor-pointer">
                       <img
@@ -83,9 +83,9 @@ const Header = () => {
                     </div>
                   ) : (
                     <div onClick={signInWithGoogle} className="cursor-pointer">
-                      <div className="relative  w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 ">
+                      <div className="relative  w-10 h-10 overflow-hidden bg-orange-500 rounded-full  ">
                         <svg
-                          className="absolute w-10 h-10 text-gray-400 "
+                          className="absolute w-10 h-10 text-white "
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -105,22 +105,22 @@ const Header = () => {
 
             {/* Responsive navbar */}
             <a className="xl:hidden flex mr-6 items-center" href="#">
-              <IoMdNotificationsOutline className="h-8 w-8 hover:text-gray-200" />
+              <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
             </a>
             <button
               className="navbar-burger self-center mr-12 xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <RxHamburgerMenu className="h-7 w-7 hover:text-gray-200" />
+              <RxHamburgerMenu className="h-7 w-7 text-orange-500 hover:text-orange-800" />
             </button>
           </nav>
           {/* responsive nav bar  */}
           <div
             className={`${
               isOpen ? " translate-y-0" : "-translate-y-52"
-            } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-[#E8772E] -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
+            } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-white/30 backdrop-blur-sm text-orange-500 -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
-            <div className="pt-20 flex flex-row p-5 justify-center items-center text-white  uppercase font-semibold">
+            <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
               <div className="flex flex-row  space-x-20">
                 {user ? (
                   <div className=" flex flex-col justify-center items-center">

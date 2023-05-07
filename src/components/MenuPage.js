@@ -5,10 +5,10 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
 import { BarLoader } from "react-spinners";
-
 import { RxCross1 } from "react-icons/rx";
 import PrePaidCheckout from "./PrePaidCheckout";
 import PostPaidCheckout from "./PostPaidCheckout";
+import CategoryBubble from "./CategoryBubble";
 
 const MenuPage = ({ tableNo }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -121,7 +121,7 @@ const MenuPage = ({ tableNo }) => {
   };
 
   return (
-    <div className="flex flex-col items-center  min-h-screen pt-24 bg-[#FEFCE8]  pb-8">
+    <div className="flex flex-col items-center  min-h-screen pt-24 bg-orange-50  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
       {loading ? (
         <div className="flex justify-center items-center">
@@ -129,45 +129,88 @@ const MenuPage = ({ tableNo }) => {
         </div>
       ) : (
         <div>
-          {categories &&
-            categories.map((category) => (
-              <div key={category}>
-                <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
-                  {category}
-                </h1>
+          <div className="flex flex-row justify-center items-center  overflow-x-auto space-x-4 overflow-y-hidden">
+            {categories &&
+              categories.map((category) => (
+                <div
+                  key={category}
+                  className="flex flex-row justify-center  items-center "
+                >
+                  <CategoryBubble category={category} />
+                </div>
+              ))}
+          </div>
+          <div>
+            {categories &&
+              categories.map((category) => (
+                <div key={category}>
+                  <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
+                    {category}
+                  </h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
-                  {filteredMenuItems[category] &&
-                    filteredMenuItems[category].map((item) => {
-                      const existingItem = cartItems.find(
-                        (cartItem) => cartItem.id === item.id
-                      );
-                      const quantity = existingItem ? existingItem.quantity : 0;
-                      return (
-                        <div
-                          key={item.id}
-                          className="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
-                        >
-                          <div className="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
-                            <div>
-                              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                {item.dishName}
-                              </h5>
-                              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                ₹{item.price}
-                              </p>
-                              <div className="flex items-center">
-                                {[...Array(Math.round(item.rating))].map(
-                                  (_, i) => (
-                                    <FaStar
-                                      key={i}
-                                      className="text-yellow-500 mr-1"
-                                    />
-                                  )
-                                )}
-                              </div>
-                              {quantity > 0 ? (
-                                <div className="flex items-center mt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+                    {filteredMenuItems[category] &&
+                      filteredMenuItems[category].map((item) => {
+                        const existingItem = cartItems.find(
+                          (cartItem) => cartItem.id === item.id
+                        );
+                        const quantity = existingItem
+                          ? existingItem.quantity
+                          : 0;
+                        return (
+                          <div
+                            key={item.id}
+                            className="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row w-[350px] md:max-w-4xl hover:bg-gray-100"
+                          >
+                            <div className="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
+                              <div className="">
+                                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                  {item.dishName}
+                                </h5>
+                                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                  ₹{item.price}
+                                </p>
+                                <div className="flex items-center">
+                                  {[...Array(Math.round(item.rating))].map(
+                                    (_, i) => (
+                                      <FaStar
+                                        key={i}
+                                        className="text-yellow-500 mr-1"
+                                      />
+                                    )
+                                  )}
+                                </div>
+                                {quantity > 0 ? (
+                                  <div className="flex items-center mt-4">
+                                    <motion.button
+                                      whileTap={{ scale: 0.9 }}
+                                      transition={{
+                                        type: "spring",
+                                        stiffness: 400,
+                                        damping: 17,
+                                      }}
+                                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
+                                      onClick={() => handleRemoveFromCart(item)}
+                                    >
+                                      <FaMinus />
+                                    </motion.button>
+                                    <span className="text-lg font-bold">
+                                      {quantity}
+                                    </span>
+                                    <motion.button
+                                      whileTap={{ scale: 0.9 }}
+                                      transition={{
+                                        type: "spring",
+                                        stiffness: 400,
+                                        damping: 17,
+                                      }}
+                                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
+                                      onClick={() => handleAddToCart(item)}
+                                    >
+                                      <FaPlus />
+                                    </motion.button>
+                                  </div>
+                                ) : (
                                   <motion.button
                                     whileTap={{ scale: 0.9 }}
                                     transition={{
@@ -175,59 +218,31 @@ const MenuPage = ({ tableNo }) => {
                                       stiffness: 400,
                                       damping: 17,
                                     }}
-                                    className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
-                                    onClick={() => handleRemoveFromCart(item)}
-                                  >
-                                    <FaMinus />
-                                  </motion.button>
-                                  <span className="text-lg font-bold">
-                                    {quantity}
-                                  </span>
-                                  <motion.button
-                                    whileTap={{ scale: 0.9 }}
-                                    transition={{
-                                      type: "spring",
-                                      stiffness: 400,
-                                      damping: 17,
-                                    }}
-                                    className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
+                                    className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
                                     onClick={() => handleAddToCart(item)}
                                   >
-                                    <FaPlus />
+                                    <MdOutlineFastfood className="mr-2" />
+                                    <span> Add</span>
                                   </motion.button>
-                                </div>
-                              ) : (
-                                <motion.button
-                                  whileTap={{ scale: 0.9 }}
-                                  transition={{
-                                    type: "spring",
-                                    stiffness: 400,
-                                    damping: 17,
-                                  }}
-                                  className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
-                                  onClick={() => handleAddToCart(item)}
-                                >
-                                  <MdOutlineFastfood className="mr-2" />
-                                  <span> Add</span>
-                                </motion.button>
-                              )}
+                                )}
+                              </div>
                             </div>
+                              <img
+                                className="flex justify-center items-center object-cover w-40 h-40 rounded-lg  "
+                                src={item.image}
+                                alt={item.dishName}
+                              />
                           </div>
-                          <img
-                            className="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                            src={item.image}
-                            alt={item.dishName}
-                          />
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       )}
       <div
-        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 bg-[#FEFCE8] shadow-lg fixed bottom-0 ${
+        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 bg-white/30 backdrop-blur-sm text-orange-500 shadow-lg fixed bottom-0 ${
           cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
         }`}
       >
@@ -241,7 +256,7 @@ const MenuPage = ({ tableNo }) => {
               delay: 0,
               ease: [0, 0.71, 0.2, 1.01],
             }}
-            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-[#FEFCE8]  shadow-2xl fixed bottom-0"
+            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-white/30 backdrop-blur-sm text-orange-500  shadow-2xl fixed bottom-0"
           >
             <div>
               <h2 className="text-lg font-bold">Cart</h2>
