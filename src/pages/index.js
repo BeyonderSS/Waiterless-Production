@@ -5,15 +5,19 @@ import Testimonial from "../components/Testimonial"
 import FamousFood from "@/components/FamousFood";
 import PopularMenu from "@/components/PopularMenu";
 import Banner from "@/components/Banner";
+import AboutUs from "@/components/AboutUs";
+import Feature from "@/components/Feature";
 
 export default function Home() {
   return (
     <main >
-      <Hero/>
+      <Hero/> {/* Completed */}
       <FamousFood/>
       <PopularMenu/>
-      <Banner/>
-      <Testimonial />
+      <AboutUs/> {/* Completed */}
+      <Feature/> {/* Completed */}
+      <Banner/> {/* Completed */}
+      <Testimonial /> {/* Completed */}
     </main>
   )
 }
