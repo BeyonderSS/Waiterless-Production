@@ -11,13 +11,13 @@ import Feature from "@/components/Feature";
 export default function Home() {
   return (
     <main >
-      <Hero/>
+      <Hero/> {/* Completed */}
       <FamousFood/>
       <PopularMenu/>
-      <Feature/>
-      <AboutUs/>
-      <Banner/>
-      <Testimonial />
+      <AboutUs/> {/* Completed */}
+      <Feature/> {/* Completed */}
+      <Banner/> {/* Completed */}
+      <Testimonial /> {/* Completed */}
     </main>
   )
 }
