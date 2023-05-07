@@ -181,6 +181,7 @@ const Orders = () => {
               </li>
             ))}
           </ul>
+          <div>Grand Total: ₹{grandTotal}</div>
           <button
             onClick={makePayment}
             className="bg-[#E8772E] text-white font-bold px-4 py-2 rounded mt-4"

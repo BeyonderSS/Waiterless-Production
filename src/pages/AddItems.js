@@ -25,6 +25,7 @@ const AddItems = () => {
     price: "",
     rating: "",
     id: "",
+    category: "", // add the new field here
   });
 
   const [image, setImage] = useState("");
@@ -97,6 +98,7 @@ const AddItems = () => {
           image: url,
           rating: formData.rating,
           id: formData.id,
+          category: formData.category, // include the new field here
         });
         alert("Item added to menu.");
 
@@ -106,9 +108,10 @@ const AddItems = () => {
           image: null,
           rating: "",
           id: "",
+          category: "", // include the new field here
         });
-        setUrl(null)
-        setUploaded(false)
+        setUrl(null);
+        setUploaded(false);
       }
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -171,7 +174,15 @@ const AddItems = () => {
               {formData.image ? "Image uploaded" : "Upload image"}
             </label>
           </div>
-
+          <label>
+            Category:
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+            />
+          </label>
           <div className="mb-4">
             <label htmlFor="rating" className="block font-medium text-gray-700">
               Rating:
@@ -200,21 +211,21 @@ const AddItems = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-           
-          {uploaded ?(
-          <button
-            type="submit"
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-          >
-            Add Item
-          </button>
-          ):(
-              <button
-            type="submit"
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-          >
-             Upload Data 
-          </button>
+
+          {uploaded ? (
+            <button
+              type="submit"
+              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            >
+              Add Item
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+            >
+              Upload Data
+            </button>
           )}
         </form>
       </div>

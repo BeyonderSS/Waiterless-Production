@@ -13,14 +13,14 @@ import PostPaidCheckout from "./PostPaidCheckout";
 const MenuPage = ({ tableNo }) => {
   const [cartItems, setCartItems] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+  const [categories, setCategories] = useState();
+  const [filteredMenuItems, setFilteredMenuItems] = useState([]);
   const [showCheckout, setShowCheckout] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setloading] = useState(false);
   const menuRef = useRef();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const clearCart = () => {
-    // implementation to clear the cart
-    // for example, you could set cartItems to an empty array
     setCartItems([]);
   };
   useEffect(() => {
@@ -29,6 +29,7 @@ const MenuPage = ({ tableNo }) => {
       setCartItems(JSON.parse(storedCartItems));
     }
   }, []);
+
   function handleCartItemsChange(cartItems) {
     if (cartItems.length === 0) {
       setIsMenuOpen(false);
@@ -64,9 +65,29 @@ const MenuPage = ({ tableNo }) => {
       }));
       setMenuItems(menuData);
       setloading(false);
+
+      // Get the unique category names from the menu data
+      const categories = [...new Set(menuData.map((item) => item.category))];
+      setCategories(categories);
     };
     fetchMenuItems();
   }, []);
+  console.log("Categories:", categories);
+
+  // Filter menu items by category and log the results
+  useEffect(() => {
+    const filteredMenuItems = {};
+
+    menuItems.forEach((item) => {
+      if (!filteredMenuItems[item.category]) {
+        filteredMenuItems[item.category] = [];
+      }
+      filteredMenuItems[item.category].push(item);
+    });
+    console.log("menuItems", menuItems);
+    setFilteredMenuItems(filteredMenuItems);
+  }, [menuItems]);
+  console.log("filtered menu items", filteredMenuItems);
 
   const handleAddToCart = (item) => {
     const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
@@ -107,83 +128,102 @@ const MenuPage = ({ tableNo }) => {
           <BarLoader color="#E64848" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
-          {menuItems.map((item) => {
-            const existingItem = cartItems.find(
-              (cartItem) => cartItem.id === item.id
-            );
-            const quantity = existingItem ? existingItem.quantity : 0;
-            return (
-              <div
-                key={item.id}
-                className="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
-              >
-                <div className="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
-                  <div>
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {item.dishName}
-                    </h5>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      ₹{item.price}
-                    </p>
-                    <div className="flex items-center">
-                      {[...Array(Math.round(item.rating))].map((_, i) => (
-                        <FaStar key={i} className="text-yellow-500 mr-1" />
-                      ))}
-                    </div>
-                    {quantity > 0 ? (
-                      <div className="flex items-center mt-4">
-                        <motion.button
-                          whileTap={{ scale: 0.9 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 17,
-                          }}
-                          className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
-                          onClick={() => handleRemoveFromCart(item)}
+        <div>
+          {categories &&
+            categories.map((category) => (
+              <div>
+                <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
+                  {category}
+                </h1>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+                  {filteredMenuItems[category] &&
+                    filteredMenuItems[category].map((item) => {
+                      const existingItem = cartItems.find(
+                        (cartItem) => cartItem.id === item.id
+                      );
+                      const quantity = existingItem ? existingItem.quantity : 0;
+                      return (
+                        <div
+                          key={item.id}
+                          className="flex flex-row justify-between  items-center h-auto p-4  bg-white border border-gray-200 rounded-2xl shadow md:flex-row md:max-w-xl hover:bg-gray-100"
                         >
-                          <FaMinus />
-                        </motion.button>
-                        <span className="text-lg font-bold">{quantity}</span>
-                        <motion.button
-                          whileTap={{ scale: 0.9 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 17,
-                          }}
-                          className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
-                          onClick={() => handleAddToCart(item)}
-                        >
-                          <FaPlus />
-                        </motion.button>
-                      </div>
-                    ) : (
-                      <motion.button
-                        whileTap={{ scale: 0.9 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 17,
-                        }}
-                        className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
-                        onClick={() => handleAddToCart(item)}
-                      >
-                        <MdOutlineFastfood className="mr-2" />
-                        <span> Add</span>
-                      </motion.button>
-                    )}
-                  </div>
+                          <div className="flex flex-row items-center justify-between space-x-7 p-2 leading-normal">
+                            <div>
+                              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                {item.dishName}
+                              </h5>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                ₹{item.price}
+                              </p>
+                              <div className="flex items-center">
+                                {[...Array(Math.round(item.rating))].map(
+                                  (_, i) => (
+                                    <FaStar
+                                      key={i}
+                                      className="text-yellow-500 mr-1"
+                                    />
+                                  )
+                                )}
+                              </div>
+                              {quantity > 0 ? (
+                                <div className="flex items-center mt-4">
+                                  <motion.button
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{
+                                      type: "spring",
+                                      stiffness: 400,
+                                      damping: 17,
+                                    }}
+                                    className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
+                                    onClick={() => handleRemoveFromCart(item)}
+                                  >
+                                    <FaMinus />
+                                  </motion.button>
+                                  <span className="text-lg font-bold">
+                                    {quantity}
+                                  </span>
+                                  <motion.button
+                                    whileTap={{ scale: 0.9 }}
+                                    transition={{
+                                      type: "spring",
+                                      stiffness: 400,
+                                      damping: 17,
+                                    }}
+                                    className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
+                                    onClick={() => handleAddToCart(item)}
+                                  >
+                                    <FaPlus />
+                                  </motion.button>
+                                </div>
+                              ) : (
+                                <motion.button
+                                  whileTap={{ scale: 0.9 }}
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 17,
+                                  }}
+                                  className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
+                                  onClick={() => handleAddToCart(item)}
+                                >
+                                  <MdOutlineFastfood className="mr-2" />
+                                  <span> Add</span>
+                                </motion.button>
+                              )}
+                            </div>
+                          </div>
+                          <img
+                            className="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                            src={item.image}
+                            alt={item.dishName}
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
-                <img
-                  className="flex justify-center items-center object-cover w-40 h-40 rounded-t-lg max-h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                  src={item.image}
-                  alt={item.dishName}
-                />
               </div>
-            );
-          })}
+            ))}
         </div>
       )}
       <div
