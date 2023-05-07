@@ -5,6 +5,7 @@ import Testimonial from "../components/Testimonial"
 import FamousFood from "@/components/FamousFood";
 import PopularMenu from "@/components/PopularMenu";
 import Banner from "@/components/Banner";
+import AboutUs from "@/components/AboutUs";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero/>
       <FamousFood/>
       <PopularMenu/>
+      <AboutUs/>
       <Banner/>
       <Testimonial />
     </main>
