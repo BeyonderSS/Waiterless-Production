@@ -131,7 +131,7 @@ const MenuPage = ({ tableNo }) => {
         <div>
           {categories &&
             categories.map((category) => (
-              <div>
+              <div key={category}>
                 <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
                   {category}
                 </h1>
