@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 const PostPaidCheckout = ({ cartItems, tableNo,clearCart }) => {
   const { user } = useAuth();
   const router = useRouter();
-  console.log(user);
+  // console.log(user);
  
   const placeOrder = async () => {
     try {

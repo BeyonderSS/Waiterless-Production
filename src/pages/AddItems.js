@@ -16,8 +16,11 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { firestore } from "../utils/initFirebase";
+import { useAuth } from "@/context/AuthContext";
 
 const AddItems = () => {
+  const { user, restaurantId } = useAuth();
+
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -98,7 +101,9 @@ const AddItems = () => {
           image: url,
           rating: formData.rating,
           id: formData.id,
-          category: formData.category, // include the new field here
+          category: formData.category,
+          restaurantId: restaurantId,
+          // include the new field here
         });
         alert("Item added to menu.");
 

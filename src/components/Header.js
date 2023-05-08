@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
-  const { user, signInWithGoogle, handleSignOut } = useAuth();
+  const { user, signInWithGoogle, handleSignOut,role,restaurantId } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-
+// console.log(restaurantId)
   return (
     <>
       <motion.div

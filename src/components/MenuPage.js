@@ -72,7 +72,7 @@ const MenuPage = ({ tableNo }) => {
     };
     fetchMenuItems();
   }, []);
-  console.log("Categories:", categories);
+  // console.log("Categories:", categories);
 
   // Filter menu items by category and log the results
   useEffect(() => {
@@ -84,10 +84,10 @@ const MenuPage = ({ tableNo }) => {
       }
       filteredMenuItems[item.category].push(item);
     });
-    console.log("menuItems", menuItems);
+    // console.log("menuItems", menuItems);
     setFilteredMenuItems(filteredMenuItems);
   }, [menuItems]);
-  console.log("filtered menu items", filteredMenuItems);
+  // console.log("filtered menu items", filteredMenuItems);
 
   const handleAddToCart = (item) => {
     const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);

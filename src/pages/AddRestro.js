@@ -1,23 +1,36 @@
 import React, { useState } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 
 const AddRestro = () => {
-  const { user } = useAuth();
+  const { user, restaurantId } = useAuth();
   const [name, setName] = useState("");
   const [numTables, setNumTables] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
-
+  console.log(restaurantId);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if restaurant name already exists in database
+    // Generate custom restaurant id
+    const customId =
+      name.toLowerCase().replace(/\s+/g, "") +
+      Math.random().toString(36).substr(2, 9) +
+      Date.now();
+
+    // Check if restaurant with same id already exists in database
     const restaurantsRef = collection(firestore, "Restaurants");
-    const q = query(restaurantsRef, where("name", "==", name));
+    const q = query(restaurantsRef, where("id", "==", customId));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
       setError("A restaurant with that name already exists.");
@@ -28,10 +41,12 @@ const AddRestro = () => {
     // Add new restaurant to database
     try {
       await addDoc(restaurantsRef, {
+        id: customId,
         name,
         numTables,
         createdBy: user.email,
         adminEmail: email,
+        
       });
 
       setError("");
