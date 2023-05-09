@@ -73,7 +73,7 @@ const GenerateQR = () => {
       <div className="">
         {qrCodes.length > 0 ? (
           <div>
-            <div className="grid grid-cols-5 gap-4 mt-8">
+            <div className="grid md:grid-cols-5 grid-cols-1 gap-4 mt-8">
               {qrCodes.map((qr, index) => (
                 <div
                   key={index}

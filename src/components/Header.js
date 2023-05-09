@@ -3,12 +3,12 @@ import { useAuth } from "../context/AuthContext";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(role)
+  console.log(role);
   return (
     <>
       <motion.div
@@ -19,11 +19,17 @@ const Header = () => {
           delay: 0,
           ease: [0, 0.71, 0.2, 1.01],
         }}
-        className="flex fixed flex-wrap  w-full z-50"
+        className="flex fixed flex-wrap  w-full z-50 "
       >
         <section className=" w-full ">
           {/* navbar */}
-          <nav className="flex rounded-b-2xl justify-between bg-white/30 backdrop-blur-sm text-orange-500 w-full">
+          <nav
+            className={`flex rounded-b-2xl justify-between   w-full  ${
+              isOpen
+                ? " shadow-none bg-orange-500 text-white transition ease-in-out duration-500"
+                : "shadow-lg bg-white/30 backdrop-blur-sm text-orange-500  transition ease-in-out duration-500 "
+            }`}
+          >
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <Link
                 className="text-3xl cursor-pointer font-bold font-heading"
@@ -45,11 +51,6 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-                <li>
-                  <a className="hover:text-orange-800" href="#">
-                    Collections
-                  </a>
-                </li>
               </ul>
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
@@ -72,7 +73,9 @@ const Header = () => {
                   </div>
                 )}
                 <a className="flex items-center hover:text-orange-800" href="#">
-                  <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
+                  {user && (
+                    <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
+                  )}
                 </a>
                 {/* Sign In / Register      */}
                 <div className="flex items-center hover:text-orange-800">
@@ -114,32 +117,47 @@ const Header = () => {
               className="navbar-burger self-center mr-12 xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <RxHamburgerMenu className="h-7 w-7 text-orange-500 hover:text-orange-800" />
+              {isOpen ? (
+                <RxCross2 className="h-7 w-7 " />
+              ) : (
+                <RxHamburgerMenu className="h-7 w-7 " />
+              )}
             </button>
           </nav>
           {/* responsive nav bar  */}
           <div
             className={`${
-              isOpen ? " translate-y-0" : "-translate-y-52"
-            } md:hidden w-full absolute rounded-b-3xl transform duration-500 ease-in-out top-0 h-auto bg-white/30 backdrop-blur-sm text-orange-500 -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
+              isOpen
+                ? " translate-y-0 bg-white/30 backdrop-blur-sm text-orange-500 "
+                : "md:-translate-y-96  -translate-y-56 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
+            } md:hidden w-full absolute rounded-b-3xl shadow-lg transform duration-500 pt-5 ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
-              <div className="flex flex-row  space-x-20">
-                {user ? (
-                  <div className=" flex flex-col justify-center items-center">
-                    <button onClick={handleSignOut} className="cursor-pointer">
-                      Welcome {user.displayName}
-                    </button>{" "}
-                    <Link href="/Orders" className="cursor-pointer">
-                      Your Orders
+              {user ? (
+                <div className=" flex flex-col justify-center items-center space-y-2">
+                  <button
+                    onClick={handleSignOut}
+                    className="cursor-pointer text-xl text-white p-2 px-10   bg-orange-500 rounded-full"
+                  >
+                    Welcome {user.displayName}!
+                  </button>{" "}
+                  {role == "Admin" && (
+                    <Link href="/Dashboard" className="cursor-pointer text-lg">
+                      Dashboard
                     </Link>
-                  </div>
-                ) : (
-                  <button onClick={signInWithGoogle} className="cursor-pointer">
-                    Login
-                  </button>
-                )}
-              </div>
+                  )}
+                  <Link href="/Orders" className="cursor-pointer text-lg">
+                    Your Orders
+                  </Link>
+                </div>
+              ) : (
+                <button
+                  onClick={signInWithGoogle}
+                  className="cursor-pointer text-xl text-white p-1 px-14   bg-orange-500 rounded-full"
+                >
+                  Login
+                </button>
+              )}
             </div>
           </div>
         </section>
