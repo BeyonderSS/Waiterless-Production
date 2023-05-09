@@ -34,17 +34,19 @@ const PostPaidCheckout = ({ cartItems, tableNo,clearCart }) => {
         status: "new",
         paymentStatus: "pending",
         items: cartItems,
+        restaurantId:cartItems[0].restaurantId,
         total: total,
       };
       const ordersRef = collection(firestore, "Orders");
       await addDoc(ordersRef, orderData);
-
+      
       clearCart()
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
-
+  
+  
   return (
     <div className="flex  items-center justify-center min-h-screen bg-[#E8772E]">
       <div className="relative mx-auto w-full bg-white">

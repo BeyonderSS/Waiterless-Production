@@ -8,16 +8,13 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import useOrders from "../components/useOrders";
+import useOrders from "../utils/useOrders";
 
 function Dashboard() {
-  // Dashboard.js
+
 
   const orders = useOrders();
-  useEffect(() => {
-    Notification.requestPermission();
-  }, []);
-
+ 
   return (
     <div>
       <GenerateQR />

@@ -21,10 +21,10 @@ function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       if (user?.email) {
-        const querySnapshot = collection(firestore, "Orders");
+       
         // <-- Add a check to make sure user exists before accessing its email property
 
-        query(
+        const querySnapshot = query(
           collection(firestore, "Orders"),
           where("status", "==", "new"),
           where("paymentStatus", "==", "pending"),
