@@ -62,8 +62,14 @@ const Menu = () => {
   }
 
   const { numTables } = restaurantDocs[0];
-
-  if (tableNo < 1 || tableNo > numTables) {
+  // let message = false;
+  // if (parseInt(tableNo) < 1 || parseInt(tableNo) > parseInt(numTables)) {
+  //   message = true;
+  // } else {
+  //   message = false;
+  // }
+  // console.log(message);
+  if (parseInt(tableNo) < 1 || parseInt(tableNo) > parseInt(numTables)) {
     return (
       <div className="h-screen flex justify-center items-center">
         <h2>Table not registered!</h2>
