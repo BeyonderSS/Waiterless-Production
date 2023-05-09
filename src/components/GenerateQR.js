@@ -54,10 +54,10 @@ const GenerateQR = () => {
   const handleDownload = (index) => {
     const qrElement = document.getElementById(`qr-${index}`);
 
-    html2canvas(qrElement, { scale: 10 }).then((canvas) => {
+    html2canvas(qrElement, { scale: 4, width: 595, height: 842 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 0, 0, 200, 200);
+      pdf.addImage(imgData, "PNG", 0, 0,  595, 842);
       pdf.save(`QR Code ${index}.pdf`);
     });
   };
@@ -78,8 +78,9 @@ const GenerateQR = () => {
                 <div
                   key={index}
                   className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4"
+                  id={`qr-${index}`}
                 >
-                  <div id={`qr-${index}`}>{qr}</div>
+                  <div >{qr}</div>
                   <p className="mt-2 font-medium text-gray-700">{`QR Code ${index}`}</p>
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4"

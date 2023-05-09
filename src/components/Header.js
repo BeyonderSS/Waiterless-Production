@@ -2,8 +2,15 @@ import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+
+import { GrUpdate } from "react-icons/gr";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
+import { RxCross2, RxHamburgerMenu, RxUpdate } from "react-icons/rx";
+import {
+  MdFoodBank,
+  MdOutlineDashboard,
+  MdOutlineExitToApp,
+} from "react-icons/md";
 const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
@@ -129,12 +136,12 @@ const Header = () => {
             className={`${
               isOpen
                 ? " translate-y-0  text-white bg-orange-500 "
-                : "md:-translate-y-96  -translate-y-52 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
+                : "md:-translate-y-96  -translate-y-64 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
             } md:hidden w-full absolute rounded-b-3xl shadow-lg transform duration-500  ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
               {user ? (
-                <div className=" flex flex-col justify-center items-center space-y-2">
+                <div className=" flex flex-col justify-center items-start space-y-2">
                   <button
                     onClick={handleSignOut}
                     className="cursor-pointer text-xl text-white  px-10   bg-orange-500 rounded-full"
@@ -144,22 +151,31 @@ const Header = () => {
                   {role == "Admin" && (
                     <Link
                       href="/Dashboard"
-                      className="cursor-pointer text-lg font-semibold"
+                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
                     >
-                      Dashboard
+                      <MdOutlineDashboard /> <span>Dashboard</span>
+                    </Link>
+                  )}
+                  {role == "Admin" && (
+                    <Link
+                      href="/AddItems"
+                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
+                    >
+                      <RxUpdate /> <span>Update Menu</span>
                     </Link>
                   )}
                   <Link
                     href="/Orders"
-                    className="cursor-pointer text-lg font-semibold"
+                    className="cursor-pointer text-lg font-semibold flex flex-row justify-center items-center space-x-2"
                   >
-                    Your Orders
+                    <MdFoodBank /> <span>Your Orders</span>
                   </Link>
                   <Link
                     href="/Orders"
-                    className="cursor-pointer text-lg font-semibold"
+                    className="cursor-pointer text-lg font-semibold  flex flex-row justify-center items-center space-x-2"
                   >
-                    Check Out
+                    <MdOutlineExitToApp />
+                    <span> Check Out</span>
                   </Link>
                 </div>
               ) : (
