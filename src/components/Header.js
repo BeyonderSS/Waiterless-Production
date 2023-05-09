@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Header = () => {
-  const { user, signInWithGoogle, handleSignOut,role,restaurantId } = useAuth();
+  const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
+    useAuth();
   const [isOpen, setIsOpen] = useState(false);
-// console.log(restaurantId)
+  console.log(role)
   return (
     <>
       <motion.div
@@ -37,11 +38,13 @@ const Header = () => {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link className="hover:text-orange-800" href="/Menu">
-                    Menu
-                  </Link>
-                </li>
+                {role == "Admin" && (
+                  <li>
+                    <Link className="hover:text-orange-800" href="/Dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <a className="hover:text-orange-800" href="#">
                     Collections
@@ -141,7 +144,6 @@ const Header = () => {
           </div>
         </section>
       </motion.div>
-      
     </>
   );
 };

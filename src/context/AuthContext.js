@@ -87,9 +87,10 @@ export function AuthProvider({ children }) {
         }
       }
     }
-
+  
     handleDB();
   }, [user, router]);
+  
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
