@@ -128,25 +128,31 @@ const Header = () => {
           <div
             className={`${
               isOpen
-                ? " translate-y-0 bg-white/30 backdrop-blur-sm text-orange-500 "
-                : "md:-translate-y-96  -translate-y-56 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
-            } md:hidden w-full absolute rounded-b-3xl shadow-lg transform duration-500 pt-5 ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
+                ? " translate-y-0  text-white bg-orange-500 "
+                : "md:-translate-y-96  -translate-y-48 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
+            } md:hidden w-full absolute rounded-b-3xl shadow-lg transform duration-500  ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
               {user ? (
                 <div className=" flex flex-col justify-center items-center space-y-2">
                   <button
                     onClick={handleSignOut}
-                    className="cursor-pointer text-xl text-white p-2 px-10   bg-orange-500 rounded-full"
+                    className="cursor-pointer text-xl text-white  px-10   bg-orange-500 rounded-full"
                   >
                     Welcome {user.displayName}!
                   </button>{" "}
                   {role == "Admin" && (
-                    <Link href="/Dashboard" className="cursor-pointer text-lg">
+                    <Link
+                      href="/Dashboard"
+                      className="cursor-pointer text-lg font-semibold"
+                    >
                       Dashboard
                     </Link>
                   )}
-                  <Link href="/Orders" className="cursor-pointer text-lg">
+                  <Link
+                    href="/Orders"
+                    className="cursor-pointer text-lg font-semibold"
+                  >
                     Your Orders
                   </Link>
                 </div>
