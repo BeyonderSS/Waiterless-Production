@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getDocs,
+  onSnapshot,
   query,
   updateDoc,
   where,
@@ -12,7 +13,7 @@ import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import { FaStar } from "react-icons/fa";
 
-const Orders = () => {
+function Orders() {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
   const [grandTotal, setGrandTotal] = useState(0);
@@ -20,22 +21,26 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       if (user?.email) {
+        const querySnapshot = collection(firestore, "Orders");
         // <-- Add a check to make sure user exists before accessing its email property
-        const querySnapshot = await getDocs(
-          query(
-            collection(firestore, "Orders"),
-            where("status", "==", "new"),
-            where("paymentStatus", "==", "pending"),
-            where("userEmail", "==", user.email)
-          )
+
+        query(
+          collection(firestore, "Orders"),
+          where("status", "==", "new"),
+          where("paymentStatus", "==", "pending"),
+          where("userEmail", "==", user.email)
         );
-        const filteredOrders = querySnapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter(
-            (order) =>
-              order.status === "new" && order.paymentStatus === "pending"
-          );
-        setOrders(filteredOrders);
+
+        onSnapshot(querySnapshot, (snapshot) => {
+          const filteredOrders = snapshot.docs
+            .map((doc) => ({ id: doc.id, ...doc.data() }))
+            .filter(
+              (order) =>
+                order.status === "new" && order.paymentStatus === "pending"
+            );
+          console.log(filteredOrders);
+          setOrders(filteredOrders);
+        });
       }
     };
     fetchOrders();
@@ -196,6 +201,6 @@ const Orders = () => {
       )}
     </div>
   );
-};
+}
 
 export default Orders;
