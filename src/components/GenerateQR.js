@@ -98,9 +98,9 @@ const GenerateQR = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-32">
-            <p>RestroId: {restaurantData[0].id}</p>
+            {/* <p>RestroId: {restaurantData[0].id}</p>
             <p>Restro Name: {restaurantData[0].name}</p>
-            <p>Total Tables: {restaurantData[0].numTables}</p>
+            <p>Total Tables: {restaurantData[0].numTables}</p> */}
           </div>
         )}
       </div>
