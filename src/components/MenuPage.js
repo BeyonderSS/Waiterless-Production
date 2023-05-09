@@ -4,13 +4,14 @@ import { MdOutlineFastfood } from "react-icons/md";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
-import { BarLoader } from "react-spinners";
+import { BarLoader, PropagateLoader } from "react-spinners";
 import { RxCross1 } from "react-icons/rx";
 import PrePaidCheckout from "./PrePaidCheckout";
 import PostPaidCheckout from "./PostPaidCheckout";
 import CategoryBubble from "./CategoryBubble";
+import { useRouter } from "next/router";
 
-const MenuPage = ({ tableNo }) => {
+const MenuPage = ({ tableNo, restroId }) => {
   const [cartItems, setCartItems] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState();
@@ -18,6 +19,7 @@ const MenuPage = ({ tableNo }) => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setloading] = useState(false);
+
   const menuRef = useRef();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const clearCart = () => {
@@ -57,7 +59,10 @@ const MenuPage = ({ tableNo }) => {
     const fetchMenuItems = async () => {
       setloading(true);
       const menuCollectionRef = collection(firestore, "Menu");
-      const menuQuery = query(menuCollectionRef);
+      const menuQuery = query(
+        menuCollectionRef,
+        where("restaurantId", "==", restroId)
+      );
       const menuSnapshot = await getDocs(menuQuery);
       const menuData = menuSnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -72,6 +77,7 @@ const MenuPage = ({ tableNo }) => {
     };
     fetchMenuItems();
   }, []);
+
   // console.log("Categories:", categories);
 
   // Filter menu items by category and log the results
@@ -121,11 +127,11 @@ const MenuPage = ({ tableNo }) => {
   };
 
   return (
-    <div className="flex flex-col items-center  min-h-screen pt-24 bg-orange-50  pb-8">
+    <div className="flex flex-col items-center  min-h-screen pt-24 bg-white  pb-8">
       <h1 className="text-4xl font-bold mb-8">Menu</h1>
       {loading ? (
         <div className="flex justify-center items-center">
-          <BarLoader color="#E64848" />
+              <PropagateLoader color="#fa9805" />
         </div>
       ) : (
         <div>
@@ -227,11 +233,11 @@ const MenuPage = ({ tableNo }) => {
                                 )}
                               </div>
                             </div>
-                              <img
-                                className="flex justify-center items-center object-cover w-40 h-40 rounded-lg  "
-                                src={item.image}
-                                alt={item.dishName}
-                              />
+                            <img
+                              className="flex justify-center items-center object-cover w-40 h-40 rounded-lg  "
+                              src={item.image}
+                              alt={item.dishName}
+                            />
                           </div>
                         );
                       })}
