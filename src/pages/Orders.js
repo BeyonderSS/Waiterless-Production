@@ -21,7 +21,6 @@ function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       if (user?.email) {
-       
         // <-- Add a check to make sure user exists before accessing its email property
 
         const querySnapshot = query(
@@ -84,13 +83,15 @@ function Orders() {
         console.log("razorpay_signature :", response.razorpay_signature);
 
         // Update payment status and order status
-        const orderRef = doc(firestore, "Orders", orders[0].id);
-        updateDoc(orderRef, {
-          paymentStatus: "paid",
-          status: "old",
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
-          razorpaySignature: response.razorpay_signature,
+        orders.forEach(async (order) => {
+          const orderRef = doc(firestore, "Orders", order.id);
+          await updateDoc(orderRef, {
+            paymentStatus: "paid",
+            status: "old",
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+          });
         });
       },
       prefill: {
@@ -99,7 +100,7 @@ function Orders() {
         contact: "",
       },
     };
-
+    console.log(orders);
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };

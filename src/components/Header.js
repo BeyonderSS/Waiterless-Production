@@ -136,8 +136,8 @@ const Header = () => {
             className={`${
               isOpen
                 ? " translate-y-0  text-white bg-orange-500 "
-                : "md:-translate-y-96  -translate-y-64 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
-            } md:hidden w-full absolute rounded-b-3xl shadow-lg transform duration-500  ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
+                : "lg:-translate-y-96  -translate-y-64 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
+            }  w-full absolute rounded-b-3xl shadow-lg transform duration-500  ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
               {user ? (
