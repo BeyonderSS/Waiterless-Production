@@ -129,7 +129,7 @@ const AddItems = () => {
       <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">
         Add Items To Menu
       </h1>
-      <div className="max-w-md mx-auto bg-white rounded-md shadow-md overflow-hidden">
+      <div className="max-w-md md:mx-auto bg-white rounded-md shadow-md overflow-hidden m-2">
         <form onSubmit={handleSubmit} className="p-6">
           <div className="mb-4">
             <label
@@ -144,7 +144,7 @@ const AddItems = () => {
               name="dishName"
               value={formData.dishName}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
             />
           </div>
           <div className="mb-4">
@@ -157,7 +157,7 @@ const AddItems = () => {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
             />
           </div>
           <div className="mb-4">
@@ -174,20 +174,21 @@ const AddItems = () => {
             />
             <label
               htmlFor="image"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 cursor-pointer bg-gray-100 hover:bg-gray-200 p-2"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50 cursor-pointer bg-orange-100 hover:bg-orange-200 p-2"
             >
               {formData.image ? "Image uploaded" : "Upload image"}
             </label>
           </div>
-          <label>
+          <label className="block font-medium text-gray-700 mb-2">
             Category:
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            type="text"
+            name="category"
+            value={formData.category}
+            onChange={handleInputChange}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50 mb-4"
+          />
           <div className="mb-4">
             <label htmlFor="rating" className="block font-medium text-gray-700">
               Rating:
@@ -200,7 +201,7 @@ const AddItems = () => {
               max={5}
               value={formData.rating}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
             />
           </div>
           <div className="mb-4">
@@ -213,21 +214,21 @@ const AddItems = () => {
               name="id"
               value={formData.id}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
             />
           </div>
 
           {uploaded ? (
             <button
               type="submit"
-              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+              className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600"
             >
               Add Item
             </button>
           ) : (
             <button
               type="submit"
-              className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+              className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600"
             >
               Upload Data
             </button>
