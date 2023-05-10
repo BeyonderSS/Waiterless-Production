@@ -13,11 +13,11 @@ import AdminOrders from "@/components/AdminOrders";
 
 function Dashboard() {
   const orders = useOrders();
-  console.log("orders:", orders);
 
   return (
-    <div>
-      <AdminOrders orders={orders} />
+    <div className="h-screen">
+      {/* <GenerateQR/> */}
+      {/* <AdminOrders orders={orders} /> */}
     </div>
   );
 }

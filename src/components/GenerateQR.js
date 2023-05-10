@@ -2,7 +2,7 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import QRCode from "qrcode.react";
+import QRCode, { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -40,8 +40,8 @@ const GenerateQR = () => {
     restaurantData.forEach((restaurant) => {
       for (let i = 1; i <= restaurant.numTables; i++) {
         const link = `https://waiterless.tech/menu/${restaurant.id}?restaurant=${restaurant.name}&tableno=${i}`;
-        console.log(link);
-        codes.push(<QRCode key={`${restaurant.id}-${i}`} value={link} />);
+        // console.log(link);
+        codes.push(<QRCodeCanvas key={`${restaurant.id}-${i}`} value={link} />);
       }
     });
     setQrCodes(codes);
@@ -54,14 +54,16 @@ const GenerateQR = () => {
   const handleDownload = (index) => {
     const qrElement = document.getElementById(`qr-${index}`);
 
-    html2canvas(qrElement, { scale: 4, width: 595, height: 842 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 0, 0,  595, 842);
-      pdf.save(`QR Code ${index}.pdf`);
-    });
+    html2canvas(qrElement, { scale: 4, width: 595, height: 842 }).then(
+      (canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "PNG", 0, 0, 595, 842);
+        pdf.save(`QR Code ${index}.pdf`);
+      }
+    );
   };
-
+  console.log(qrCodes);
   return (
     <div className=" flex flex-col justify-center items-center bg-gray-100 pt-24">
       <button
@@ -78,10 +80,16 @@ const GenerateQR = () => {
                 <div
                   key={index}
                   className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4"
-                  id={`qr-${index}`}
                 >
-                  <div >{qr}</div>
-                  <p className="mt-2 font-medium text-gray-700">{`QR Code ${index}`}</p>
+                  <div
+                    id={`qr-${index}`}
+                    className="flex flex-col space-y-4 justify-center items-center"
+                  >
+                    {qr} <div>Waiterless.Tech</div>
+                  </div>
+                  <p className="mt-2 font-medium text-gray-700">{`Table No. ${
+                    index + 1
+                  }`}</p>
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4"
                     onClick={() => handleDownload(index)}
