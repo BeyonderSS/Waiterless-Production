@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { GrUpdate } from "react-icons/gr";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { FiLogIn } from "react-icons/fi";
 import { RxCross2, RxHamburgerMenu, RxUpdate } from "react-icons/rx";
 import {
   MdFoodBank,
@@ -15,7 +15,7 @@ const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(role);
+  // console.log(role);
   return (
     <>
       <motion.div
@@ -61,29 +61,7 @@ const Header = () => {
               </ul>
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
-                {user && (
-                  <div className="hover:text-orange-800">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                  </div>
-                )}
-                <a className="flex items-center hover:text-orange-800" href="#">
-                  {user && (
-                    <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
-                  )}
-                </a>
+              
                 {/* Sign In / Register      */}
                 <div className="flex items-center hover:text-orange-800">
                   {user ? (
@@ -96,19 +74,8 @@ const Header = () => {
                     </div>
                   ) : (
                     <div onClick={signInWithGoogle} className="cursor-pointer">
-                      <div className="relative  w-10 h-10 overflow-hidden bg-orange-500 rounded-full  ">
-                        <svg
-                          className="absolute w-10 h-10 text-white "
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
+                      <div className="flex justify-center items-center space-x-2 text-lg bg-orange-200 px-2 rounded-full   ">
+                       <FiLogIn/><span>Login</span>
                       </div>
                     </div>
                   )}
@@ -117,9 +84,7 @@ const Header = () => {
             </div>
 
             {/* Responsive navbar */}
-            <a className="xl:hidden flex mr-6 items-center" href="#">
-              <IoMdNotificationsOutline className="h-8 w-8 hover:text-orange-800" />
-            </a>
+      
             <button
               className="navbar-burger self-center mr-12 xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
@@ -153,7 +118,7 @@ const Header = () => {
                       href="/Dashboard"
                       className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
                     >
-                      <MdOutlineDashboard /> <span>Dashboard</span>
+                      <MdOutlineDashboard /> <span>Item Dashboard</span>
                     </Link>
                   )}
                   {role == "Admin" && (
@@ -164,12 +129,12 @@ const Header = () => {
                       <RxUpdate /> <span>Update Menu</span>
                     </Link>
                   )}
-                  <Link
+                  {/* <Link
                     href="/Orders"
                     className="cursor-pointer text-lg font-semibold flex flex-row justify-center items-center space-x-2"
                   >
-                    <MdFoodBank /> <span>Your Orders</span>
-                  </Link>
+                    <MdFoodBank /> <span>Past Orders</span>
+                  </Link> */}
                   <Link
                     href="/Orders"
                     className="cursor-pointer text-lg font-semibold  flex flex-row justify-center items-center space-x-2"

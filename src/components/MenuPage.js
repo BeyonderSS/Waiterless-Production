@@ -239,7 +239,7 @@ const MenuPage = ({ tableNo, restroId }) => {
                               </div>
                             </div>
                             <img
-                              className="flex justify-center items-center object-cover w-40 h-40 rounded-lg  "
+                              className="flex justify-center items-center object-cover w-40 h-40 rounded-3xl  "
                               src={item.image}
                               alt={item.dishName}
                             />

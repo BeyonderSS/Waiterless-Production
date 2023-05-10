@@ -122,7 +122,7 @@ function Orders() {
     });
   };
   return (
-    <div className="bg-[#FEFCE8] min-h-screen md:pt-24 pt-16">
+    <div className="bg-white min-h-screen md:pt-24 pt-16">
       {orders.length === 0 ? (
         <div>
           <div className="flex flex-col items-center justify-center h-screen">
@@ -134,25 +134,29 @@ function Orders() {
         </div>
       ) : (
         <div className="py-8 px-4 md:px-16 lg:px-24 xl:px-32">
-          <h1 className="text-2xl font-bold mb-8">Active Orders</h1>
+          <h1 className="text-3xl font-bold mb-8">Your Active Orders</h1>
           <ul className="space-y-8">
             {orders.map((order) => (
               <li
                 key={order.id}
                 className={`bg-white shadow-md rounded-lg p-4 ${
                   order.status === "new" && order.paymentStatus === "pending"
-                    ? "border-2 border-red-500"
+                    ? ""
                     : ""
                 }`}
               >
                 <div className="flex flex-col md:flex-row md:justify-between">
                   <div className="md:w-1/2">
-                    <h3 className="text-md font-bold mb-2">Items</h3>
+                    <h3 className="text-lg font-bold mb-2 ">Items</h3>
                     <ul className="space-y-2">
                       {order.items.map((item) => (
-                        <li key={item.id} className="flex justify-between">
+                        <li key={item.id} className="flex justify-between bg-orange-50 p-4 rounded-3xl">
                           <div className="inline-flex">
-                            <img src={item.image} alt="" className="max-h-16" />
+                            <img
+                              src={item.image}
+                              alt=""
+                              className="max-h-16 rounded-3xl"
+                            />
                             <div className="ml-3">
                               <p className="text-base font-semibold text-gray-800">
                                 {item.dishName}
@@ -177,7 +181,7 @@ function Orders() {
                           </p>
                         </li>
                       ))}
-                      <p className="text-gray-800">
+                      <p className="text-gray-800 pt-10 text-lg">
                         <span className="font-bold text-gray-800">Total:</span>{" "}
                         ₹{order.total.toFixed(2)}
                       </p>
@@ -187,16 +191,20 @@ function Orders() {
               </li>
             ))}
           </ul>
-          <div>Grand Total: ₹{grandTotal}</div>
-          <button
-            onClick={makePayment}
-            className="bg-[#E8772E] text-white font-bold px-4 py-2 rounded mt-4"
-          >
-            End Meal &amp; PayNow
-          </button>
+          <div className="text-gray-800 py-4 flex justify-center items-center">
+            Grand Total: ₹{grandTotal}
+          </div>
+          <div className="  flex justify-center items-center">
+            <button
+              onClick={makePayment}
+              className="bg-[#E8772E] text-white font-bold px-10 py-2 rounded-xl "
+            >
+              End Meal &amp; PayNow
+            </button>
+          </div>
 
-          <div className="text-gray-800">
-            Not Satisfied Yet? please scan the Qr on the table to Order Up!
+          <div className="text-gray-800 text-2xl flex justify-center items-center py-10">
+            Not Satisfied Yet? please scan the Qr on the table to Order More!
           </div>
         </div>
       )}
