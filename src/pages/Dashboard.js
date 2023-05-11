@@ -17,7 +17,7 @@ function Dashboard() {
   return (
     <div className="h-screen">
       {/* <GenerateQR/> */}
-      <AdminOrders orders={orders} />
+      {/* <AdminOrders orders={orders} /> */}
     </div>
   );
 }

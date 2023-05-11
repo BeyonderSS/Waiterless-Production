@@ -11,7 +11,7 @@ const AdminOrders = ({ orders }) => {
   }
 
   return (
-    <div>
+    <div className="bg-orange-100">
       <div className="max-w-7xl mx-auto px-4 pt-24">
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
@@ -23,7 +23,7 @@ const AdminOrders = ({ orders }) => {
                 borderLeft: `5px solid ${
                   order.paymentStatus === "pending" ? "red" : "green"
                 }`,
-                backgroundColor: order.status === "new" ? "#FCE7D0" : "#F3F4F6",
+                backgroundColor: order.status === "new" ? "#f46c6c" : "#F3F4F6",
               }}
             >
               <p className="font-bold">Order ID: {order.orderId}</p>

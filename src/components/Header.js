@@ -15,7 +15,7 @@ const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(role);
+  console.log(user);
   return (
     <>
       <motion.div
@@ -46,22 +46,51 @@ const Header = () => {
               </Link>
               {/* Nav Links */}
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-                <li>
+                {/* <li>
                   <Link className="hover:text-orange-800" href="/">
                     Home
                   </Link>
-                </li>
+                </li> */}
                 {role == "Admin" && (
                   <li>
-                    <Link className="hover:text-orange-800" href="/Dashboard">
-                      Dashboard
+                    <Link
+                      className="hover:text-orange-800"
+                      href="/OrdersDashboard"
+                    >
+                      Orders Dashboard
                     </Link>
+                  </li>
+                )}
+                {role == "Admin" && (
+                  <li>
+                    <Link className="hover:text-orange-800" href="/AddItems">
+                      Add To Menu
+                    </Link>
+                  </li>
+                )}
+                {role == "Admin" && (
+                  <li>
+                    <Link className="hover:text-orange-800" href="/UpdateMenu">
+                      Update Menu
+                    </Link>
+                  </li>
+                )}
+                {role == "Admin" && (
+                  <li>
+                    <Link className="hover:text-orange-800" href="/GenerateQr">
+                      Generate Qr{" "}
+                    </Link>
+                  </li>
+                )}
+                   {role == "SuperAdmin" && (
+                  <li>
+                    <Link className="hover:text-orange-800" href="/AddRestro">
+                  Add Restro  </Link>
                   </li>
                 )}
               </ul>
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
-              
                 {/* Sign In / Register      */}
                 <div className="flex items-center hover:text-orange-800">
                   {user ? (
@@ -75,7 +104,8 @@ const Header = () => {
                   ) : (
                     <div onClick={signInWithGoogle} className="cursor-pointer">
                       <div className="flex justify-center items-center space-x-2 text-lg bg-orange-200 px-2 rounded-full   ">
-                       <FiLogIn/><span>Login</span>
+                        <FiLogIn />
+                        <span>Login</span>
                       </div>
                     </div>
                   )}
@@ -84,7 +114,7 @@ const Header = () => {
             </div>
 
             {/* Responsive navbar */}
-      
+
             <button
               className="navbar-burger self-center mr-12 xl:hidden"
               onClick={() => setIsOpen(!isOpen)}
@@ -113,12 +143,28 @@ const Header = () => {
                   >
                     Welcome {user.displayName}!
                   </button>{" "}
-                  {role == "Admin" && (
+                  {role == "SuperAdmin" && (
                     <Link
-                      href="/Dashboard"
+                      href="/AddRestro"
                       className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
                     >
-                      <MdOutlineDashboard /> <span>Item Dashboard</span>
+                      <MdOutlineDashboard /> <span>Add Restro</span>
+                    </Link>
+                  )}
+                  {role == "Admin" && (
+                    <Link
+                      href="/OrdersDashboard"
+                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
+                    >
+                      <MdOutlineDashboard /> <span>Orders Dashboard</span>
+                    </Link>
+                  )}
+                  {role == "Admin" && (
+                    <Link
+                      href="/UpdateMenu"
+                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
+                    >
+                      <RxUpdate /> <span>Update Menu</span>
                     </Link>
                   )}
                   {role == "Admin" && (
@@ -126,7 +172,15 @@ const Header = () => {
                       href="/AddItems"
                       className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
                     >
-                      <RxUpdate /> <span>Update Menu</span>
+                      <RxUpdate /> <span>Add to Menu</span>
+                    </Link>
+                  )}
+                  {role == "Admin" && (
+                    <Link
+                      href="/GenerateQr"
+                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
+                    >
+                      <RxUpdate /> <span>GenerateQr</span>
                     </Link>
                   )}
                   {/* <Link

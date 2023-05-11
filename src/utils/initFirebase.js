@@ -7,12 +7,13 @@ import { getAuth } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyD3ZE5h4b4ILYisY0RRZ6XLnq4XwVg2uXY",
-    authDomain: "waiterless-69375.firebaseapp.com",
-    projectId: "waiterless-69375",
-    storageBucket: "waiterless-69375.appspot.com",
-    messagingSenderId: "365862733018",
-    appId: "1:365862733018:web:cf4892ef18c6087a16d1e3"
+    apiKey: "AIzaSyCM8PVBbtiFXUSm7e5C7Ir_1UUK8ToPleg",
+    authDomain: "waiterlessproduction.firebaseapp.com",
+    projectId: "waiterlessproduction",
+    storageBucket: "waiterlessproduction.appspot.com",
+    messagingSenderId: "6825791082",
+    appId: "1:6825791082:web:3a241bd1f8d9036b4dc413",
+    measurementId: "G-6C3MH8SML2"
 };
 
 // Initialize Firebase
