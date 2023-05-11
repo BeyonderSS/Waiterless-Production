@@ -28,6 +28,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart }) => {
       // Build orderData object with required data and total
       const orderData = {
         orderId: Math.random().toString(36).substr(2, 9), // generates a random alphanumeric string of length 9
+        createdAt: Date().toLocaleString(),
         tableNo: tableNo,
         orderby: user.displayName,
         userEmail: user.email,
