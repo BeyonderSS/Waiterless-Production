@@ -80,6 +80,7 @@ export function AuthProvider({ children }) {
               setDisplayName(displayName);
               setRole(role);
               setRestaurantId(restaurantId);
+              localStorage.setItem("restaurantId",restaurantId)
             });
           }
         } catch (error) {
@@ -120,6 +121,7 @@ export function AuthProvider({ children }) {
       setUser(null);
       setRole(null);
       localStorage.removeItem("loginTime");
+      localStorage.removeItem("restaurantId");
       router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
