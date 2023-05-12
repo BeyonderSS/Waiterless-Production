@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
             console.log("Document written with ID: ", docRef.id);
             setRole(role);
             setRestaurantId(restaurantId);
-            router.push("/");
+            // router.push("/");
           } else {
             querySnapshot.forEach((doc) => {
               const role = doc.data().role;
