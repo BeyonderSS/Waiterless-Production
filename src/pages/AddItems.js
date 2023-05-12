@@ -18,9 +18,10 @@ import {
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import UpdateItems from "@/components/UpdateItems";
+import NotAuth from "@/components/NotAuth";
 
 const AddItems = () => {
-  const { user, restaurantId } = useAuth();
+  const { user, restaurantId,role ,signInWithGoogle} = useAuth();
 
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -112,7 +113,11 @@ const AddItems = () => {
 
   console.log(url);
   return (
+    <div>
+     
+        { role == "Admin" && (
     <div className="h-screen md:pt-40 pt-24 bg-orange-100">
+       
     <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">
       Add Items To Menu
     </h1>
@@ -213,8 +218,30 @@ const AddItems = () => {
         </button>
       </form>
     </div>
+      
+ 
   </div>
-  
+    
+    
+    )}
+{!user ? (
+  <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
+    Please Login First
+    <button
+      onClick={signInWithGoogle}
+      className="cursor-pointer text-xl text-white p-1 px-14 bg-orange-500 rounded-full"
+    >
+      Login
+    </button>
+  </div>
+) : (
+  role !== "Admin" ? (
+    <NotAuth />
+  ) : null
+)}
+
+    
+  </div>
   );
 };
 

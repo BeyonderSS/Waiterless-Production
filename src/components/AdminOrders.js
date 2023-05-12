@@ -1,7 +1,34 @@
 import React from "react";
 import { PropagateLoader } from "react-spinners";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { firestore } from "../utils/initFirebase";
 
 const AdminOrders = ({ orders }) => {
+  const handleCashPayment = async (tableNo) => {
+    const ordersRef = collection(firestore, "Orders");
+    const q = query(
+      ordersRef,
+      where("tableNo", "==", tableNo),
+      where("paymentStatus", "==", "pending")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      console.log(`Updating document with ID: ${doc.id}`);
+      await updateDoc(doc.ref, {
+        paymentStatus: "paid",
+        paymentMode: "cash",
+        status: "old",
+      });
+    });
+  };
+
   if (orders.length === 0) {
     return (
       <div className="max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center">
@@ -33,7 +60,6 @@ const AdminOrders = ({ orders }) => {
               <p>Table No: {order.tableNo}</p>
               <p>Total: {order.total}</p>
               <p>Customer Email: {order.userEmail}</p>
-              <p>Create At : {order.createdAt}</p>
               <ul className="list-disc ml-4">
                 {order.items.map((item) => (
                   <li key={item.id}>
@@ -46,6 +72,16 @@ const AdminOrders = ({ orders }) => {
                   </li>
                 ))}
               </ul>
+              <div>
+                {order.paymentStatus === "pending" && (
+                  <button
+                    onClick={async () => handleCashPayment(order.tableNo)}
+                    className="p-1 bg-green-500 px-4 rounded-full hover:bg-green-600 hover:text-white text-gray-900 flex justify-end items-end"
+                  >
+                    Received in Cash
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
