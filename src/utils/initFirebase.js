@@ -17,7 +17,7 @@ const firebaseConfig = {
 };
 
 
-// test ignore
+// test ignore 2
 // Initialize Firebase
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
