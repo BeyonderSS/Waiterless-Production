@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PropagateLoader } from "react-spinners";
 import {
   collection,
@@ -11,6 +11,8 @@ import {
 import { firestore } from "../utils/initFirebase";
 
 const AdminOrders = ({ orders }) => {
+  const [receiverName, setReceiverName] = useState("");
+
   const handleCashPayment = async (tableNo) => {
     const ordersRef = collection(firestore, "Orders");
     const q = query(
@@ -25,6 +27,7 @@ const AdminOrders = ({ orders }) => {
         paymentStatus: "paid",
         paymentMode: "cash",
         status: "old",
+        receiverName: receiverName, // add this line to update the receiverName field in the database
       });
     });
   };
@@ -64,28 +67,39 @@ const AdminOrders = ({ orders }) => {
                 {order.items.map((item) => (
                   <li key={item.id}>
                     <p className="font-bold">{item.dishName}</p>
-                    {/* <p>Category: {item.category}</p> */}
-                    {/* <img src={item.image} alt="" /> */}
                     <p>Price: ₹{item.price}</p>
                     <p>Quantity: {item.quantity}</p>
-                    {/* <p>Rating: {item.rating}</p> */}
                   </li>
                 ))}
               </ul>
-              <div>
+              <div className="flex flex-col md:flex-row md:justify-end md:items-center mt-4">
+                {order.receiverName && (
+                  <div className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0 ">
+                    Payment Recived By.{" "}
+                    <span className="font-semibold"> {order.receiverName}</span>
+                  </div>
+                )}
+                {order.paymentStatus === "pending" && (
+                  <input
+                    type="text"
+                    placeholder="Receiver's name"
+                    className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0"
+                    value={receiverName}
+                    onChange={(e) => setReceiverName(e.target.value)}
+                  />
+                )}
                 {order.paymentStatus === "pending" && (
                   <button
                     onClick={async () => handleCashPayment(order.tableNo)}
-                    className="p-1 bg-green-500 px-4 rounded-full hover:bg-green-600 hover:text-white text-gray-900 flex justify-end items-end"
+                    className="p-2 bg-green-500 px-4 rounded-r-lg hover:bg-green-600 hover:text-white text-gray-900"
                   >
-                    Received in Cash
+                    Approve Payment
                   </button>
                 )}
               </div>
             </div>
           ))}
         </div>
-        {/* <GenerateQR /> */}
       </div>
     </div>
   );
