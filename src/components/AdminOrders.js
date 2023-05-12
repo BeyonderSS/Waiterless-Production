@@ -33,6 +33,7 @@ const AdminOrders = ({ orders }) => {
               <p>Table No: {order.tableNo}</p>
               <p>Total: {order.total}</p>
               <p>Customer Email: {order.userEmail}</p>
+              <p>Create At : {order.createdAt}</p>
               <ul className="list-disc ml-4">
                 {order.items.map((item) => (
                   <li key={item.id}>
