@@ -113,7 +113,7 @@ const AddItems = () => {
 
   console.log(url);
   return (
-    <div>
+    <div className="h-screen">
      
         { role == "Admin" && (
     <div className="h-screen md:pt-40 pt-24 bg-orange-100">
