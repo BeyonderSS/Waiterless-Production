@@ -10,9 +10,10 @@ import {
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import NotAuth from "@/components/NotAuth";
 
 const AddRestro = () => {
-  const { user, restaurantId } = useAuth();
+  const { user, restaurantId,role,signInWithGoogle } = useAuth();
   const [name, setName] = useState("");
   const [numTables, setNumTables] = useState("");
   const [error, setError] = useState("");
@@ -67,6 +68,7 @@ const AddRestro = () => {
       exit={{ opacity: 0 }}
       className="flex justify-center items-center max-w-sm mx-auto  h-screen"
     >
+        { role == "SuperAdmin" && (
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block font-medium">
@@ -125,6 +127,23 @@ const AddRestro = () => {
           </button>
         </div>
       </form>
+      )}
+      {!user ? (
+  <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
+    Please Login First
+    <button
+      onClick={signInWithGoogle}
+      className="cursor-pointer text-xl text-white p-1 px-14 bg-orange-500 rounded-full"
+    >
+      Login
+    </button>
+  </div>
+) : (
+  role !== "SuperAdmin" ? (
+    <NotAuth />
+  ) : null
+)}
+
     </motion.div>
   );
 };
