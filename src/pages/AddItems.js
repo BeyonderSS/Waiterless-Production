@@ -137,6 +137,7 @@ const AddItems = () => {
             value={formData.dishName}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+          required
           />
         </div>
         <div className="mb-4">
@@ -150,6 +151,7 @@ const AddItems = () => {
             value={formData.price}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+            required
           />
         </div>
         <div className="mb-4">
@@ -163,6 +165,7 @@ const AddItems = () => {
             name="image"
             onChange={handleImageChange}
             className="hidden"
+            required
           />
           <label
             htmlFor="image"
@@ -179,6 +182,7 @@ const AddItems = () => {
             value={formData.category}
             onChange={handleInputChange}
             className="ml-2 rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+            required
           />
         </label>
         <div className="mb-4">
@@ -194,6 +198,7 @@ const AddItems = () => {
             value={formData.rating}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+          required
           />
         </div>
         <div className="mb-4">
@@ -207,6 +212,7 @@ const AddItems = () => {
             value={formData.id}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+            required
           />
         </div>
   
