@@ -2,8 +2,6 @@ import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-
-import { GrUpdate } from "react-icons/gr";
 import { FiLogIn } from "react-icons/fi";
 import { RxCross2, RxHamburgerMenu, RxUpdate } from "react-icons/rx";
 import {
@@ -33,8 +31,8 @@ const Header = () => {
           <nav
             className={`flex rounded-b-2xl justify-between   w-full  ${
               isOpen
-                ? " shadow-none bg-orange-500 text-white transition ease-in-out duration-500"
-                : "shadow-lg bg-white/30 backdrop-blur-sm text-orange-500  transition ease-in-out duration-500 "
+                ? " shadow-none bg-green-400 text-white transition ease-in-out duration-500"
+                : "shadow-lg bg-white/30 backdrop-blur-sm text-green-400  transition ease-in-out duration-500 "
             }`}
           >
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
@@ -82,10 +80,11 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-                   {role == "SuperAdmin" && (
+                {role == "SuperAdmin" && (
                   <li>
                     <Link className="hover:text-orange-800" href="/AddRestro">
-                  Add Restro  </Link>
+                      Add Restro{" "}
+                    </Link>
                   </li>
                 )}
               </ul>
@@ -130,8 +129,8 @@ const Header = () => {
           <div
             className={`${
               isOpen
-                ? " translate-y-0  text-white bg-orange-500 "
-                : "lg:-translate-y-96  -translate-y-64 bg-orange-500 text-orange-500 transition ease-in-out duration-500"
+                ? " translate-y-0  text-white bg-green-400 "
+                : "lg:-translate-y-96  -translate-y-72 bg-green-400 text-green-400 transition ease-in-out duration-500"
             }  w-full absolute rounded-b-3xl shadow-lg transform duration-500  ease-in-out top-0 h-auto  -z-50 block flex-grow lg:flex lg:items-center lg:w-auto`}
           >
             <div className="pt-20 flex flex-row p-5 justify-center items-center   uppercase font-semibold">
@@ -139,7 +138,7 @@ const Header = () => {
                 <div className=" flex flex-col justify-center items-start space-y-2">
                   <button
                     onClick={handleSignOut}
-                    className="cursor-pointer text-xl text-white  px-10   bg-orange-500 rounded-full"
+                    className="cursor-pointer text-xl text-white  px-10   bg-green-400 rounded-full"
                   >
                     Welcome {user.displayName}!
                   </button>{" "}
@@ -200,7 +199,7 @@ const Header = () => {
               ) : (
                 <button
                   onClick={signInWithGoogle}
-                  className="cursor-pointer text-xl text-white p-1 px-14   bg-orange-500 rounded-full"
+                  className="cursor-pointer text-xl text-white p-1 px-14   bg-green-400 rounded-full"
                 >
                   Login
                 </button>
