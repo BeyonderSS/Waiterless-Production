@@ -9,7 +9,7 @@ export default function AboutUs() {
           <div className="-mx-4 flex flex-wrap items-center justify-between">
             <div className="w-full px-4 lg:w-6/12">
               <div className="-mx-3 flex items-center sm:-mx-4">
-                <Image src="/business-decisions-animate.svg" height={4000} width={4000}/>
+                <Image src="/business-decisions-animate.svg" height={4000} width={4000} alt="Buisness"/>
                 </div>
             </div>
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
@@ -30,7 +30,7 @@ export default function AboutUs() {
                 </p>
                 <p className="text-body-color mb-12 text-base">
                   At Waiterless, we understand that a strong brand image is
-                  crucial for your restaurant's success. That's why we provide
+                  crucial for your restaurant&rsquo;s success. That&rsquo;s why we provide
                   you with a custom domain name that matches your business and
                   helps you establish a consistent brand image. Start building
                   your brand today with Waiterless.
