@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function Feature() {
   return (
-    <>
+    <div className='bg-[#bde6be]'>
   {/* Container for demo purpose */}
-  <div className="container my-24 px-6 mx-auto">
+  <div className="container  px-6 mx-auto ">
     {/* Section: Design Block */}
     <section className="mb-32 text-gray-800 text-center lg:text-left">
       <style
@@ -172,8 +172,8 @@ export default function Feature() {
             </div>
             <div className="md:mb-12 lg:mb-0">
               <img
-                src="https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(42).webp"
-                className="w-full rounded-lg shadow-lg rotate-lg-6"
+                src="/qr-code-animate.svg"
+                className="w-full rounded-lg shadow-lg "
                 alt=""
               />
             </div>
@@ -184,7 +184,7 @@ export default function Feature() {
     {/* Section: Design Block */}
   </div>
   {/* Container for demo purpose */}
-</>
+</div>
 
   )
 }

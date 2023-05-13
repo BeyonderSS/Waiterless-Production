@@ -37,7 +37,7 @@ const Header = () => {
           >
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <Link
-                className="text-3xl cursor-pointer font-bold font-heading"
+                className="text-3xl cursor-pointer font-bold font-heading z-50 md:text-gray-800 "
                 href="/"
               >
                 WaiterLess

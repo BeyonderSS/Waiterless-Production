@@ -2,9 +2,9 @@ import React from 'react'
 
 const Banner = () => {
   return (
-    <>
+    <div className='bg-[#bde6be]'>
   {/* Container for demo purpose */}
-  <div className="container my-24 px-6 mx-auto">
+  <div className="container  px-6 ">
     {/* Section: Design Block */}
     <section className="mb-32 text-gray-800 text-center lg:text-left">
       <style
@@ -14,7 +14,7 @@ const Banner = () => {
         }}
       />
       {/* Jumbotron */}
-      <div className="container mx-auto xl:px-32 text-center lg:text-left">
+      <div className="container  xl:px-32 text-center lg:text-left">
         <div className="grid lg:grid-cols-2  items-center">
           <div className="mb-12 lg:mb-0">
             <div
@@ -57,8 +57,8 @@ const Banner = () => {
           </div>
           <div>
             <img
-              src="https://mdbootstrap.com/img/new/ecommerce/vertical/090.jpg"
-              className="w-full shadow-lg fancy-border-radius rotate-lg-6"
+              src="/coffee-shop-animate.svg"
+              className="w-full shadow-lg fancy-border-radius -rotate-6"
               alt=""
             />
           </div>
@@ -69,7 +69,7 @@ const Banner = () => {
     {/* Section: Design Block */}
   </div>
   {/* Container for demo purpose */}
-</>
+</div>
 
   )
 }
