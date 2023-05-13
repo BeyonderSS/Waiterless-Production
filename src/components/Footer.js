@@ -3,7 +3,7 @@ import Link from "next/link";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-[#E8772E] text-gray-500">
+    <footer className=" bg-gray-800 text-gray-500">
       <div className="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left mb-4 md:mb-0">
           <Link href="/" legacyBehavior>
