@@ -65,9 +65,9 @@ const GenerateQR = () => {
   };
   console.log(qrCodes);
   return (
-    <div class="flex flex-col justify-center items-center bg-orange-100 pt-24">
+    <div class="flex flex-col justify-center items-center bg-green-100 pt-24">
       <button
-        class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full mb-8"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mb-8"
         onClick={handleGenerateQRCodes}
       >
         Generate QR Codes
@@ -94,7 +94,7 @@ const GenerateQR = () => {
                     index + 1
                   }`}</p>
                   <button
-                    class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full mt-4"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4"
                     onClick={() => handleDownload(index)}
                   >
                     Download PDF
