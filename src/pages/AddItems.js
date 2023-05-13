@@ -113,7 +113,7 @@ const AddItems = () => {
   return (
     <div className="h-screen">
       {role == "Admin" && (
-        <div className="h-screen md:pt-40 pt-24 bg-orange-100">
+        <div className="h-screen md:pt-40 pt-24 bg-green-100">
           <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">
             Add Items To Menu
           </h1>
@@ -132,7 +132,7 @@ const AddItems = () => {
                   name="dishName"
                   value={formData.dishName}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
                 />
               </div>
@@ -149,7 +149,7 @@ const AddItems = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
                 />
               </div>
@@ -171,7 +171,7 @@ const AddItems = () => {
                 />
                 <label
                   htmlFor="image"
-                  className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50 cursor-pointer bg-orange-100 hover:bg-orange-200 p-2"
+                  className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 cursor-pointer bg-green-100 hover:bg-green-200 p-2"
                 >
                   {formData.image ? "Image uploaded" : "Upload image"}
                 </label>
@@ -183,7 +183,7 @@ const AddItems = () => {
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="ml-2 rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                  className="ml-2 rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
                 />
               </label>
@@ -202,7 +202,7 @@ const AddItems = () => {
                   max={5}
                   value={formData.rating}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
                 />
               </div>
@@ -216,19 +216,19 @@ const AddItems = () => {
                   name="id"
                   value={formData.id}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-orange-300 shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
                 />
               </div>
 
               {loading ? (
                 <div className="flex justify-center items-center py-10">
-                  <BarLoader color="#fa9805" />
+                  <BarLoader color="#4ADE80" />
                 </div>
               ) : (
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600"
+                  className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
                 >
                   Add Item
                 </button>
@@ -242,7 +242,7 @@ const AddItems = () => {
           Please Login First
           <button
             onClick={signInWithGoogle}
-            className="cursor-pointer text-xl text-white p-1 px-14 bg-orange-500 rounded-full"
+            className="cursor-pointer text-xl text-white p-1 px-14 bg-green-500 rounded-full"
           >
             Login
           </button>
