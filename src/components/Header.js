@@ -43,7 +43,7 @@ const Header = () => {
                 WaiterLess
               </Link>
               {/* Nav Links */}
-              <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
+              <ul className="hidden md:flex px-4 text-black mx-auto font-semibold font-heading space-x-12">
                 {/* <li>
                   <Link className="hover:text-green-800" href="/">
                     Home
