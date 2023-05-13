@@ -45,14 +45,14 @@ const Header = () => {
               {/* Nav Links */}
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
                 {/* <li>
-                  <Link className="hover:text-orange-800" href="/">
+                  <Link className="hover:text-green-800" href="/">
                     Home
                   </Link>
                 </li> */}
                 {role == "Admin" && (
                   <li>
                     <Link
-                      className="hover:text-orange-800"
+                      className="hover:text-green-800"
                       href="/OrdersDashboard"
                     >
                       Orders Dashboard
@@ -61,28 +61,28 @@ const Header = () => {
                 )}
                 {role == "Admin" && (
                   <li>
-                    <Link className="hover:text-orange-800" href="/AddItems">
+                    <Link className="hover:text-green-800" href="/AddItems">
                       Add To Menu
                     </Link>
                   </li>
                 )}
                 {role == "Admin" && (
                   <li>
-                    <Link className="hover:text-orange-800" href="/UpdateMenu">
+                    <Link className="hover:text-green-800" href="/UpdateMenu">
                       Update Menu
                     </Link>
                   </li>
                 )}
                 {role == "Admin" && (
                   <li>
-                    <Link className="hover:text-orange-800" href="/GenerateQr">
+                    <Link className="hover:text-green-800" href="/GenerateQr">
                       Generate Qr{" "}
                     </Link>
                   </li>
                 )}
                 {role == "SuperAdmin" && (
                   <li>
-                    <Link className="hover:text-orange-800" href="/AddRestro">
+                    <Link className="hover:text-green-800" href="/AddRestro">
                       Add Restro{" "}
                     </Link>
                   </li>
@@ -91,7 +91,7 @@ const Header = () => {
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
                 {/* Sign In / Register      */}
-                <div className="flex items-center hover:text-orange-800">
+                <div className="flex items-center hover:text-green-800">
                   {user ? (
                     <div onClick={handleSignOut} className="cursor-pointer">
                       <img
@@ -102,7 +102,7 @@ const Header = () => {
                     </div>
                   ) : (
                     <div onClick={signInWithGoogle} className="cursor-pointer">
-                      <div className="flex justify-center items-center space-x-2 text-lg bg-orange-200 px-2 rounded-full   ">
+                      <div className="flex justify-center items-center space-x-2 text-lg bg-green-200 px-2 rounded-full   ">
                         <FiLogIn />
                         <span>Login</span>
                       </div>
