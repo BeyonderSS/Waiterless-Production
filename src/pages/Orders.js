@@ -150,7 +150,7 @@ function Orders() {
                     <h3 className="text-lg font-bold mb-2 ">Items</h3>
                     <ul className="space-y-2">
                       {order.items.map((item) => (
-                        <li key={item.id} className="flex justify-between bg-orange-50 p-4 rounded-3xl">
+                        <li key={item.id} className="flex justify-between bg-green-50 p-4 rounded-3xl">
                           <div className="inline-flex">
                             <img
                               src={item.image}
@@ -197,7 +197,7 @@ function Orders() {
           <div className="  flex justify-center items-center">
             <button
               onClick={makePayment}
-              className="bg-[#E8772E] text-white font-bold px-10 py-2 rounded-xl "
+              className="bg-green-600 text-white font-bold px-10 py-2 rounded-xl "
             >
               End Meal &amp; PayNow
             </button>

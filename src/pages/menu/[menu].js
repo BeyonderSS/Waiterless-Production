@@ -46,7 +46,7 @@ const Menu = () => {
   if (isLoading) {
     return (
       <div className="h-screen flex justify-center items-center">
-        <PropagateLoader color="#fa9805" />
+        <PropagateLoader color="#4ADE80" />
       </div>
     );
   }

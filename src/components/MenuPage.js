@@ -132,10 +132,10 @@ const MenuPage = ({ tableNo, restroId }) => {
       {/* <Alert subMessage={"Please Login"} message={"Please Log in to place order"}/> */}
       <h1 className="text-4xl font-bold mb-8">Menu
       
-      <span className="mt-2 block h-1 w-10 bg-orange-600 sm:w-20"></span></h1>
+      <span className="mt-2 block h-1 w-10 bg-green-600 sm:w-20"></span></h1>
       {loading ? (
         <div className="flex justify-center items-center">
-          <PropagateLoader color="#fa9805" />
+          <PropagateLoader color="#4ADE80" />
         </div>
       ) : (
         <div>
@@ -200,7 +200,7 @@ const MenuPage = ({ tableNo, restroId }) => {
                                         stiffness: 400,
                                         damping: 17,
                                       }}
-                                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] mr-2"
+                                      className="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-800 mr-2"
                                       onClick={() => handleRemoveFromCart(item)}
                                     >
                                       <FaMinus />
@@ -215,7 +215,7 @@ const MenuPage = ({ tableNo, restroId }) => {
                                         stiffness: 400,
                                         damping: 17,
                                       }}
-                                      className="bg-[#E8772E] text-white py-2 px-4 rounded-full hover:bg-[#BA3B0A] ml-2"
+                                      className="bg-green-600 text-white py-2 px-4 rounded-full  hover:bg-green-800 ml-2"
                                       onClick={() => handleAddToCart(item)}
                                     >
                                       <FaPlus />
@@ -229,7 +229,7 @@ const MenuPage = ({ tableNo, restroId }) => {
                                       stiffness: 400,
                                       damping: 17,
                                     }}
-                                    className="bg-[#E8772E] text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-[#BA3B0A]"
+                                    className="bg-green-600 text-white py-2 px-4 flex flex-row justify-center items-center rounded-full mt-4 hover:bg-green-800"
                                     onClick={() => handleAddToCart(item)}
                                   >
                                     <MdOutlineFastfood className="mr-2" />
@@ -253,7 +253,7 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       )}
       <div
-        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 bg-white/30 backdrop-blur-sm text-orange-500 shadow-lg fixed bottom-0 ${
+        className={`flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 bg-white/30 backdrop-blur-sm text-green-500 shadow-lg fixed bottom-0 ${
           cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
         }`}
       >
@@ -267,7 +267,7 @@ const MenuPage = ({ tableNo, restroId }) => {
               delay: 0,
               ease: [0, 0.71, 0.2, 1.01],
             }}
-            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-white/30 backdrop-blur-sm text-orange-500  shadow-2xl fixed bottom-0"
+            className="flex flex-row items-center justify-between w-full   rounded-t-3xl md:px-16 px-12 py-4 bg-white/30 backdrop-blur-sm text-green-500  shadow-2xl fixed bottom-0"
           >
             <div>
               <h2 className="text-lg font-bold">Cart</h2>
@@ -286,7 +286,7 @@ const MenuPage = ({ tableNo, restroId }) => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="bg-[#E8772E] flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-[#BA3B0A]"
+                  className="bg-green-600 flex flex-row justify-center items-center space-x-2 text-white py-2 px-4 rounded-full mr-4 hover:bg-green-800"
                 >
                   <MdOutlineFastfood className="" /> <span>Checkout</span>
                 </motion.button>

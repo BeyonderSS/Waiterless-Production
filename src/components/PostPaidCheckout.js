@@ -49,7 +49,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart }) => {
 
   return (
     <div className="h-screen  flex flex-col ">
-      <h1 className="py-2 text-orange-500 bg-white w-full text-lg flex justify-center items-center uppercase">
+      <h1 className="py-2 text-green-500 bg-white w-full text-lg flex justify-center items-center uppercase">
         Order Summary
       </h1>
 
@@ -103,7 +103,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart }) => {
               </p>
             </div>
             <div className="flex justify-center items-center pt-10 pb-8">
-              <button onClick={placeOrder} className="bg-orange-500 text-lg p-1 rounded-full text-white  w-40 ">
+              <button onClick={placeOrder} className="bg-green-500 text-lg p-1 rounded-full text-white  w-40 ">
                 Place Order
               </button>
             </div>
