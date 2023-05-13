@@ -196,7 +196,7 @@ const UpdateItemForm = () => {
                 <div className="mb-4">
                   <button
                     type="submit"
-                    className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                    className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out"
                   >
                     Update Item
                   </button>

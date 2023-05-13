@@ -13,7 +13,7 @@ const UpdateMenu = () => {
     Please Login First
     <button
       onClick={signInWithGoogle}
-      className="cursor-pointer text-xl text-white p-1 px-14 bg-orange-500 rounded-full"
+      className="cursor-pointer text-xl text-white p-1 px-14 bg-green-500 rounded-full"
     >
       Login
     </button>
