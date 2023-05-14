@@ -2,7 +2,7 @@ import React from 'react'
 
 const Banner = () => {
   return (
-    <div className='bg-[#bde6be] h-screen'>
+    <div className='bg-[#bde6be] md:h-screen pb-16'>
   {/* Container for demo purpose */}
   <div className="container  px-6 ">
     {/* Section: Design Block */}
@@ -58,7 +58,7 @@ const Banner = () => {
           <div>
             <img
               src="/coffee-shop-animate.svg"
-              className="w-full shadow-lg fancy-border-radius -rotate-6"
+              className=" w-full shadow-lg fancy-border-radius -rotate-6"
               alt=""
             />
           </div>

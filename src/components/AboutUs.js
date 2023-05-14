@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function AboutUs() {
   return (
@@ -7,12 +8,20 @@ export default function AboutUs() {
       <section className=" bg-[#bde6be] overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px]">
         <div className="container mx-auto">
           <div className="-mx-4 flex flex-wrap items-center justify-between">
-            <div className="w-full px-4 lg:w-6/12">
+            
+            <motion.div
+            
+            className="w-full px-4 lg:w-6/12">
               <div className="-mx-3 flex items-center sm:-mx-4">
-                <Image src="/business-decisions-animate.svg" height={4000} width={4000} alt="Buisness"/>
-                </div>
-            </div>
-            <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
+                <Image
+                  src="/business-decisions-animate.svg"
+                  height={4000}
+                  width={4000}
+                  alt="Buisness"
+                />
+              </div>
+            </motion.div>
+            <motion.div className="w-full px-4 lg:w-1/2 xl:w-5/12">
               <div className="mt-10 lg:mt-0">
                 <span className="text-primary mb-2 block text-lg font-semibold">
                   Why choose us?
@@ -30,10 +39,10 @@ export default function AboutUs() {
                 </p>
                 <p className="text-body-color mb-12 text-base">
                   At Waiterless, we understand that a strong brand image is
-                  crucial for your restaurant&rsquo;s success. That&rsquo;s why we provide
-                  you with a custom domain name that matches your business and
-                  helps you establish a consistent brand image. Start building
-                  your brand today with Waiterless.
+                  crucial for your restaurant&rsquo;s success. That&rsquo;s why
+                  we provide you with a custom domain name that matches your
+                  business and helps you establish a consistent brand image.
+                  Start building your brand today with Waiterless.
                 </p>
 
                 {/* <a
@@ -43,7 +52,7 @@ export default function AboutUs() {
                   Get Started
                 </a> */}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
