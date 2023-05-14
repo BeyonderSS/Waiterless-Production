@@ -46,9 +46,9 @@ export default function MyApp({ Component, pageProps }) {
 
 
   return (
-    <AuthProvider>
+    <AuthProvider >
       <main className={bellotaTextBold.className}>
-        <div className="select-none scrollbar-none">
+        <div className="select-none ">
         <Header />
         <Component {...pageProps} />
         <Footer />

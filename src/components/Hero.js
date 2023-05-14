@@ -6,15 +6,15 @@ const CCHero = () => {
   return (
     <>
       {/* component */}
-        <motion.img
-          initial={{ scale: 0.5 }}
-          animate={{ scale: [0.5, 1.2, 1] }}
-          transition={{ duration: 1 }}
-          src="/circle.svg"
-          height={400}
-          width={400}
-          className="absolute hidden md:block -top-52 -left-48 z-40"
-        />
+      <motion.img
+        initial={{ scale: 0.5 }}
+        animate={{ scale: [0.1, 1.2, 1.2, 1.2, 1.5,0.7, 1] }}
+        transition={{ duration: 2 }}
+        src="/circle.svg"
+        height={400}
+        width={400}
+        className="absolute hidden md:block -top-52 -left-48 z-40 "
+      />
       <div className="relative w-full min-h-screen">
         <div className="relative bg-[#bde6be] min-h-screen ">
           <div className="container m-auto px-6 pt-32 md:px-12 lg:pt-[4.8rem] lg:px-7">

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Feature() {
   return (
-    <div className='bg-[#bde6be]'>
+    <div className='bg-[#bde6be] h-screen scrollbar-none'>
   {/* Container for demo purpose */}
   <div className="container  px-6 mx-auto ">
     {/* Section: Design Block */}
