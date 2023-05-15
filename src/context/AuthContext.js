@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   GoogleAuthProvider,
   getAuth,
+  signInWithPopup,
   signInWithRedirect,
   signOut,
 } from "firebase/auth";
@@ -105,7 +106,7 @@ export function AuthProvider({ children }) {
     provider.addScope("openid email profile");
 
     try {
-      const result = await signInWithRedirect(auth, provider);
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const loginTime = Date.now();
       localStorage.setItem("loginTime", loginTime.toString());
