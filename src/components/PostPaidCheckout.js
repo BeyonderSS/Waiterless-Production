@@ -63,7 +63,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
   return (
     <div className="h-screen  flex flex-col ">
       {alertVisible && (
-        <div className="absolute top-0">
+        <div className="absolute top-0 w-full">
           <motion.div
             initial={{ x: 200 }}
             animate={{ x: 0, scale: 1 }}
