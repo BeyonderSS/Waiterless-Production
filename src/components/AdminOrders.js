@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 
+import { motion } from "framer-motion";
 const AdminOrders = ({ orders }) => {
   const [receiverName, setReceiverName] = useState("");
 
@@ -46,7 +47,11 @@ const AdminOrders = ({ orders }) => {
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
           {orders.map((order) => (
-            <div
+            <motion.div
+    
+              initial={{ x: 200,opacity:0 }}
+              animate={{ x: 0, scale: 1 ,opacity:100}}
+              transition={{ duration: 0.5, stiffness: 200 }}
               key={order.id}
               className="bg-white rounded-lg shadow-md p-4 mb-4"
               style={{
@@ -97,7 +102,7 @@ const AdminOrders = ({ orders }) => {
                   </button>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
