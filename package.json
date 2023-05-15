@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@heroicons/react": "^2.0.18",
+    "@material-tailwind/react": "^2.0.0",
     "@react-pdf/renderer": "^3.1.9",
     "autoprefixer": "10.4.14",
     "eslint": "8.39.0",
@@ -27,13 +32,18 @@
     "qrcode.react": "^3.1.0",
     "razorpay": "^2.8.6",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-heroicons": "^0.0.7",
     "react-icons": "^4.8.0",
     "react-pdf": "^6.2.2",
     "react-spinners": "^0.13.8",
+    "react-tabs": "^6.0.1",
     "shortid": "^2.2.16",
     "tailwindcss": "3.3.2",
-    "tw-elements": "^1.0.0-beta2"
+    "tw-elements": "^1.0.0-beta2",
+    "usehooks-ts": "^2.9.1"
   },
   "devDependencies": {
     "tailwind-scrollbar": "^3.0.1"
