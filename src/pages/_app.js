@@ -13,45 +13,45 @@ const bellotaTextBold = Bellota_Text({
   subsets: ["latin"],
 });
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps,...appProps }) {
   useEffect(() => {
     typeof window !== undefined &&
       window.document.addEventListener("contextmenu", (e) => {
         e.preventDefault();
       });
 
-      document.onkeydown = function(e) {
-        console.log(e.key)
-        if(e.key === 'F12') {
-           return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.key === 'I') {
-           return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.key === 'C') {
-           return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.key === 'J') {
-           return false;
-        }
-        if(e.ctrlKey && e.key === 'u') {
-           return false;
-        }
-        if(e.ctrlKey && e.key === 'c') {
-          return false;
-       }
-      
+    document.onkeydown = function (e) {
+      console.log(e.key);
+      if (e.key === "F12") {
+        return false;
       }
+      if (e.ctrlKey && e.shiftKey && e.key === "I") {
+        return false;
+      }
+      if (e.ctrlKey && e.shiftKey && e.key === "C") {
+        return false;
+      }
+      if (e.ctrlKey && e.shiftKey && e.key === "J") {
+        return false;
+      }
+      if (e.ctrlKey && e.key === "u") {
+        return false;
+      }
+      if (e.ctrlKey && e.key === "c") {
+        return false;
+      }
+    };
   }, []);
-
+  if ([`/Dashboard/Dashboard`].includes(appProps.router.pathname))
+    return <Component {...pageProps} />;
 
   return (
-    <AuthProvider >
+    <AuthProvider>
       <main className={bellotaTextBold.className}>
         <div className="select-none ">
-        <Header />
-        <Component {...pageProps} />
-        <Footer />
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
         </div>
       </main>
     </AuthProvider>
