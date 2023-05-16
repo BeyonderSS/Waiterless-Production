@@ -14,7 +14,7 @@ const bellotaTextBold = Bellota_Text({
   subsets: ["latin"],
 });
 
-export default function MyApp({ Component, pageProps,...appProps }) {
+export default function MyApp({ Component, pageProps, ...appProps }) {
   useEffect(() => {
     typeof window !== undefined &&
       window.document.addEventListener("contextmenu", (e) => {
@@ -43,13 +43,22 @@ export default function MyApp({ Component, pageProps,...appProps }) {
       }
     };
   }, []);
-  if ([`/Dashboard/Dashboard`,`/Dashboard/OrdersDashboard`,`/Dashboard/AddItems`,`/Dashboard/UpdateMenu`,`/Dashboard/GenerateQr`].includes(appProps.router.pathname))
+  if (
+    [
+      `/Dashboard/Dashboard`,
+      `/Dashboard/OrdersDashboard`,
+      `/Dashboard/UpdateProfile`,
+      `/Dashboard/AddItems`,
+      `/Dashboard/UpdateMenu`,
+      `/Dashboard/GenerateQr`,
+    ].includes(appProps.router.pathname)
+  )
     return (
       <>
-       <AuthProvider>
-      <DashNav/>
-      <Component {...pageProps} />;
-      </AuthProvider>
+        <AuthProvider>
+          <DashNav />
+          <Component {...pageProps} />;
+        </AuthProvider>
       </>
     );
 

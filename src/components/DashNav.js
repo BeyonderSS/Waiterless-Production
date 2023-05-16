@@ -12,6 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 import { GrUpdate } from "react-icons/gr";
 import { HiOutlineQrCode } from "react-icons/hi2";
 import { RxUpdate } from "react-icons/rx";
+import ProfileDropdown from "./ProfileDropdown";
 const DashNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
@@ -34,7 +35,7 @@ const DashNav = () => {
 
   return (
     <div>
-      <div className="w-full  bg-teal-400 shadow-lg fixed top-0 z-50">
+      <div className="w-full  bg-green-400 shadow-lg fixed top-0 z-50">
         <div className="flex flex-row justify-between items-center p-5">
           <div>
             <button
@@ -47,13 +48,7 @@ const DashNav = () => {
           </div>
           <div className="flex items-center hover:text-green-800 ">
             {user ? (
-              <div onClick={handleSignOut} className="cursor-pointer">
-                <img
-                  className="w-10 h-10  rounded-full"
-                  src={user?.photoURL}
-                  alt=""
-                />{" "}
-              </div>
+              <ProfileDropdown/>
             ) : (
               <div onClick={signInWithGoogle} className="cursor-pointer">
                 <div className="flex justify-center items-center space-x-2 text-lg bg-green-200 px-2 rounded-full   ">
@@ -65,11 +60,11 @@ const DashNav = () => {
           </div>{" "}
         </div>
         <div className="hidden md:block">
-          <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-teal-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
+          <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
             <Link href={"/"}>
               <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer  transform duration-100 ease-in-out ">
                 Waiterless.Tech{" "}
-                <span class="w-full h-[2px] bg-gray-200 lg:w-72 rounded-full my-4 hover:bg-white"></span>
+                <span className="w-full h-[2px] bg-gray-200 lg:w-72 rounded-full my-4 hover:bg-white"></span>
               </h1>
             </Link>
             <div className="flex flex-col space-y-4 px-4 justify-center items-center text-white mt-7 p-2">
@@ -138,7 +133,7 @@ const DashNav = () => {
               <Link href={"/"}>
                 <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer  transform duration-100 ease-in-out ">
                   Waiterless.Tech{" "}
-                  <span class=" h-[2px] bg-gray-200 w-72 rounded-full my-4 hover:bg-white"></span>
+                  <span className=" h-[2px] bg-gray-200 w-72 rounded-full my-4 hover:bg-white"></span>
                 </h1>
               </Link>
               <div className="flex flex-col space-y-4 px-4 justify-center items-center text-white mt-7 p-2">
