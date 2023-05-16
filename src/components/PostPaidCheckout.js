@@ -27,11 +27,13 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
         (acc, item) => acc + item.quantity * item.price,
         0
       );
-
+      const today = new Date();
+      const date = today.toDateString();
+    
       // Build orderData object with required data and total
       const orderData = {
         orderId: Math.random().toString(36).substr(2, 9), // generates a random alphanumeric string of length 9
-        createdAt: Date().toLocaleString(),
+        createdAt: date,
         tableNo: tableNo,
         orderby: user.displayName,
         userEmail: user.email,
@@ -41,6 +43,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
         restaurantId: cartItems[0].restaurantId,
         total: total,
       };
+    
       const ordersRef = collection(firestore, "Orders");
       await addDoc(ordersRef, orderData);
 
