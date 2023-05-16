@@ -65,36 +65,36 @@ const GenerateQR = () => {
   };
   console.log(qrCodes);
   return (
-    <div class="flex flex-col justify-center items-center bg-green-100 pt-24">
+    <div className="flex flex-col justify-center items-center bg-green-100 pt-24">
       <button
-        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mb-8"
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mb-8"
         onClick={handleGenerateQRCodes}
       >
         Generate QR Codes
       </button>
-      <div class="">
+      <div className="">
         {qrCodes.length > 0 ? (
           <div>
-            <div class="grid md:grid-cols-5 grid-cols-1 gap-4 mt-8">
+            <div className="grid md:grid-cols-5 grid-cols-1 gap-4 mt-8">
               {qrCodes.map((qr, index) => (
                 <div
                   key={index}
-                  class="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4"
+                  className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4"
                 >
                   <div
                     id={`qr-${index}`}
-                    class="flex flex-col space-y-4 justify-center items-center"
+                    className="flex flex-col space-y-4 justify-center items-center"
                   >
                     {qr}
-                    <div class="text-gray-500 text-sm flex flex-col justify-center items-center">
+                    <div className="text-gray-500 text-sm flex flex-col justify-center items-center">
                       Waiterless.tech <span>PoweredBy Flourishers Edge</span>
                     </div>
                   </div>
-                  <p class="mt-2 font-medium text-gray-700">{`Table No. ${
+                  <p className="mt-2 font-medium text-gray-700">{`Table No. ${
                     index + 1
                   }`}</p>
                   <button
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4"
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4"
                     onClick={() => handleDownload(index)}
                   >
                     Download PDF
@@ -102,20 +102,20 @@ const GenerateQR = () => {
                 </div>
               ))}
             </div>
-            <div class="flex flex-col items-start justify-start h-32 mt-8">
-              <p class="text-gray-500 text-sm">
+            <div className="flex flex-col items-start justify-start h-32 mt-8">
+              <p className="text-gray-500 text-sm">
                 RestroId: {restaurantData[0].id}
               </p>
-              <p class="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm">
                 Restro Name: {restaurantData[0].name}
               </p>
-              <p class="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm">
                 Total Tables: {restaurantData[0].numTables}
               </p>
             </div>
           </div>
         ) : (
-          <div class="flex flex-col items-center justify-center h-32">
+          <div className="flex flex-col items-center justify-center h-32">
             {/* <p>RestroId: {restaurantData[0].id}</p>
               <p>Restro Name: {restaurantData[0].name}</p>
               <p>Total Tables: {restaurantData[0].numTables}</p> */}

@@ -1,12 +1,13 @@
 // pages/_app.js
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import { Bellota_Text } from "next/font/google";
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { AuthProvider } from "../context/AuthContext";
 import Script from "next/script";
 import { useEffect } from "react";
+import DashNav from "@/components/DashNav";
 
 const bellotaTextBold = Bellota_Text({
   weight: "700",
@@ -42,8 +43,15 @@ export default function MyApp({ Component, pageProps,...appProps }) {
       }
     };
   }, []);
-  if ([`/Dashboard/Dashboard`].includes(appProps.router.pathname))
-    return <Component {...pageProps} />;
+  if ([`/Dashboard/Dashboard`,`/Dashboard/OrdersDashboard`,`/Dashboard/AddItems`,`/Dashboard/UpdateMenu`,`/Dashboard/GenerateQr`].includes(appProps.router.pathname))
+    return (
+      <>
+       <AuthProvider>
+      <DashNav/>
+      <Component {...pageProps} />;
+      </AuthProvider>
+      </>
+    );
 
   return (
     <AuthProvider>

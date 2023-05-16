@@ -6,7 +6,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { firestore } from "../utils/initFirebase";
+import { firestore } from "../../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import NotAuth from "@/components/NotAuth";
 import { BarLoader, PropagateLoader } from "react-spinners";
