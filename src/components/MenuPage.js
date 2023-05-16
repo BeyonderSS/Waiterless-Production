@@ -30,12 +30,12 @@ const MenuPage = ({ tableNo, restroId }) => {
   const handleOrderPlaced = () => {
     clearCart(); // Call clearCart after the order is placed and the alert disappears
   };
-  useEffect(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
-    }
-  }, []);
+//  useEffect(() => {
+//    const storedCartItems = localStorage.getItem("cartItems");
+//    if (storedCartItems) {
+//      setCartItems(JSON.parse(storedCartItems));
+//    }
+//  }, []);
 
   function handleCartItemsChange(cartItems) {
     if (cartItems.length === 0) {
