@@ -21,26 +21,26 @@ export function AuthProvider({ children }) {
   const [restaurantId, setRestaurantId] = useState();
   const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      setUser(user);
-    });
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     setUser(user);
+  //   });
 
     // Check login time when navigating to the site
-    const handleRouteChange = (url) => {
-      const loginTime = localStorage.getItem("loginTime");
-      if (loginTime && Date.now() - parseInt(loginTime) > 3600000) {
-        signInWithGoogle();
-      }
-    };
+    // const handleRouteChange = (url) => {
+    //   const loginTime = localStorage.getItem("loginTime");
+    //   if (loginTime && Date.now() - parseInt(loginTime) > 3600000) {
+    //     signInWithGoogle();
+    //   }
+    // };
 
-    router.events.on("routeChangeStart", handleRouteChange);
+    // router.events.on("routeChangeStart", handleRouteChange);
 
-    return () => {
-      unsubscribe();
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, [router]);
+  //   return () => {
+  //     unsubscribe();
+  //     router.events.off("routeChangeStart", handleRouteChange);
+  //   };
+  // }, [router]);
 
   useEffect(() => {
     async function handleDB() {
@@ -108,8 +108,8 @@ export function AuthProvider({ children }) {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const loginTime = Date.now();
-      localStorage.setItem("loginTime", loginTime.toString());
+      // const loginTime = Date.now();
+      // localStorage.setItem("loginTime", loginTime.toString());
       handledb(user);
     } catch (error) {
       console.error("Error signing in with Google:", error);
@@ -121,7 +121,7 @@ export function AuthProvider({ children }) {
       await signOut(auth);
       setUser(null);
       setRole(null);
-      localStorage.removeItem("loginTime");
+      // localStorage.removeItem("loginTime");
       localStorage.removeItem("restaurantId");
       router.push("/");
     } catch (error) {
