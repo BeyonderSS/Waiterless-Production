@@ -46,11 +46,14 @@ const GenerateQR = () => {
     });
     setQrCodes(codes);
   };
+  useEffect(() => {
+if(restaurantData){
 
-  const handleGenerateQRCodes = () => {
-    generateQRCodes();
-  };
+  generateQRCodes();
+}
+ 
 
+}, [restaurantData]);
   const handleDownload = (index) => {
     const qrElement = document.getElementById(`qr-${index}`);
 
@@ -65,13 +68,13 @@ const GenerateQR = () => {
   };
   console.log(qrCodes);
   return (
-    <div className="flex flex-col justify-center items-center bg-green-100 pt-24">
-      <button
+    <div className="flex h-screen flex-col justify-center items-center bg-green-100 pt-24">
+      {/* <button
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mb-8"
         onClick={handleGenerateQRCodes}
       >
         Generate QR Codes
-      </button>
+      </button> */}
       <div className="">
         {qrCodes.length > 0 ? (
           <div>

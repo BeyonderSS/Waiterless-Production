@@ -2,6 +2,8 @@ import { Card, Metric, Text, Flex, Grid, Title, BarList } from "@tremor/react";
 import Chart from "./chart";
 import React from "react";
 import DashNav from "@/components/DashNav";
+import { useAuth } from "@/context/AuthContext";
+import NotAuth from "@/components/NotAuth";
 
 const website = [
   { name: "/home", value: 1230 },
@@ -66,9 +68,12 @@ const categories = [
 ];
 
 export default function PlaygroundPage() {
+  const { user, restaurantId,role ,signInWithGoogle} = useAuth();
+
   return (
-    <main className="pt-16">
-      {/* <DashNav /> */}
+    <main className="pt-20 ">
+    {role == "Admin" && (
+     
       <div className="p-4 md:p-10 md:pl-96 ">
         <div className="">
           <Grid className="gap-6" numColsSm={2} numColsLg={3}>
@@ -115,6 +120,21 @@ export default function PlaygroundPage() {
           <Chart />
         </div>
       </div>
+    )  }
+
+{!user ? (
+        <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
+          Please Login First
+          <button
+            onClick={signInWithGoogle}
+            className="cursor-pointer text-xl text-white p-1 px-14 bg-orange-500 rounded-full"
+          >
+            Login
+          </button>
+        </div>
+      ) : role !== "Admin" ? (
+        <NotAuth />
+      ) : null}
     </main>
   );
 }

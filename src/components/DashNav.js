@@ -27,17 +27,35 @@ const DashNav = () => {
 
   return (
     <div>
-   
-      <div className="w-full h-16 bg-teal-400 shadow-xl fixed top-0 z-50">
-          
+      <div className="w-full  bg-teal-400 shadow-lg fixed top-0 z-50">
+        <div className="flex flex-row justify-end items-center p-5">
+          <div className="flex items-center hover:text-green-800 ">
+            {user ? (
+              <div onClick={handleSignOut} className="cursor-pointer">
+                <img
+                  className="w-10 h-10  rounded-full"
+                  src={user?.photoURL}
+                  alt=""
+                />{" "}
+              </div>
+            ) : (
+              <div onClick={signInWithGoogle} className="cursor-pointer">
+                <div className="flex justify-center items-center space-x-2 text-lg bg-green-200 px-2 rounded-full   ">
+                  <FiLogIn />
+                  <span>Login</span>
+                </div>
+              </div>
+            )}
+          </div>{" "}
+        </div>
         <div className="hidden md:block">
           <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-teal-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
-           <Link href={'/'}>
-            <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer hover:text-teal-900 transform duration-100 ease-in-out ">
-              Waiterless.Tech{" "}
-              <span className="border-b w-64 rounded-full py-1"></span>
-            </h1>
-           </Link>
+            <Link href={"/"}>
+              <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer hover:text-teal-900 transform duration-100 ease-in-out ">
+                Waiterless.Tech{" "}
+                <span className="border-b w-64 rounded-full py-1"></span>
+              </h1>
+            </Link>
             <div className="flex flex-col space-y-4 px-4 justify-center items-center text-white mt-7 p-2">
               <Link
                 className="hover:bg-black/20 p-2 w-full  rounded-xl cursor-pointer"
@@ -72,13 +90,12 @@ const DashNav = () => {
                 href="/Dashboard/GenerateQr"
               >
                 {" "}
-                <div className="px-1">Generate Qr</div>
+                <div className="px-1">Qr Codes</div>
               </Link>
             </div>
           </div>
-          
         </div>
-        
+
         <div className="block md:hidden">
           <button
             type="button"
@@ -133,7 +150,7 @@ const DashNav = () => {
                   href="/Dashboard/GenerateQr"
                 >
                   {" "}
-                  <div className="px-1">Generate Qr</div>
+                  <div className="px-1">Qr Codes</div>
                 </Link>
               </div>
             </div>
