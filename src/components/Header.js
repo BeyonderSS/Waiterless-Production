@@ -53,40 +53,13 @@ const Header = () => {
                   <li>
                     <Link
                       className="hover:text-green-800"
-                      href="/OrdersDashboard"
+                      href="/Dashboard/Dashboard"
                     >
-                      Orders Dashboard
+                      Dashboard
                     </Link>
                   </li>
                 )}
-                {role == "Admin" && (
-                  <li>
-                    <Link className="hover:text-green-800" href="/AddItems">
-                      Add To Menu
-                    </Link>
-                  </li>
-                )}
-                {role == "Admin" && (
-                  <li>
-                    <Link className="hover:text-green-800" href="/UpdateMenu">
-                      Update Menu
-                    </Link>
-                  </li>
-                )}
-                {role == "Admin" && (
-                  <li>
-                    <Link className="hover:text-green-800" href="/GenerateQr">
-                      Generate Qr{" "}
-                    </Link>
-                  </li>
-                )}
-                {role == "SuperAdmin" && (
-                  <li>
-                    <Link className="hover:text-green-800" href="/AddRestro">
-                      Add Restro{" "}
-                    </Link>
-                  </li>
-                )}
+               
               </ul>
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
@@ -152,42 +125,13 @@ const Header = () => {
                   )}
                   {role == "Admin" && (
                     <Link
-                      href="/OrdersDashboard"
+                      href="/Dashboard/Dashboard"
                       className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
                     >
-                      <MdOutlineDashboard /> <span>Orders Dashboard</span>
+                      <MdOutlineDashboard /> <span>Dashboard</span>
                     </Link>
                   )}
-                  {role == "Admin" && (
-                    <Link
-                      href="/UpdateMenu"
-                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
-                    >
-                      <RxUpdate /> <span>Update Menu</span>
-                    </Link>
-                  )}
-                  {role == "Admin" && (
-                    <Link
-                      href="/AddItems"
-                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
-                    >
-                      <RxUpdate /> <span>Add to Menu</span>
-                    </Link>
-                  )}
-                  {role == "Admin" && (
-                    <Link
-                      href="/GenerateQr"
-                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold  "
-                    >
-                      <RxUpdate /> <span>GenerateQr</span>
-                    </Link>
-                  )}
-                  {/* <Link
-                    href="/Orders"
-                    className="cursor-pointer text-lg font-semibold flex flex-row justify-center items-center space-x-2"
-                  >
-                    <MdFoodBank /> <span>Past Orders</span>
-                  </Link> */}
+                  
                   <Link
                     href="/Orders"
                     className="cursor-pointer text-lg font-semibold  flex flex-row justify-center items-center space-x-2"
