@@ -1,5 +1,5 @@
 import MenuPage from "@/components/MenuPage";
-import AddItems from "./AddItems";
+import AddItems from "./Dashboard/AddItems";
 import Hero from "../components/Hero";
 import Testimonial from "../components/Testimonial";
 import FamousFood from "@/components/FamousFood";
