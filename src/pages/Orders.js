@@ -195,12 +195,12 @@ function Orders() {
             Grand Total: ₹{grandTotal}
           </div>
           <div className="  flex justify-center items-center">
-            <button
+            {/* <button
               onClick={makePayment}
               className="bg-green-600 text-white font-bold px-10 py-2 rounded-xl "
             >
               End Meal &amp; PayNow
-            </button>
+            </button> */}
           </div>
 
           <div className="text-gray-800 text-2xl flex justify-center items-center py-10">
