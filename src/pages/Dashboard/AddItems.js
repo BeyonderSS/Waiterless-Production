@@ -99,11 +99,12 @@ const AddItems = () => {
         setFormData({
           dishName: "",
           price: "",
-          image: null,
           rating: "",
           id: "",
           category: "",
         });
+        setImage("")
+       
       }
     );
     console.log(typeof loading);
