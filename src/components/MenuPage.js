@@ -11,6 +11,7 @@ import PostPaidCheckout from "./PostPaidCheckout";
 import CategoryBubble from "./CategoryBubble";
 import { useRouter } from "next/router";
 import Alert from "./Alert";
+import Link from "next/link";
 
 const MenuPage = ({ tableNo, restroId }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -30,12 +31,12 @@ const MenuPage = ({ tableNo, restroId }) => {
   const handleOrderPlaced = () => {
     clearCart(); // Call clearCart after the order is placed and the alert disappears
   };
-//  useEffect(() => {
-//    const storedCartItems = localStorage.getItem("cartItems");
-//    if (storedCartItems) {
-//      setCartItems(JSON.parse(storedCartItems));
-//    }
-//  }, []);
+  //  useEffect(() => {
+  //    const storedCartItems = localStorage.getItem("cartItems");
+  //    if (storedCartItems) {
+  //      setCartItems(JSON.parse(storedCartItems));
+  //    }
+  //  }, []);
 
   function handleCartItemsChange(cartItems) {
     if (cartItems.length === 0) {
@@ -144,21 +145,23 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          {/* <div className="flex flex-row justify-center items-center  overflow-x-auto space-x-4 overflow-y-hidden">
+          <div className="flex flex-row   overflow-x-scroll w-96  space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
                   key={category}
                   className="flex flex-row justify-center  items-center "
                 >
-                  <CategoryBubble category={category} />
+                  <Link href={`#${category}`}>
+                    <CategoryBubble category={category} />
+                  </Link>
                 </div>
               ))}
-          </div> */}
+          </div>
           <div>
             {categories &&
               categories.map((category) => (
-                <div key={category}>
+                <div key={category} id={category}>
                   <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
                     {category}
                   </h1>
