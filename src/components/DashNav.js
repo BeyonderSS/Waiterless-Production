@@ -125,11 +125,11 @@ const DashNav = () => {
           <div
             ref={menuRef}
             onClick={() => setIsMenuOpen(false)}
-            className={`scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-teal-400 rounded-r-3xl shadow-xl ${
+            className={`scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl shadow-xl ${
               isMenuOpen ? "translate-x-0" : "-translate-x-96"
             }`}
           >
-            <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-teal-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
+            <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
               <Link href={"/"}>
                 <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer  transform duration-100 ease-in-out ">
                   Waiterless.Tech{" "}
