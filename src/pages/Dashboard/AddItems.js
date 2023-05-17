@@ -26,7 +26,7 @@ const AddItems = () => {
     category: "", // add the new field here
   });
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
   const [uploaded, setUploaded] = useState(false);
 
@@ -103,8 +103,8 @@ const AddItems = () => {
           id: "",
           category: "",
         });
-        setImage("")
-       
+        setImage(null)
+        setUrl(null)
       }
     );
     console.log(typeof loading);
