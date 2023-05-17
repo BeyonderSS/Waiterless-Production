@@ -96,7 +96,7 @@ const UpdateItemForm = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className=" mx-auto md:pl-96">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Update Item</h1>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/3 mr-4">

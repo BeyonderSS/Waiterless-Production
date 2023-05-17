@@ -112,7 +112,7 @@ const AddItems = () => {
 
   console.log(url);
   return (
-    <div className="h-screen">
+    <div className="h-screen md:pl-80 ">
       {role == "Admin" && (
         <div className="h-screen md:pt-40 pt-24 bg-green-100">
           <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">

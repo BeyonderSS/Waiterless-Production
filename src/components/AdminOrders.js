@@ -35,14 +35,14 @@ const AdminOrders = ({ orders }) => {
 
   if (orders.length === 0) {
     return (
-      <div className="max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center">
+      <div className="max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
         <PropagateLoader color="#4ADE80" />
       </div>
     );
   }
 
   return (
-    <div className="bg-green-100">
+    <div className="bg-green-100 md:pl-96">
       <div className="max-w-7xl mx-auto px-4 pt-24">
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
