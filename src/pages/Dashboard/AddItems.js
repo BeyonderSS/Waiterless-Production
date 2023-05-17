@@ -49,10 +49,10 @@ const AddItems = () => {
       console.error("No image provided");
       return;
     }
-
+console.log(restaurantId+formData.id)
     // Create a reference to the Firebase Storage location
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${formData.id}`);
+    const storageRef = ref(storage, `images/${restaurantId+formData.id}`);
 
     // Upload the image and listen for state changes, errors, and successful uploads
     const uploadTask = uploadBytesResumable(storageRef, image);
