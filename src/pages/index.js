@@ -17,13 +17,14 @@ export default function Home() {
       {/* <FamousFood/>
       <PopularMenu/> */}
       <section>
+        <Banner /> {/* Completed */}
+      </section>
+
+      <section>
         <AboutUs /> {/* Completed */}
       </section>
       <section>
         <Feature /> {/* Completed */}
-      </section>
-      <section>
-        <Banner /> {/* Completed */}
       </section>
       {/* <section>
         <Testimonial /> 

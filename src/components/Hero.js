@@ -31,15 +31,15 @@ const CCHero = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <motion.div
-                    className="relative flex flex-col justify-center items-center p-1 rounded-full bg-[#81c690] item-center shadow-lg md:p-4"
+                    className="relative flex flex-col justify-center items-center p-2 rounded-full bg-[#81c690] item-center shadow-lg md:p-4"
                     initial={{ y: -50 }}
                     animate={{ y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    <h1 className="text-4xl text-gray-100 uppercase">
+                    <h1 className="md:text-4xl text-2xl text-gray-100 uppercase">
                       Waiterless.Tech
                     </h1>
-                    <h1 className="text-xl">
+                    <h1 className="md:text-xl text-lg">
                       Powered by{" "}
                       <a
                         href="https://www.flourishersedge.com/"
