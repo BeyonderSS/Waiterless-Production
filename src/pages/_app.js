@@ -8,6 +8,7 @@ import { AuthProvider } from "../context/AuthContext";
 import Script from "next/script";
 import { useEffect } from "react";
 import DashNav from "@/components/DashNav";
+import Head from "next/head";
 
 const bellotaTextBold = Bellota_Text({
   weight: "700",
@@ -54,23 +55,29 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
     ].includes(appProps.router.pathname)
   )
     return (
-      <>
+      <Head>
+        <title>Waiterless.tech || Powered By Flourishers Edge</title>
+        <link rel="shortcut icon" href="/favicon.svg" />
         <AuthProvider>
           <DashNav />
           <Component {...pageProps} />;
         </AuthProvider>
-      </>
+      </Head>
     );
 
   return (
     <AuthProvider>
-      <main className={bellotaTextBold.className}>
-        <div className="select-none ">
-          <Header />
-          <Component {...pageProps} />
-          <Footer />
-        </div>
-      </main>
+      <Head>
+        <title>Waiterless.tech || Powered By Flourishers Edge </title>
+        <link rel="shortcut icon" href="/favicon.svg" />
+        <main className={bellotaTextBold.className}>
+          <div className="select-none ">
+            <Header />
+            <Component {...pageProps} />
+            <Footer />
+          </div>
+        </main>
+      </Head>
     </AuthProvider>
   );
 }
