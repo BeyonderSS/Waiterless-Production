@@ -57,7 +57,7 @@ const Banner = () => {
                         Real-time Analytics
                       </h2>
                       <p className="text-lg font-medium text-gray-500 mb-0">
-                        Gain valuable insights into your restaurant's
+                        Gain valuable insights into your restaurant&apos;s
                         performance with comprehensive analytics and sales
                         tracking.
                       </p>
