@@ -39,17 +39,7 @@ const CCHero = () => {
                     <h1 className="md:text-4xl text-2xl text-gray-100 uppercase">
                       Waiterless.Tech
                     </h1>
-                    <h1 className="md:text-xl text-lg">
-                      Powered by{" "}
-                      <a
-                        href="https://www.flourishersedge.com/"
-                        className="hover:text-green-800 transition ease-in-out duration-300"
-                      >
-                        {" "}
-                        Flourishers Edge
-                        <span className="text-2xl text-purple-600">.</span>
-                      </a>
-                    </h1>
+                  
                   </motion.div>
                 </motion.div>
                 <p className="mt-8 text-gray-700 lg:w-10/12">

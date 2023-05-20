@@ -2,7 +2,7 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <div className="bg-[#bde6be] flex justify-center items-center md:h-screen pb-16">
+    <div className="bg-[#bde6be] flex justify-center items-center md:h-screen md:pb-16  md:pt-96 pt-28">
       {/* Container for demo purpose */}
       <div className="container  px-6 ">
         {/* Section: Design Block */}
