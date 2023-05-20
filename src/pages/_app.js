@@ -55,14 +55,16 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
     ].includes(appProps.router.pathname)
   )
     return (
-      <Head>
-        <title>Waiterless.tech || Powered By Flourishers Edge</title>
-        <link rel="shortcut icon" href="/favicon.svg" />
+      <div>
+        <Head>
+          <title>Waiterless.tech || Powered By Flourishers Edge</title>
+          <link rel="shortcut icon" href="/favicon.svg" />
+        </Head>
         <AuthProvider>
           <DashNav />
           <Component {...pageProps} />;
         </AuthProvider>
-      </Head>
+      </div>
     );
 
   return (
@@ -70,14 +72,14 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
       <Head>
         <title>Waiterless.tech || Powered By Flourishers Edge </title>
         <link rel="shortcut icon" href="/favicon.svg" />
-        <main className={bellotaTextBold.className}>
-          <div className="select-none ">
-            <Header />
-            <Component {...pageProps} />
-            <Footer />
-          </div>
-        </main>
       </Head>
+      <main className={bellotaTextBold.className}>
+        <div className="select-none ">
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
+        </div>
+      </main>
     </AuthProvider>
   );
 }
