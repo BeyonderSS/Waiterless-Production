@@ -13,7 +13,8 @@ const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(user);
+  
+  console.log(role)
   return (
     <>
       <motion.div
@@ -49,6 +50,25 @@ const Header = () => {
                     Home
                   </Link>
                 </li> */}
+                       {role == "SuperAdmin" && (
+                    <ul className="flex space-x-3">
+
+                    <li>
+
+                    <Link
+                      href="/AddRestro"
+                      className="justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
+                      >
+                       <span>Add Restro</span> 
+                    </Link>
+                      </li>
+                      <span>||</span>
+                      <li>
+                      <Link href={"/FetchLeads"} className="  items-center justify-start cursor-pointer space-x-2 text-lg font-semibold">  <span>Leads</span> </Link>
+                      </li>
+                        </ul>
+                    
+                  )}
                 {role == "Admin" && (
                   <li>
                     <Link
@@ -116,12 +136,22 @@ const Header = () => {
                     Welcome {user.displayName}!
                   </button>{" "}
                   {role == "SuperAdmin" && (
+                    <ul>
+
+                    <li>
+
                     <Link
                       href="/AddRestro"
                       className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
-                    >
+                      >
                       <MdOutlineDashboard /> <span>Add Restro</span>
                     </Link>
+                      </li>
+                      <li>
+                      <Link href={"/FetchLeads"} className="flex flex-row items-center justify-start cursor-pointer space-x-2 text-lg font-semibold">  <MdOutlineDashboard /><span>Leads</span> </Link>
+                      </li>
+                        </ul>
+                    
                   )}
                   {role == "Admin" && (
                     <Link
