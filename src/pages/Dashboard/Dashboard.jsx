@@ -1,10 +1,8 @@
 import { Card, Metric, Text, Flex, Grid, Title, BarList } from "@tremor/react";
 import Chart from "./chart";
 import React, { useEffect, useState } from "react";
-import DashNav from "@/components/DashNav";
 import { useAuth } from "@/context/AuthContext";
 import NotAuth from "@/components/NotAuth";
-import useOrders from "@/utils/useOrders";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
 
@@ -129,6 +127,67 @@ export default function PlaygroundPage() {
     const total = filterByDate.reduce((acc, order) => acc + order.total, 0);
     setFilterTotal(total);
   }, [filterByDate]);
+
+  // console.log(orders);
+
+
+  // No of orders and total revenue every month
+  const ordersByMonth = {};
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  orders.forEach((order) => {
+    const orderYear = new Date(order.createdAt).getFullYear();
+    const currentYear = new Date().getFullYear();
+
+    if (orderYear === currentYear) {
+      const month = new Date(order.createdAt).getMonth();
+      const monthName = monthNames[month];
+      if (!ordersByMonth[monthName]) {
+        ordersByMonth[monthName] = {
+          orders: 1,
+          total: order.total,
+        };
+      } else {
+        ordersByMonth[monthName].orders++;
+        ordersByMonth[monthName].total += order.total;
+      }
+    }
+  });
+
+  const ordersData = Object.keys(ordersByMonth).map((monthName) => ({
+    Month: monthName.slice(0, 3),
+    Orders: ordersByMonth[monthName].orders,
+  }));
+
+  const totalData = Object.keys(ordersByMonth).map((monthName) => ({
+    Month: monthName.slice(0, 3),
+    Total: ordersByMonth[monthName].total,
+  }));
+
+  ordersData.sort((a, b) => {
+    return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
+  });
+
+  totalData.sort((a, b) => {
+    return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
+  });
+
+  console.log("Orders Data:",ordersData);
+  console.log("total data:",totalData);
+
   return (
     <main className="pt-20 ">
       {role == "Admin" && (
@@ -161,6 +220,19 @@ export default function PlaygroundPage() {
                   {/* <Text className="truncate">from {''}</Text> */}
                 </Flex>
               </Card>
+              <Card>
+                <Flex alignItems="start">
+                  <Text>Total Orders</Text>
+                </Flex>
+                <Flex
+                  className="space-x-3 truncate"
+                  justifyContent="start"
+                  alignItems="baseline"
+                >
+                  <Metric> {orders.length}</Metric>
+                  {/* <Text className="truncate">from {''}</Text> */}
+                </Flex>
+              </Card>
             </Grid>
             <Grid className="mt-8 gap-6" numColsSm={2} numColsLg={3}>
               {data.map((item) => (
@@ -186,7 +258,7 @@ export default function PlaygroundPage() {
                 </Card>
               ))}
             </Grid>
-            <Chart />
+            <Chart data={totalData} />
           </div>
         </div>
       )}
