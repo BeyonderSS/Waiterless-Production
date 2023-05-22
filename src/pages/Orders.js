@@ -24,7 +24,7 @@ function Orders() {
   // console.log(restroId);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+ 
       if (user?.email) {
         // <-- Add a check to make sure user exists before accessing its email property
 
@@ -35,7 +35,7 @@ function Orders() {
           where("userEmail", "==", user.email)
         );
 
-        onSnapshot(querySnapshot, (snapshot) => {
+        const unsubscribe =   onSnapshot(querySnapshot, (snapshot) => {
           const filteredOrders = snapshot.docs
             .map((doc) => ({ id: doc.id, ...doc.data() }))
             .filter(
@@ -49,10 +49,14 @@ function Orders() {
             console.log("no orders")
           }
           setOrders(filteredOrders);
+          console.log(filteredOrders)
         });
+        return () => {
+          unsubscribe();
+        };
       }
-    };
-    fetchOrders();
+     
+ 
   }, [user?.email]);
 
   useEffect(() => {
