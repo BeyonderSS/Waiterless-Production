@@ -145,12 +145,12 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-row justify-center items-center pl-28   overflow-x-scroll w-96  space-x-4 overflow-y-hidden">
+          <div className="flex flex-row justify-center items-center pl-96  md:pl-0 scrollbar-none overflow-x-scroll animate-m w-96 md:w-full space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
                   key={category}
-                  className="flex flex-row justify-center  items-center "
+                  className="flex flex-row justify-center  items-center  "
                 >
                   <Link href={`#${category}`}>
                     <CategoryBubble category={category} />
