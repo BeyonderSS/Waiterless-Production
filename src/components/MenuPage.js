@@ -260,9 +260,13 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       )}
       <div
-        className={` flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 text-green-500 shadow-lg fixed bottom-0 ${
-          cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
-        }`}
+        className={`
+    flex flex-row items-center justify-between w-full
+    transform duration-500 ease-in-out rounded-t-3xl py-10 text-green-500
+    shadow-lg fixed bottom-0
+    ${cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"}
+    ${isMenuOpen && "translate-y-full"}
+  `}
       >
         {cartItems.length > 0 && (
           <motion.div
@@ -306,7 +310,7 @@ const MenuPage = ({ tableNo, restroId }) => {
       <div
         ref={menuRef}
         className={` scrollbar-thumb-gray-400/20  scrollbar-track-gray-100 transform duration-500 ease-in-out fixed top-0   w-full z-50 overflow-y-scroll scrollbar-none  rounded-l-md shadow-sm ${
-          isMenuOpen ? "translate-y-0" : "translate-y-[1000px]"
+          isMenuOpen ? "translate-y-0 h-screen" : "translate-y-[1000px]"
         }`}
       >
         <motion.button
