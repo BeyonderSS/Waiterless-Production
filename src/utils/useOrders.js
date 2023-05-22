@@ -29,7 +29,7 @@ export default function useOrders() {
       unsubscribe();
     };
   }
-  }, [restaurantId,user]);
+  }, [restaurantId]);
 
   return orders;
 }
