@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
     }
   
     handleDB();
-  }, [user, router]);
+  }, [user]);
   
 
   const signInWithGoogle = async () => {

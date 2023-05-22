@@ -19,7 +19,9 @@ const UpdateProfile = () => {
   const [adminEmail, setAdminEmail] = useState("");
   const [name, setName] = useState("");
   const [numTables, setNumTables] = useState("");
-  const [testDoc, setTestDoc] = useState();
+  const [docRef, setdocRef] = useState();
+  const [rId, setRId] = useState("");
+  const [rKey, setRKey] = useState("");
   useEffect(() => {
     if (restaurantId) {
       async function fetchRestaurant() {
@@ -29,11 +31,13 @@ const UpdateProfile = () => {
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          setTestDoc(doc.id);
+          setdocRef(doc.id);
           setRestaurant(doc.data());
           setAdminEmail(doc.data().adminEmail);
           setName(doc.data().name);
           setNumTables(doc.data().numTables);
+          setRId(doc.data().razorpayKey);
+          setRKey(doc.data().razorpaySecret)
         });
       }
       fetchRestaurant();
@@ -55,11 +59,13 @@ const UpdateProfile = () => {
 //   }
 
   const handleUpdate = async () => {
-    const restaurantRef = doc(firestore, "Restaurants", testDoc);
+    const restaurantRef = doc(firestore, "Restaurants", docRef);
     await updateDoc(restaurantRef, {
       adminEmail: adminEmail,
       name: name,
       numTables: numTables,
+      razorpayKey:rId,
+      razorpaySecret:rKey,
     });
     
     const q = query(
@@ -83,11 +89,12 @@ const UpdateProfile = () => {
         
       });
     console.log("Document updated successfully");
+    alert("Profile Updated Successfully")
     }
 
 
   return (
-    <div className="md:pl-80 pt-24">
+    <div className="md:pl-96 pt-24">
       {restaurant ? (
         <form>
           <div className="mb-4">
@@ -131,6 +138,36 @@ const UpdateProfile = () => {
               id="numTables"
               value={numTables}
               onChange={(e) => setNumTables(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="rId"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              RazorPay Key
+            </label>
+            <input
+              type="text"
+              id="rId"
+              value={rId}
+              onChange={(e) => setRId(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="rKey"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              RazorPay Secret
+            </label>
+            <input
+              type="text"
+              id="rKey"
+              value={rKey}
+              onChange={(e) => setRKey(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
