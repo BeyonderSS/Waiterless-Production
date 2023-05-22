@@ -134,18 +134,18 @@ export default function PlaygroundPage() {
   // No of orders and total revenue every month
   const ordersByMonth = {};
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   orders.forEach((order) => {
@@ -183,9 +183,9 @@ export default function PlaygroundPage() {
 
   totalData.sort((a, b) => {
     return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
-  });
+});
 
-  console.log("Orders Data:",ordersData);
+  // console.log("Orders Data:",ordersData);
   console.log("total data:",totalData);
 
   return (
