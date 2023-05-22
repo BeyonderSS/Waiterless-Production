@@ -4,13 +4,13 @@ import { firestore } from "@/utils/initFirebase";
 import { collection, getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
-const FetchLeads = () => {
-  const { user, signInWithGoogle,role } =
+const FeedbackLeads = () => {
+  const { user, signInWithGoogle, role } =
     useAuth();
   const [leads, setLead] = useState([]);
   useEffect(() => {
     const fetchLeads = async () => {
-      const leadRef = collection(firestore, "ContactLeads");
+      const leadRef = collection(firestore, "Feedback");
       const leadQuery = query(leadRef);
       const querySnapshot = await getDocs(leadQuery);
       const leadData = querySnapshot.docs.map((doc) => ({
@@ -30,7 +30,6 @@ const FetchLeads = () => {
               key={lead.email}
               className="p-4 bg-white rounded-lg shadow mb-4"
             >
-              <div className="text-lg font-medium">{lead.subject}</div>
               <div className="text-gray-500">
                 {lead.createdAt.toDate().toLocaleString()}
               </div>
@@ -62,4 +61,4 @@ const FetchLeads = () => {
   );
 };
 
-export default FetchLeads;
+export default FeedbackLeads;
