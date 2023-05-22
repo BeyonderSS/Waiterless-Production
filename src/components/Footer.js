@@ -22,7 +22,7 @@ const Footer = () => {
               </Link>
             </li>
             <li className="mt-3 md:mt-0 md:ml-6 text-sm">
-              <Link href="/" legacyBehavior>
+              <Link href="/Support/ContactUs" legacyBehavior>
                 <a className="text-gray-300 hover:text-gray-100">
                   Help &amp; Support
                 </a>
