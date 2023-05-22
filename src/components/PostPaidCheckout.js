@@ -29,7 +29,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
       );
       const today = new Date();
       const date = today.toDateString();
-    
+
       // Build orderData object with required data and total
       const orderData = {
         orderId: Math.random().toString(36).substr(2, 9), // generates a random alphanumeric string of length 9
@@ -43,7 +43,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
         restaurantId: cartItems[0].restaurantId,
         total: total,
       };
-    
+
       const ordersRef = collection(firestore, "Orders");
       await addDoc(ordersRef, orderData);
 
@@ -64,7 +64,7 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
   }, [alertVisible]);
 
   return (
-    <div className="h-screen  flex flex-col ">
+    <div className="h-screen  flex flex-col  ">
       {alertVisible && (
         <div className="absolute top-0 w-full">
           <motion.div

@@ -145,7 +145,7 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-row   overflow-x-scroll w-96  space-x-4 overflow-y-hidden">
+          <div className="flex flex-row justify-center items-center pl-28   overflow-x-scroll w-96  space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
@@ -306,7 +306,7 @@ const MenuPage = ({ tableNo, restroId }) => {
       <div
         ref={menuRef}
         className={` scrollbar-thumb-gray-400/20  scrollbar-track-gray-100 transform duration-500 ease-in-out fixed top-0   w-full z-50 overflow-y-scroll scrollbar-none  rounded-l-md shadow-sm ${
-          isMenuOpen ? "translate-y-0" : "translate-y-full"
+          isMenuOpen ? "translate-y-0" : "translate-y-[1000px]"
         }`}
       >
         <motion.button
@@ -318,14 +318,13 @@ const MenuPage = ({ tableNo, restroId }) => {
         >
           <RxCross1 className="h-10 md:w-7 w-7" />
         </motion.button>
-        <article>
-          <PostPaidCheckout
-            clearCart={clearCart}
-            onOrderPlaced={handleOrderPlaced} // Pass the callback function to PostPaidCheckout
-            tableNo={tableNo}
-            cartItems={cartItems}
-          />
-        </article>
+
+        <PostPaidCheckout
+          clearCart={clearCart}
+          onOrderPlaced={handleOrderPlaced} // Pass the callback function to PostPaidCheckout
+          tableNo={tableNo}
+          cartItems={cartItems}
+        />
       </div>
     </div>
   );
