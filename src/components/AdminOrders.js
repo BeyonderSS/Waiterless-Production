@@ -39,7 +39,7 @@ const AdminOrders = ({ orders }) => {
 
   if (orders.length === 0) {
     return (
-      <div className="pl-80 max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
+      <div className="md:pl-80 max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
         <p>No orders today.</p>
       </div>
     );

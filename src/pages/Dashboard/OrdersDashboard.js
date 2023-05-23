@@ -20,7 +20,7 @@ const OrdersDashboard = () => {
   if (loading) {
     // Show loader while loading is true
     return (
-      <div className="flex justify-center items-center min-h-screen pt-24 pl-80 bg-white pb-8">
+      <div className="flex justify-center items-center min-h-screen pt-24 md:pl-80 bg-white pb-8">
         <PropagateLoader color="#4ADE80" loading={loading} />
       </div>
     );
