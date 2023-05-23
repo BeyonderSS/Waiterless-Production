@@ -12,14 +12,19 @@ import {
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import { FaStar } from "react-icons/fa";
-
+import useRazorpayCredentials from "../utils/useRazorpayCredentials";
 function Orders() {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
   const [grandTotal, setGrandTotal] = useState(0);
+  const [restroId, setRestroId] = useState(null);
+  const { razorpayKey, razorpaySecret } = useRazorpayCredentials(restroId);
+  // console.log("razorpayId:", razorpayKey, "razorpaysec:", razorpaySecret);
+
+  // console.log(restroId);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+ 
       if (user?.email) {
         // <-- Add a check to make sure user exists before accessing its email property
 
@@ -30,19 +35,28 @@ function Orders() {
           where("userEmail", "==", user.email)
         );
 
-        onSnapshot(querySnapshot, (snapshot) => {
+        const unsubscribe =   onSnapshot(querySnapshot, (snapshot) => {
           const filteredOrders = snapshot.docs
             .map((doc) => ({ id: doc.id, ...doc.data() }))
             .filter(
               (order) =>
                 order.status === "new" && order.paymentStatus === "pending"
             );
-          console.log(filteredOrders);
+          // console.log("filtered orders:", filteredOrders);
+          if (filteredOrders.length != 0) {
+            setRestroId(filteredOrders[0].restaurantId);
+          }else{
+            console.log("no orders")
+          }
           setOrders(filteredOrders);
+          console.log(filteredOrders)
         });
+        return () => {
+          unsubscribe();
+        };
       }
-    };
-    fetchOrders();
+     
+ 
   }, [user?.email]);
 
   useEffect(() => {
@@ -65,11 +79,15 @@ function Orders() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({
+        amount,
+        razorpayKey: razorpayKey,
+        razorpaySecret: razorpaySecret,
+      }),
     }).then((t) => t.json());
 
     var options = {
-      key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+      key: razorpayKey, // Enter the Key ID generated from the Dashboard
       name: "Florishers Edge Pvt Ltd",
       currency: data.currency,
       amount: data.amount,
@@ -100,7 +118,7 @@ function Orders() {
         contact: "",
       },
     };
-    console.log(orders);
+    // console.log(orders);
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
@@ -121,6 +139,8 @@ function Orders() {
       document.body.appendChild(script);
     });
   };
+
+  // console.log("restro iD:", restroId);
   return (
     <div className="bg-white min-h-screen md:pt-24 pt-16">
       {orders.length === 0 ? (
@@ -150,7 +170,10 @@ function Orders() {
                     <h3 className="text-lg font-bold mb-2 ">Items</h3>
                     <ul className="space-y-2">
                       {order.items.map((item) => (
-                        <li key={item.id} className="flex justify-between bg-green-50 p-4 rounded-3xl">
+                        <li
+                          key={item.id}
+                          className="flex justify-between bg-green-50 p-4 rounded-3xl"
+                        >
                           <div className="inline-flex">
                             <img
                               src={item.image}
@@ -195,12 +218,14 @@ function Orders() {
             Grand Total: ₹{grandTotal}
           </div>
           <div className="  flex justify-center items-center">
-            <button
-              onClick={makePayment}
-              className="bg-green-600 text-white font-bold px-10 py-2 rounded-xl "
-            >
-              End Meal &amp; PayNow
-            </button>
+            {razorpayKey && razorpaySecret && (
+              <button
+                onClick={makePayment}
+                className="bg-green-600 text-white font-bold px-10 py-2 rounded-xl "
+              >
+                End Meal &amp; PayNow
+              </button>
+            )}
           </div>
 
           <div className="text-gray-800 text-2xl flex justify-center items-center py-10">

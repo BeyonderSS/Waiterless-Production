@@ -26,7 +26,7 @@ const AddItems = () => {
     category: "", // add the new field here
   });
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
   const [uploaded, setUploaded] = useState(false);
 
@@ -49,10 +49,10 @@ const AddItems = () => {
       console.error("No image provided");
       return;
     }
-
+console.log(restaurantId+formData.id)
     // Create a reference to the Firebase Storage location
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${formData.id}`);
+    const storageRef = ref(storage, `images/${restaurantId+formData.id}`);
 
     // Upload the image and listen for state changes, errors, and successful uploads
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -99,11 +99,12 @@ const AddItems = () => {
         setFormData({
           dishName: "",
           price: "",
-          image: null,
           rating: "",
           id: "",
           category: "",
         });
+        setImage(null)
+        setUrl(null)
       }
     );
     console.log(typeof loading);
@@ -111,7 +112,7 @@ const AddItems = () => {
 
   console.log(url);
   return (
-    <div className="h-screen">
+    <div className="h-screen md:pl-80 ">
       {role == "Admin" && (
         <div className="h-screen md:pt-40 pt-24 bg-green-100">
           <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">

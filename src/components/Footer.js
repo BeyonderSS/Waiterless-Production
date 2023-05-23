@@ -22,28 +22,28 @@ const Footer = () => {
               </Link>
             </li>
             <li className="mt-3 md:mt-0 md:ml-6 text-sm">
-              <Link href="/" legacyBehavior>
+              <Link href="/Support/ContactUs" legacyBehavior>
                 <a className="text-gray-300 hover:text-gray-100">
                   Help &amp; Support
                 </a>
               </Link>
             </li>
             <li className="mt-3 md:mt-0 md:ml-6 text-sm">
-              <Link href="/" legacyBehavior>
+              <Link href="/Support/Feedback" legacyBehavior>
                 <a className="text-gray-300 hover:text-gray-100">
                   Feedback
                 </a>
               </Link>
             </li>
             <li className="mt-3 md:mt-0 md:ml-6 text-sm">
-              <a href="https://florishers-edge-landing-page.vercel.app/" className="text-gray-100 hover:text-gray-100">
+              <a href="https://www.flourishersedge.com/" className="text-gray-100 hover:text-gray-100">
                 Made by Flourishers Edge
               </a>
             </li>
           </ul>
         </div>
         <div className="text-center md:text-right mt-4 md:mt-0">
-          <p className="text-sm text-gray-300">&copy; {currentYear} WaiterLess. All rights reserved.</p>
+          <p className="text-sm text-gray-300">&copy; {currentYear} Flourishers Edge. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -11,6 +11,7 @@ import PostPaidCheckout from "./PostPaidCheckout";
 import CategoryBubble from "./CategoryBubble";
 import { useRouter } from "next/router";
 import Alert from "./Alert";
+import Link from "next/link";
 
 const MenuPage = ({ tableNo, restroId }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -30,12 +31,12 @@ const MenuPage = ({ tableNo, restroId }) => {
   const handleOrderPlaced = () => {
     clearCart(); // Call clearCart after the order is placed and the alert disappears
   };
-//  useEffect(() => {
-//    const storedCartItems = localStorage.getItem("cartItems");
-//    if (storedCartItems) {
-//      setCartItems(JSON.parse(storedCartItems));
-//    }
-//  }, []);
+  //  useEffect(() => {
+  //    const storedCartItems = localStorage.getItem("cartItems");
+  //    if (storedCartItems) {
+  //      setCartItems(JSON.parse(storedCartItems));
+  //    }
+  //  }, []);
 
   function handleCartItemsChange(cartItems) {
     if (cartItems.length === 0) {
@@ -144,21 +145,23 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          {/* <div className="flex flex-row justify-center items-center  overflow-x-auto space-x-4 overflow-y-hidden">
+          <div className="flex flex-row justify-center items-center pl-96  md:pl-0 scrollbar-none overflow-x-scroll animate-m w-96 md:w-full space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
                   key={category}
-                  className="flex flex-row justify-center  items-center "
+                  className="flex flex-row justify-center  items-center  "
                 >
-                  <CategoryBubble category={category} />
+                  <Link href={`#${category}`}>
+                    <CategoryBubble category={category} />
+                  </Link>
                 </div>
               ))}
-          </div> */}
+          </div>
           <div>
             {categories &&
               categories.map((category) => (
-                <div key={category}>
+                <div key={category} id={category}>
                   <h1 className="text-3xl font-bold p-4 flex justify-start items-center text-gray-800">
                     {category}
                   </h1>
@@ -257,9 +260,13 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       )}
       <div
-        className={` flex flex-row items-center justify-between w-full  transform duration-500 ease-in-out rounded-t-3xl  py-10 text-green-500 shadow-lg fixed bottom-0 ${
-          cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"
-        }`}
+        className={`
+    flex flex-row items-center justify-between w-full
+    transform duration-500 ease-in-out rounded-t-3xl py-10 text-green-500
+    shadow-lg fixed bottom-0
+    ${cartItems.length > 0 ? "-translate-y-0" : "translate-y-full"}
+    ${isMenuOpen && "translate-y-full"}
+  `}
       >
         {cartItems.length > 0 && (
           <motion.div
@@ -303,7 +310,7 @@ const MenuPage = ({ tableNo, restroId }) => {
       <div
         ref={menuRef}
         className={` scrollbar-thumb-gray-400/20  scrollbar-track-gray-100 transform duration-500 ease-in-out fixed top-0   w-full z-50 overflow-y-scroll scrollbar-none  rounded-l-md shadow-sm ${
-          isMenuOpen ? "translate-y-0" : "translate-y-full"
+          isMenuOpen ? "translate-y-0 h-screen" : "translate-y-[1000px]"
         }`}
       >
         <motion.button
@@ -315,14 +322,13 @@ const MenuPage = ({ tableNo, restroId }) => {
         >
           <RxCross1 className="h-10 md:w-7 w-7" />
         </motion.button>
-        <article>
-          <PostPaidCheckout
-            clearCart={clearCart}
-            onOrderPlaced={handleOrderPlaced} // Pass the callback function to PostPaidCheckout
-            tableNo={tableNo}
-            cartItems={cartItems}
-          />
-        </article>
+
+        <PostPaidCheckout
+          clearCart={clearCart}
+          onOrderPlaced={handleOrderPlaced} // Pass the callback function to PostPaidCheckout
+          tableNo={tableNo}
+          cartItems={cartItems}
+        />
       </div>
     </div>
   );

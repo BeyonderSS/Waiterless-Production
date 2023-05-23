@@ -28,13 +28,11 @@ export function AuthProvider({ children }) {
 
     // Check login time when navigating to the site
     const handleRouteChange = (url) => {
-      const loginTime = localStorage.getItem("loginTime");
-      if (loginTime && Date.now() - parseInt(loginTime) > 3600000) {
+     
         signInWithGoogle();
-      }
+      
     };
 
-    router.events.on("routeChangeStart", handleRouteChange);
 
     return () => {
       unsubscribe();
@@ -91,7 +89,7 @@ export function AuthProvider({ children }) {
     }
   
     handleDB();
-  }, [user, router]);
+  }, [user]);
   
 
   const signInWithGoogle = async () => {
@@ -108,8 +106,7 @@ export function AuthProvider({ children }) {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const loginTime = Date.now();
-      localStorage.setItem("loginTime", loginTime.toString());
+    
       handledb(user);
     } catch (error) {
       console.error("Error signing in with Google:", error);

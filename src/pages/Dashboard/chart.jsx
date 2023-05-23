@@ -1,39 +1,21 @@
-'use client';
+"use client";
 
-import { Card, AreaChart, Title, Text } from '@tremor/react';
-
-const data = [
-  {
-    Month: 'Jan 21',
-    Sales: 2890,
-    Profit: 2400
-  },
-  {
-    Month: 'Feb 21',
-    Sales: 1890,
-    Profit: 1398
-  },
-  {
-    Month: 'Jan 22',
-    Sales: 3890,
-    Profit: 2980
-  }
-];
+import { Card, AreaChart, Title, Text } from "@tremor/react";
 
 const valueFormatter = (number) =>
-  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
+  `₹ ${Intl.NumberFormat("us").format(number).toString()}`;
 
-export default function Chart() {
+export default function Chart({ data }) {
   return (
     <Card className="mt-8">
       <Title>Performance</Title>
-      <Text>Comparison between Sales and Profit</Text>
+      <Text>Comarison Between No. of Orders & Earned In the Year</Text>
       <AreaChart
         className="mt-4 h-80"
         data={data}
-        categories={['Sales', 'Profit']}
+        categories={["Orders", "Total"]}
         index="Month"
-        colors={['indigo', 'fuchsia']}
+        colors={["indigo", "fuchsia"]}
         valueFormatter={valueFormatter}
       />
     </Card>

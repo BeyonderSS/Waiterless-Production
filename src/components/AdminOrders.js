@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 const AdminOrders = ({ orders }) => {
   const [receiverName, setReceiverName] = useState("");
 
+
   const handleCashPayment = async (tableNo) => {
     const ordersRef = collection(firestore, "Orders");
     const q = query(
@@ -31,26 +32,28 @@ const AdminOrders = ({ orders }) => {
         receiverName: receiverName, // add this line to update the receiverName field in the database
       });
     });
+
   };
+
+
 
   if (orders.length === 0) {
     return (
-      <div className="max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center">
-        <PropagateLoader color="#4ADE80" />
+      <div className="md:pl-80 max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
+        <p>No orders today.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-green-100">
+    <div className="bg-green-100 md:pl-96">
       <div className="max-w-7xl mx-auto px-4 pt-24">
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
           {orders.map((order) => (
             <motion.div
-    
-              initial={{ x: 200,opacity:0 }}
-              animate={{ x: 0, scale: 1 ,opacity:100}}
+              initial={{ x: 200, opacity: 0 }}
+              animate={{ x: 0, scale: 1, opacity: 100 }}
               transition={{ duration: 0.5, stiffness: 200 }}
               key={order.id}
               className="bg-white rounded-lg shadow-md p-4 mb-4"

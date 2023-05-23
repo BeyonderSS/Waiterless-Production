@@ -13,7 +13,8 @@ const Header = () => {
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(user);
+
+  console.log(role);
   return (
     <>
       <motion.div
@@ -49,6 +50,38 @@ const Header = () => {
                     Home
                   </Link>
                 </li> */}
+                {role == "SuperAdmin" && (
+                  <ul className="flex space-x-3 justify-center items-center">
+                    <li>
+                      <Link
+                        href="/AddRestro"
+                        className="justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
+                      >
+                        <span>Add Restro</span>
+                      </Link>
+                    </li>
+                    <span className="text-2xl">||</span>
+                    <li>
+                      <Link
+                        href={"/FetchLeads"}
+                        className="  items-center justify-start cursor-pointer space-x-2 text-lg font-semibold"
+                      >
+                        {" "}
+                        <span>Leads</span>{" "}
+                      </Link>
+                    </li>
+                    <span className="text-2xl">||</span>
+                    <li>
+                      <Link
+                        href={"/FeedbackLeads"}
+                        className="  items-center justify-start cursor-pointer space-x-2 text-lg font-semibold"
+                      >
+                        {" "}
+                        <span>Feedbacks</span>{" "}
+                      </Link>
+                    </li>
+                  </ul>
+                )}
                 {role == "Admin" && (
                   <li>
                     <Link
@@ -59,7 +92,6 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-               
               </ul>
               {/* Header Icons */}
               <div className="hidden xl:flex space-x-5 items-center">
@@ -116,12 +148,26 @@ const Header = () => {
                     Welcome {user.displayName}!
                   </button>{" "}
                   {role == "SuperAdmin" && (
-                    <Link
-                      href="/AddRestro"
-                      className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
-                    >
-                      <MdOutlineDashboard /> <span>Add Restro</span>
-                    </Link>
+                    <ul>
+                      <li>
+                        <Link
+                          href="/AddRestro"
+                          className="flex flex-row justify-center items-center space-x-2 cursor-pointer text-lg font-semibold "
+                        >
+                          <MdOutlineDashboard /> <span>Add Restro</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href={"/FetchLeads"}
+                          className="flex flex-row items-center justify-start cursor-pointer space-x-2 text-lg font-semibold"
+                        >
+                          {" "}
+                          <MdOutlineDashboard />
+                          <span>Leads</span>{" "}
+                        </Link>
+                      </li>
+                    </ul>
                   )}
                   {role == "Admin" && (
                     <Link
@@ -131,7 +177,6 @@ const Header = () => {
                       <MdOutlineDashboard /> <span>Dashboard</span>
                     </Link>
                   )}
-                  
                   <Link
                     href="/Orders"
                     className="cursor-pointer text-lg font-semibold  flex flex-row justify-center items-center space-x-2"

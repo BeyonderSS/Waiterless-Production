@@ -8,13 +8,14 @@ import { AuthProvider } from "../context/AuthContext";
 import Script from "next/script";
 import { useEffect } from "react";
 import DashNav from "@/components/DashNav";
+import Head from "next/head";
 
 const bellotaTextBold = Bellota_Text({
   weight: "700",
   subsets: ["latin"],
 });
 
-export default function MyApp({ Component, pageProps,...appProps }) {
+export default function MyApp({ Component, pageProps, ...appProps }) {
   useEffect(() => {
     typeof window !== undefined &&
       window.document.addEventListener("contextmenu", (e) => {
@@ -43,18 +44,35 @@ export default function MyApp({ Component, pageProps,...appProps }) {
       }
     };
   }, []);
-  if ([`/Dashboard/Dashboard`,`/Dashboard/OrdersDashboard`,`/Dashboard/AddItems`,`/Dashboard/UpdateMenu`,`/Dashboard/GenerateQr`].includes(appProps.router.pathname))
+  if (
+    [
+      `/Dashboard/Dashboard`,
+      `/Dashboard/OrdersDashboard`,
+      `/Dashboard/UpdateProfile`,
+      `/Dashboard/AddItems`,
+      `/Dashboard/UpdateMenu`,
+      `/Dashboard/GenerateQr`,
+    ].includes(appProps.router.pathname)
+  )
     return (
-      <>
-       <AuthProvider>
-      <DashNav/>
-      <Component {...pageProps} />;
-      </AuthProvider>
-      </>
+      <div>
+        <Head>
+          <title>Waiterless.tech || Powered By Flourishers Edge</title>
+          <link rel="shortcut icon" href="/favicon.svg" />
+        </Head>
+        <AuthProvider>
+          <DashNav />
+          <Component {...pageProps} />;
+        </AuthProvider>
+      </div>
     );
 
   return (
     <AuthProvider>
+      <Head>
+        <title>Waiterless.tech || Powered By Flourishers Edge </title>
+        <link rel="shortcut icon" href="/favicon.svg" />
+      </Head>
       <main className={bellotaTextBold.className}>
         <div className="select-none ">
           <Header />

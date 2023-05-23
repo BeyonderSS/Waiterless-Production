@@ -8,7 +8,7 @@ const CCHero = () => {
       {/* component */}
       <motion.img
         initial={{ scale: 0.5 }}
-        animate={{ scale: [0.1, 1.2, 1.2, 1.2, 1.5,0.7, 1] }}
+        animate={{ scale: [0.1, 1.2, 1.2, 1.2, 1.5, 0.7, 1] }}
         transition={{ duration: 2 }}
         src="/circle.svg"
         height={400}
@@ -24,35 +24,24 @@ const CCHero = () => {
                 <h1 className="font-bold text-4xl text-black md:text-5xl lg:w-10/12">
                   Your favorite dishes, right at your table
                 </h1>
-                <form action="" className="w-full mt-12">
-                  <div className="relative flex p-1 rounded-full bg-[#81c690] item-center  shadow-lg md:p-4">
-                    <div className="w-full shadow-2xl rounded-full mx-3">
-                      <input
-                        placeholder="Your favorite food"
-                        className="w-full p-4 placeholder:text-black placeholder:bold placeholder:text-xl border-2 outline-none shadow-2xl border-black  bg-transparent rounded-full"
-                        type="text"
-                      />
-                    </div>
-
-                    <button
-                      type="button"
-                      title="Start buying"
-                      className="ml-auto py-3 px-6 rounded-full  text-center transition bg-gradient-to-b from-[#017f01] to-[#017f01] hover:to-[#017f01] active:from-[#017f01] focus:from-green-600 shadow-2xl md:px-12"
-                    >
-                      <span className="hidden text-white font-semibold md:block">
-                        Search
-                      </span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-5 mx-auto text-yellow-900 md:hidden"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </form>
+                <motion.div
+                  className="w-full mt-12"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.div
+                    className="relative flex flex-col justify-center items-center p-2 rounded-full bg-[#81c690] item-center shadow-lg md:p-4"
+                    initial={{ y: -50 }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                  >
+                    <h1 className="md:text-4xl text-2xl text-gray-100 uppercase">
+                      Waiterless.Tech
+                    </h1>
+                  
+                  </motion.div>
+                </motion.div>
                 <p className="mt-8 text-gray-700 lg:w-10/12">
                   Experience dining like never before with waiterless.tech.
                   Order and pay with ease, eliminate wait times, and enjoy
