@@ -5,6 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 import NotAuth from "@/components/NotAuth";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
+import { useExpiry } from "@/context/ExpiryContext";
+import Bill from "@/components/Bill";
 
 const website = [
   { name: "/home", value: 1230 },
@@ -50,28 +52,10 @@ const data = [
 const dataFormatter = (number) =>
   Intl.NumberFormat("us").format(number).toString();
 
-const categories = [
-  {
-    title: "Total Sales",
-    metric: "gjkb",
-    metricPrev: "bhjn",
-  },
-  {
-    title: "Profit",
-    metric: "$ 40,598",
-    metricPrev: "$ 45,564",
-  },
-  {
-    title: "Customers",
-    metric: "1,072",
-    metricPrev: "856",
-  },
-];
-
 export default function PlaygroundPage() {
   const [orders, setOrders] = useState([]);
   const [filterByDate, setFilterByDate] = useState([]);
-
+  // const { expiryDate, expiry ,bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
 
   useEffect(() => {
@@ -130,7 +114,6 @@ export default function PlaygroundPage() {
 
   // console.log(orders);
 
-
   // No of orders and total revenue every month
   const ordersByMonth = {};
   const monthNames = [
@@ -183,14 +166,16 @@ export default function PlaygroundPage() {
 
   totalData.sort((a, b) => {
     return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
-});
+  });
 
-  // console.log("Orders Data:",ordersData);
-  console.log("total data:",totalData);
+
+
 
   return (
     <main className="pt-20 ">
-      {role == "Admin" && (
+      {/* {expiry == true && role == "Admin" && <Bill />} */}
+   {/* && expiry == false &&  */}
+      {role == "Admin" (
         <div className="p-4 md:p-10 md:pl-96 ">
           <div className="">
             <Grid className="gap-6" numColsSm={2} numColsLg={3}>

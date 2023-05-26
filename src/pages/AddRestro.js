@@ -19,7 +19,11 @@ const AddRestro = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
-  console.log(restaurantId);
+
+  const currentDate = new Date();
+const futureDate = new Date(currentDate.getTime() + 28 * 24 * 60 * 60 * 1000);
+const expirationDate = futureDate.toDateString()
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,7 +51,7 @@ const AddRestro = () => {
         numTables,
         createdBy: user.email,
         adminEmail: email,
-        
+        expiry:expirationDate
       });
 
       setError("");
