@@ -175,7 +175,7 @@ export default function PlaygroundPage() {
     <main className="pt-20 ">
       {/* {expiry == true && role == "Admin" && <Bill />} */}
    {/* && expiry == false &&  */}
-      {role == "Admin" (
+      {role == "Admin" && (
         <div className="p-4 md:p-10 md:pl-96 ">
           <div className="">
             <Grid className="gap-6" numColsSm={2} numColsLg={3}>
