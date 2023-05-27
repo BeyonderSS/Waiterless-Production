@@ -2,12 +2,18 @@ import React from "react";
 import UpdateItems from "@/components/UpdateItems";
 import NotAuth from "@/components/NotAuth";
 import { useAuth } from "@/context/AuthContext";
+import { useExpiry } from "@/context/ExpiryContext";
+import Bill from "@/components/Bill";
 
 const UpdateMenu = () => {
   const { user, restaurantId,role ,signInWithGoogle} = useAuth();
-
+  const {expiry} = useExpiry()
   return (
-    <div className="h-screen pt-24">{role == "Admin" && <UpdateItems />}
+    <div>
+
+      {expiry == true && role == "Admin" && <Bill />}
+    <div className="h-screen pt-24">
+      {role == "Admin" && expiry==false &&<UpdateItems />}
     {!user ? (
   <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
     Please Login First
@@ -22,9 +28,10 @@ const UpdateMenu = () => {
   role !== "Admin" ? (
     <NotAuth/>
   ) : null
-)}
+  )}
 
     </div>
+  </div>
   );
 };
 

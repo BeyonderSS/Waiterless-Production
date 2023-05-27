@@ -10,10 +10,12 @@ import { firestore } from "../../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import NotAuth from "@/components/NotAuth";
 import { BarLoader, PropagateLoader } from "react-spinners";
+import { useExpiry } from "@/context/ExpiryContext";
+import Bill from "@/components/Bill";
 
 const AddItems = () => {
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
-
+  const {expiry} = useExpiry()
   const [loading, setLoading] = useState(false);
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -112,8 +114,10 @@ console.log(restaurantId+formData.id)
 
   console.log(url);
   return (
+    <div>
+{expiry == true && role == "Admin" && <Bill />}
     <div className="h-screen md:pl-80 ">
-      {role == "Admin" && (
+      {role == "Admin" && expiry==false && (
         <div className="h-screen md:pt-40 pt-24 bg-green-100">
           <h1 className="flex text-3xl my-4 justify-center font-semibold text-gray-800 items-center">
             Add Items To Menu
@@ -169,7 +173,7 @@ console.log(restaurantId+formData.id)
                   onChange={handleImageChange}
                   className="hidden"
                   required
-                />
+                  />
                 <label
                   htmlFor="image"
                   className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 cursor-pointer bg-green-100 hover:bg-green-200 p-2"
@@ -186,7 +190,7 @@ console.log(restaurantId+formData.id)
                   onChange={handleInputChange}
                   className="ml-2 rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                   required
-                />
+                  />
               </label>
               <div className="mb-4">
                 <label
@@ -244,7 +248,7 @@ console.log(restaurantId+formData.id)
           <button
             onClick={signInWithGoogle}
             className="cursor-pointer text-xl text-white p-1 px-14 bg-green-500 rounded-full"
-          >
+            >
             Login
           </button>
         </div>
@@ -252,6 +256,7 @@ console.log(restaurantId+formData.id)
         <NotAuth />
       ) : null}
     </div>
+            </div>
   );
 };
 

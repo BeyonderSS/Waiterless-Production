@@ -1,6 +1,8 @@
 import AdminOrders from "@/components/AdminOrders";
+import Bill from "@/components/Bill";
 import NotAuth from "@/components/NotAuth";
 import { useAuth } from "@/context/AuthContext";
+import { useExpiry } from "@/context/ExpiryContext";
 import useOrders from "@/utils/useOrders";
 import React, { useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
@@ -9,6 +11,7 @@ const OrdersDashboard = () => {
   const orders = useOrders();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(true); // State variable for loading status
+  const {expiry} = useExpiry()
   useEffect(() => {
     // Simulate loading for 3 seconds
     const timer = setTimeout(() => {
@@ -27,7 +30,8 @@ const OrdersDashboard = () => {
   }
   return (
     <div>
-      {role == "Admin" && <AdminOrders orders={orders} />}
+      {expiry == true && role == "Admin" && <Bill />}
+      {role == "Admin" && expiry==false &&<AdminOrders orders={orders} />}
       {!user ? (
         <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
           Please Login First
