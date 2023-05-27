@@ -55,9 +55,9 @@ const dataFormatter = (number) =>
 export default function PlaygroundPage() {
   const [orders, setOrders] = useState([]);
   const [filterByDate, setFilterByDate] = useState([]);
-  // const { expiryDate, expiry ,bill } = useExpiry();
+  const { expiryDate, expiry ,bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
-
+// console.log(expiryDate,expiry,bill)
   useEffect(() => {
     const fetchItems = async () => {
       console.log(restaurantId);
@@ -80,7 +80,7 @@ export default function PlaygroundPage() {
   const date = today.toDateString();
   useEffect(() => {
     const filterByDate = async () => {
-      console.log(restaurantId);
+      // console.log(restaurantId);
       if (restaurantId) {
         const ordersRef = collection(firestore, "Orders");
         const q = query(
@@ -173,9 +173,9 @@ export default function PlaygroundPage() {
 
   return (
     <main className="pt-20 ">
-      {/* {expiry == true && role == "Admin" && <Bill />} */}
+      {expiry == true && role == "Admin" && <Bill />}
    {/* && expiry == false &&  */}
-      {role == "Admin" && (
+      {role == "Admin"  && expiry == false && (
         <div className="p-4 md:p-10 md:pl-96 ">
           <div className="">
             <Grid className="gap-6" numColsSm={2} numColsLg={3}>

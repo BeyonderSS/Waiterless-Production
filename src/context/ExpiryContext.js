@@ -1,5 +1,12 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 
@@ -8,26 +15,35 @@ export const useExpiry = () => useContext(ExpiryContext); // Use ExpiryContext h
 
 export const ExpiryProvider = ({ children }) => {
   const [expiry, setExpiry] = useState(false);
+  const [restroName, setRestroName] = useState();
+  const [numTables, setNumTables] = useState();
+  const [restroId, setRestroId] = useState();
   const [expiryDate, setExpiryDate] = useState();
   const { user, restaurantId } = useAuth();
-const [orders , setOrders] = useState([])
+  const [orders, setOrders] = useState([]);
   const today = new Date();
   const date = today.toDateString();
 
   useEffect(() => {
     if (restaurantId) {
       const fetchRestaurant = async () => {
-        const q = query(collection(firestore, "Restaurants"), where("id", "==", restaurantId));
+        const q = query(
+          collection(firestore, "Restaurants"),
+          where("id", "==", restaurantId)
+        );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          setExpiryDate(doc.data().expiry);  
+          setRestroName(doc.data().name);
+          setRestroId(doc.data().id);
+          setNumTables(doc.data().numTables);
+          setExpiryDate(doc.data().expiry);
         });
       };
       fetchRestaurant();
-  
-      const today = new Date().setHours(0,0,0,0);
-      const expiryDateTime = new Date(expiryDate).setHours(0,0,0,0);
-      console.log(expiryDateTime)
+
+      const today = new Date().setHours(0, 0, 0, 0);
+      const expiryDateTime = new Date(expiryDate).setHours(0, 0, 0, 0);
+      // console.log(expiryDateTime);
       if (today >= expiryDateTime) {
         setExpiry(true);
       } else {
@@ -36,11 +52,11 @@ const [orders , setOrders] = useState([])
     }
   }, [restaurantId, expiryDate]);
 
-//   billing for the admin dashboard
+  //   billing for the admin dashboard
 
-useEffect(() => {
+  useEffect(() => {
     const fetchItems = async () => {
-      console.log(restaurantId);
+      // console.log(restaurantId);
       if (restaurantId) {
         const ordersRef = collection(firestore, "Orders");
         const q = query(ordersRef, where("restaurantId", "==", restaurantId));
@@ -57,10 +73,10 @@ useEffect(() => {
     // Cleanup function
   }, [restaurantId, user]);
 
- // No of orders and total revenue every month
- const ordersByMonth = {};
+  // No of orders and total revenue every month
+  const ordersByMonth = {};
 
- const monthNames = [
+  const monthNames = [
     "Jan",
     "Feb",
     "Mar",
@@ -102,13 +118,25 @@ useEffect(() => {
   ordersData.sort((a, b) => {
     return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
   });
-
-
-
-
-
-  
+  const [daysInMonth, setDaysInMonth] = useState();
   const [bill, setBill] = useState(0);
+  const [noOrders, setNoOrders] = useState();
+  const [rate, setRate] = useState();
+
+  useEffect(() => {
+    if (numTables <= 10) {
+      setRate(0.49);
+    } else if (numTables <= 20) {
+      setRate(0.39);
+    } else if (numTables <= 30) {
+      setRate(0.29);
+    } else if (numTables <= 40) {
+      setRate(0.19);
+    } else {
+      setRate(0.1);
+    }
+  }, [numTables]);
+
   useEffect(() => {
     if (user) {
       function logOrdersByCurrentMonth(ordersData) {
@@ -117,21 +145,53 @@ useEffect(() => {
           month: "short",
         });
 
+        // Set the number of days in the current month
+        const daysInCurrentMonth = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1,
+          0
+        ).getDate();
+
+        setDaysInMonth(daysInCurrentMonth);
+
         ordersData.forEach((order) => {
           if (order.Month === currentMonth) {
-            console.log(order.Orders);
             if (order.Orders > 0) {
-              setBill(order.Orders * 0.49);
+              setNoOrders(order.Orders);
+              setBill(order.Orders * rate);
             }
           }
         });
       }
+
       logOrdersByCurrentMonth(ordersData);
     }
   }, [ordersData, user]);
-
+  const [GST, setGST] = useState(0);
+  useEffect(() => {
+    const gstAmount = bill * 0.18; // Calculating 18% of the bill
+    setGST(gstAmount); // Updating the GST state variable
+  }, [bill]);
+  const [grandTotal, setGrandTotal] = useState();
+  useEffect(() => {
+    setGrandTotal(bill + GST);
+  }, [bill, GST]);
   return (
-    <ExpiryContext.Provider value={{ expiryDate, expiry,bill }}>
+    <ExpiryContext.Provider
+      value={{
+        expiryDate,
+        expiry,
+        rate,
+        bill,
+        restroName,
+        numTables,
+        restroId,
+        daysInMonth,
+        noOrders,
+        GST,
+        grandTotal
+      }}
+    >
       {children}
     </ExpiryContext.Provider>
   );
