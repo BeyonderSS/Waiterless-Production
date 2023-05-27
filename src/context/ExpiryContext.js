@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
+import shortid from "shortid";
 
 export const ExpiryContext = createContext();
 export const useExpiry = () => useContext(ExpiryContext); // Use ExpiryContext here
@@ -176,6 +177,7 @@ export const ExpiryProvider = ({ children }) => {
   useEffect(() => {
     setGrandTotal(bill + GST);
   }, [bill, GST]);
+  const invoiceNo = shortid.generate();
   return (
     <ExpiryContext.Provider
       value={{
@@ -189,7 +191,8 @@ export const ExpiryProvider = ({ children }) => {
         daysInMonth,
         noOrders,
         GST,
-        grandTotal
+        grandTotal,
+        invoiceNo
       }}
     >
       {children}

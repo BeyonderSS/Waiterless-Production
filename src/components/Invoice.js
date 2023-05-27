@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
-
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { firestore } from "../utils/initFirebase";
+import { Router, useRouter } from "next/router";
 const Invoice = ({
   restroName,
   numTables,
@@ -11,7 +22,115 @@ const Invoice = ({
   bill,
   GST,
   grandTotal,
+  invoiceNo
 }) => {
+  const router = useRouter();
+ 
+  const makePayment = async () => {
+    const res = await initializeRazorpay();
+
+    if (!res) {
+      alert("Razorpay SDK Failed to load");
+      return;
+    }
+
+    // Make API call to the serverless API
+    const amount = grandTotal.toFixed(2);
+
+    const data = await fetch("/api/bill", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount,
+      }),
+    }).then((t) => t.json());
+
+    var options = {
+      key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+      name: "Florishers Edge pvt. limited",
+      currency: data.currency,
+      amount: data.amount,
+      order_id: data.id,
+      description: "Please Clear Your Invoice  ",
+      image: "/favicon.png",
+      handler: async function (response) {
+        // Validate payment at server - using webhooks is a better idea.
+        console.log("razorpay_payment_id  :", response.razorpay_payment_id);
+        console.log("razorpay_order_id :", response.razorpay_order_id);
+        console.log("razorpay_signature :", response.razorpay_signature);
+
+        // Update payment status and order status
+        try {
+          const formattedDate = new Date(expiryDate);
+          formattedDate.setMonth(formattedDate.getMonth() + 1);
+          formattedDate.setDate(0);
+
+          const lastDateOfMonth = formattedDate.toDateString();
+          console.log(lastDateOfMonth);
+
+          const restaurantsCollection = collection(firestore, "Restaurants");
+          const q = query(restaurantsCollection, where("id", "==", restroId));
+          const querySnapshot = await getDocs(q);
+
+          const updatePromises = querySnapshot.docs.map((doc) => {
+            return updateDoc(doc.ref, { expiry: lastDateOfMonth });
+          });
+
+          await Promise.all(updatePromises);
+          console.log("Expiry date updated successfully.");
+
+          // Create invoice document in Firestore
+          const invoicesCollection = collection(firestore, "Invoices");
+          const invoiceData = {
+            restroName: restroName,
+            numTables: numTables,
+            restroId: restroId,
+            rate: rate,
+            lastExpiryDate: expiryDate,
+            daysInMonth: daysInMonth,
+            noOrders: noOrders,
+            bill: bill,
+            GST: GST,
+            grandTotal: grandTotal.toFixed(2),
+            invoiceNo:invoiceNo,
+          };
+
+          await addDoc(invoicesCollection, invoiceData);
+          console.log("Invoice created successfully.");
+
+          router.reload();
+        } catch (error) {
+          console.error("Error updating expiry date:", error);
+        }
+      },
+      prefill: {
+        name: restroId,
+        email: "",
+        contact: "",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+  const initializeRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      // document.body.appendChild(script);
+
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
   return (
     <section className="">
       <div className="max-w-5xl mx-auto py-16 bg-white">
@@ -43,15 +162,13 @@ const Invoice = ({
                       Billed To
                     </p>
                     <p className="uppercase">{restroName}</p>
-                    <p>Tesla Street 007</p>
-                    <p>Frisco</p>
-                    <p>CA 0000</p>
+                  
                   </div>
                   <div className="text-sm font-light text-slate-500">
                     <p className="text-sm font-normal text-slate-700">
                       Invoice Number
                     </p>
-                    <p>000000</p>
+                    <p>{invoiceNo}</p>
 
                     <p className="mt-2 text-sm font-normal text-slate-700">
                       Date of Issue
@@ -130,7 +247,7 @@ const Invoice = ({
                     <tr>
                       <th
                         scope="row"
-                        colspan="4"
+                        colSpan="4"
                         className="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
                       >
                         Subtotal
@@ -149,7 +266,7 @@ const Invoice = ({
                     <tr>
                       <th
                         scope="row"
-                        colspan="4"
+                        colSpan="4"
                         className="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
                       >
                         Tax
@@ -167,7 +284,7 @@ const Invoice = ({
                     <tr>
                       <th
                         scope="row"
-                        colspan="4"
+                        colSpan="4"
                         className="hidden pt-4 pl-6 pr-3 text-sm font-normal text-right text-slate-700 sm:table-cell md:pl-0"
                       >
                         Total
@@ -179,15 +296,22 @@ const Invoice = ({
                         Total
                       </th>
                       <td className="pt-4 pl-3 pr-4 text-sm font-normal text-right text-slate-700 sm:pr-6 md:pr-0">
-                        ₹{grandTotal}
+                        ₹{grandTotal.toFixed(2)}
                       </td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
               <div className="flex flex-col justify-end items-end py-5 space-y-2">
-                <h1 className="text-gray-900 font-semibold text-sm">Clear Invoice To Resume Services</h1>
-                <button className=" flex justify-center items-center bg-green-400 p-1 px-10 rounded-xl text-gray-50 hover:text-gray-900 hover:bg-green-600 transition ease-in-out duration-300">Pay Now</button>
+                <h1 className="text-gray-900 font-semibold text-sm">
+                  Clear Invoice To Resume Services
+                </h1>
+                <button
+                  onClick={makePayment}
+                  className=" flex justify-center items-center bg-green-400 p-1 px-10 rounded-xl text-gray-50 hover:text-gray-900 hover:bg-green-600 transition ease-in-out duration-300"
+                >
+                  Pay Now
+                </button>
               </div>
             </div>
 
