@@ -53,6 +53,7 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
       `/Dashboard/AddItems`,
       `/Dashboard/UpdateMenu`,
       `/Dashboard/GenerateQr`,
+      `/Dashboard/InvoiceHistory`
     ].includes(appProps.router.pathname)
   )
     return (

@@ -22,10 +22,12 @@ const Invoice = ({
   bill,
   GST,
   grandTotal,
-  invoiceNo
+  invoiceNo,
+  paymentStatus,
+  paymentDate,
 }) => {
   const router = useRouter();
- 
+
   const makePayment = async () => {
     const res = await initializeRazorpay();
 
@@ -94,7 +96,14 @@ const Invoice = ({
             bill: bill,
             GST: GST,
             grandTotal: grandTotal.toFixed(2),
-            invoiceNo:invoiceNo,
+            invoiceNo: invoiceNo,
+            paymentStatus: true,
+            paymentDate: new Date().toLocaleDateString("en-US", {
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }),
           };
 
           await addDoc(invoicesCollection, invoiceData);
@@ -162,7 +171,6 @@ const Invoice = ({
                       Billed To
                     </p>
                     <p className="uppercase">{restroName}</p>
-                  
                   </div>
                   <div className="text-sm font-light text-slate-500">
                     <p className="text-sm font-normal text-slate-700">
@@ -178,6 +186,14 @@ const Invoice = ({
                   <div className="text-sm font-light text-slate-500">
                     <p className="text-sm font-normal text-slate-700">Terms</p>
                     <p>{daysInMonth} Days</p>
+                    {paymentDate && (
+                      <div className="pt-2">
+                        <p className="text-sm font-normal text-slate-700">
+                          Paid At
+                        </p>
+                        <p>{paymentDate}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -302,17 +318,19 @@ const Invoice = ({
                   </tfoot>
                 </table>
               </div>
-              <div className="flex flex-col justify-end items-end py-5 space-y-2">
-                <h1 className="text-gray-900 font-semibold text-sm">
-                  Clear Invoice To Resume Services
-                </h1>
-                <button
-                  onClick={makePayment}
-                  className=" flex justify-center items-center bg-green-400 p-1 px-10 rounded-xl text-gray-50 hover:text-gray-900 hover:bg-green-600 transition ease-in-out duration-300"
-                >
-                  Pay Now
-                </button>
-              </div>
+              {!paymentStatus && (
+                <div className="flex flex-col justify-end items-end py-5 space-y-2">
+                  <h1 className="text-gray-900 font-semibold text-sm">
+                    Clear Invoice To Resume Services
+                  </h1>
+                  <button
+                    onClick={makePayment}
+                    className="flex justify-center items-center bg-green-400 p-1 px-10 rounded-xl text-gray-50 hover:text-gray-900 hover:bg-green-600 transition ease-in-out duration-300"
+                  >
+                    Pay Now
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="mt-48 p-9">
