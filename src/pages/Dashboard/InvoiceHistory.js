@@ -76,7 +76,7 @@ const InvoiceHistory = () => {
   }
 
   if (!invoiceData.length) {
-    return <div className="md:pl-80 pt-20 bg-green-100">No past invoices.</div>;
+    return <div className="md:pl-80 pt-20 bg-green-100 h-screen flex justify-center item-center">No past invoices.</div>;
   }
 
   return (
