@@ -201,14 +201,14 @@ const AddItems = () => {
                       {formData.image ? "Image uploaded" : "Upload image"}
                     </label>
                   </div>
-                  <label className="text-gray-700">
+                  <label className="text-gray-700 block font-medium ">
                     Category:
                     <input
                       type="text"
                       name="category"
                       value={formData.category}
                       onChange={handleInputChange}
-                      className="ml-2 rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+                      className="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                       required
                     />
                   </label>
