@@ -10,7 +10,7 @@ import { PropagateLoader } from "react-spinners";
 const OrdersDashboard = () => {
   const orders = useOrders();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
-  const {expiry} = useExpiry()
+  const { expiry } = useExpiry();
   const [loading, setLoading] = useState(true); // State variable for loading status
   useEffect(() => {
     // Simulate loading for 3 seconds
@@ -29,16 +29,12 @@ const OrdersDashboard = () => {
     );
   }
 
-
-
-  
   return (
     <div>
       <div className="md:pt-20">
-
-      {expiry == true && role == "Admin" && <Bill />}
+        {expiry == true && role == "Admin" && <Bill />}
       </div>
-      {role == "Admin" && expiry==false &&<AdminOrders orders={orders} />}
+      {role == "Admin" && expiry == false && <AdminOrders orders={orders} />}
       {!user ? (
         <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">
           Please Login First

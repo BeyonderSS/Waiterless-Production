@@ -30,7 +30,7 @@ const UpdateMenu = () => {
     <div>
       <div className="md:pt-20">{expiry == true && role == "Admin" && <Bill />}</div>
       {expiry == false && (
-        <div className="h-screen pt-24">
+        <div className="h-screen pt-20">
           {role == "Admin" && expiry == false && <UpdateItems />}
           {!user ? (
             <div className="flex flex-col items-center min-h-screen pt-24 bg-white pb-8">

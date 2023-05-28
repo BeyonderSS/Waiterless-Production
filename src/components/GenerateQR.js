@@ -68,7 +68,7 @@ if(restaurantData){
   };
   console.log(qrCodes);
   return (
-    <div className="h-screen pt-20">
+    <div className="h-screen ">
 
     <div className="flex  flex-col justify-center items-center bg-green-100  md:pl-96 ">
       {/* <button
