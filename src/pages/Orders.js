@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  addDoc,
   collection,
   doc,
-  getDocs,
+  getDoc,
   onSnapshot,
   query,
   updateDoc,
@@ -18,46 +17,58 @@ function Orders() {
   const { user } = useAuth();
   const [grandTotal, setGrandTotal] = useState(0);
   const [restroId, setRestroId] = useState(null);
+  const [orderId, setOrderId] = useState([]);
   const { razorpayKey, razorpaySecret } = useRazorpayCredentials(restroId);
   // console.log("razorpayId:", razorpayKey, "razorpaysec:", razorpaySecret);
 
-  // console.log(restroId);
+  useEffect(() => {
+    // Retrieve the value from local storage
+    if (typeof window !== "undefined") {
+      // Retrieve the value from local storage
+
+      const orderRestro = localStorage.getItem("OrderRestro");
+      // Check if the value exists
+      if (orderRestro) {
+        // Value exists, do something with it
+        console.log("OrderRestro value:", orderRestro);
+
+        // Store it in another variable if needed
+        setRestroId(orderRestro);
+        console.log("Another variable:", orderRestro);
+      } else {
+        // Value doesn't exist or is null
+        console.log("OrderRestro value is not found in local storage.");
+      }
+    } else {
+      console.log("localStorage is not available.");
+    }
+  }, []);
 
   useEffect(() => {
- 
-      if (user?.email) {
-        // <-- Add a check to make sure user exists before accessing its email property
+    const fetchMenuItems = async () => {
+      if (restroId) {
+        const collectionRef = collection(firestore, "Orders");
+        const docRef = doc(collectionRef, restroId);
 
-        const querySnapshot = query(
-          collection(firestore, "Orders"),
-          where("status", "==", "new"),
-          where("paymentStatus", "==", "pending"),
-          where("userEmail", "==", user.email)
-        );
-
-        const unsubscribe =   onSnapshot(querySnapshot, (snapshot) => {
-          const filteredOrders = snapshot.docs
-            .map((doc) => ({ id: doc.id, ...doc.data() }))
-            .filter(
-              (order) =>
-                order.status === "new" && order.paymentStatus === "pending"
-            );
-          // console.log("filtered orders:", filteredOrders);
-          if (filteredOrders.length != 0) {
-            setRestroId(filteredOrders[0].restaurantId);
-          }else{
-            console.log("no orders")
-          }
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+          const orderData = docSnapshot.data().orders;
+          console.log(orderData);
+          const filteredOrders = Object.values(orderData).filter(
+            (order) =>
+              order.paymentStatus === "pending" && order.status === "new"
+          );
           setOrders(filteredOrders);
-          console.log(filteredOrders)
-        });
-        return () => {
-          unsubscribe();
-        };
+        } else {
+          console.log("No orders found.");
+        }
       }
-     
- 
-  }, [user?.email]);
+    };
+
+    fetchMenuItems();
+  }, [restroId]);
+
+  console.log("orders :", orders);
 
   useEffect(() => {
     const total = orders.reduce((acc, order) => acc + order.total, 0);
@@ -85,7 +96,6 @@ function Orders() {
         razorpaySecret: razorpaySecret,
       }),
     }).then((t) => t.json());
-
     var options = {
       key: razorpayKey, // Enter the Key ID generated from the Dashboard
       name: "Florishers Edge Pvt Ltd",
@@ -94,23 +104,31 @@ function Orders() {
       order_id: data.id,
       description: "Thankyou for your test donation",
       image: "/next.svg",
-      handler: function (response) {
+      handler: async function (response) {
         // Validate payment at server - using webhooks is a better idea.
         console.log("razorpay_payment_id  :", response.razorpay_payment_id);
         console.log("razorpay_order_id :", response.razorpay_order_id);
         console.log("razorpay_signature :", response.razorpay_signature);
 
-        // Update payment status and order status
-        orders.forEach(async (order) => {
-          const orderRef = doc(firestore, "Orders", order.id);
-          await updateDoc(orderRef, {
-            paymentStatus: "paid",
-            status: "old",
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          });
-        });
+        for (const order of orders) {
+          const orderId = order.orderId;
+          const orderRef = doc(firestore, "Orders", restroId);
+          const orderDoc = await getDoc(orderRef);
+          if (orderDoc.exists()) {
+            const ordersMap = orderDoc.data().orders;
+            const updatedOrder = {
+             
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+              ...order,
+              paymentStatus: "paid",
+              status: "old",
+            };
+            ordersMap[orderId] = updatedOrder;
+            await updateDoc(orderRef, { orders: ordersMap });
+          }
+        }
       },
       prefill: {
         name: "Florishers Edge",
@@ -122,7 +140,6 @@ function Orders() {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
-
   const initializeRazorpay = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -158,7 +175,7 @@ function Orders() {
           <ul className="space-y-8">
             {orders.map((order) => (
               <li
-                key={order.id}
+                key={order.orderId}
                 className={`bg-white shadow-md rounded-lg p-4 ${
                   order.status === "new" && order.paymentStatus === "pending"
                     ? ""

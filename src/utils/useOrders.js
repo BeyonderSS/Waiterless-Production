@@ -6,6 +6,7 @@ import {
   query,
   orderBy,
   where,
+  doc,
 } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
 import { useAuth } from "../context/AuthContext";
@@ -17,22 +18,12 @@ export default function useOrders() {
   useEffect(() => {
     console.log(restaurantId);
     if (restaurantId) {
-      const ordersRef = collection(firestore, "Orders");
-      const q = query(
-        ordersRef,
-        where("restaurantId", "==", restaurantId),
-        where("createdAt", "==", date),
-        orderBy("status")
-      );
+      const ordersRef = doc(firestore, "Orders", restaurantId);
 
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newOrders = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        console.log(newOrders);
-        setOrders(newOrders);
+      const unsubscribe = onSnapshot(ordersRef, (snapshot) => {
+        const ordersData = snapshot.data().orders;
+        console.log("Orders Data:", ordersData);
+        setOrders(Object.values(ordersData));
       });
 
       // Cleanup function
