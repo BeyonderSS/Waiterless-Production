@@ -7,6 +7,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  getDoc,
+  deleteField,
 } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
@@ -33,95 +35,138 @@ const UpdateItemForm = () => {
     rating: "",
     id: "",
     category: "",
+    image:"",
+    restaurantId:restaurantId
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const itemsRef = collection(firestore, "Menu");
-    const q = query(itemsRef, where("id", "==", formData.id));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      const docRef = doc(firestore, "Menu", querySnapshot.docs[0].id);
-      await updateDoc(docRef, {
-        dishName: formData.dishName,
-        price: formData.price,
-        rating: formData.rating,
-        id: formData.id,
-        category: formData.category,
-        restaurantId: restaurantId,
+  
+    try {
+      if (!selectedItem) {
+        // Handle the case when no item is selected
+        return;
+      }
+  
+      const { id, ...updatedData } = formData;
+  
+      // Update the item in the Firestore database
+      const itemRef = doc(firestore, "Menu", restaurantId);
+      await updateDoc(itemRef, {
+        [`menu.${formData.id}`]: formData
       });
-       
+  
+      // Update the local 'items' state with the updated item
+      setItems((prevItems) => {
+        const updatedItems = { ...prevItems };
+        updatedItems[id] = { ...updatedItems[id], ...updatedData };
+        return updatedItems;
+      });
+  
+      // Show a success message or perform any additional actions
       alert("Item updated in the menu.");
-    } else {
-      alert("No item found with the specified ID.");
+  
+      // Clear the form data and selected item state
+      setFormData({
+        dishName: "",
+        price: "",
+        rating: "",
+        id: "",
+        category: "",
+      });
+      setSelectedItem(null);
+    } catch (error) {
+      console.error("Error updating item:", error);
+      // Handle the error condition and show an error message
+      alert("Error updating item. Please try again.");
     }
-
-    setFormData({
-      dishName: "",
-      price: "",
-      rating: "",
-      id: "",
-      category: "",
-    });
   };
+  
 
   useEffect(() => {
     const fetchItems = async () => {
-      const itemsRef = collection(firestore, "Menu");
-      const menuQuery = query(
-        itemsRef,
-        where("restaurantId", "==", restaurantId)
-      );
-      const querySnapshot = await getDocs(menuQuery);
+      const menuRef = doc(firestore, "Menu", restaurantId);
+      const docSnapshot = await getDoc(menuRef);
 
-      const menuData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setItems(menuData);
-    
+      if (docSnapshot.exists()) {
+        const menuData = docSnapshot.data().menu;
+        setItems(menuData);
+        console.log(items);
+      } else {
+        setItems([]);
+      }
     };
+
     fetchItems();
-  }, [handleSubmit]);
+  }, [restaurantId]);
 
   const handleSelectChange = (event) => {
-    const item = items.find((item) => item.id === event.target.value);
-    setSelectedItem(item);
-    setFormData({
-      dishName: item.dishName,
-      price: item.price,
-      rating: item.rating,
-      id: item.id,
-      category: item.category,
-    });
-    
+    const itemId = event.target.value;
+    const selectedItem = items[itemId];
+  
+    if (selectedItem) {
+      setSelectedItem(selectedItem);
+      setFormData({
+        dishName: selectedItem.dishName,
+        price: selectedItem.price,
+        rating: selectedItem.rating,
+        id: selectedItem.id,
+        category: selectedItem.category,
+        image:selectedItem.image,
+        restaurantId:restaurantId,
+      });
+    } else {
+      setSelectedItem(null);
+      setFormData({
+        dishName: '',
+        price: '',
+        rating: '',
+        id: '',
+        category: '',
+      });
+    }
   };
+  
 
-
-
-  const handleDeleteItem = async () => {
-    const q = query(collection(firestore, "Menu"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      if (doc.data().id === formData.id) {
-        console.log(doc.ref)
-        await deleteDoc(doc.ref);
-        console.log("Item document deleted successfully");
-      } 
-      
-    });
-    alert("Item Deleted From the menu.");
-     
-    setFormData({
-      dishName: "",
-      price: "",
-      rating: "",
-      id: "",
-      category: "",
-    });
+  const handleDelete = async () => {
+    try {
+      if (!selectedItem) {
+        // Handle the case when no item is selected
+        return;
+      }
+  
+      // Delete the item from the Firestore database
+      const itemRef = doc(firestore, "Menu", restaurantId);
+      await updateDoc(itemRef, {
+        [`menu.${selectedItem.id}`]: deleteField()
+      });
+  
+      // Update the local 'items' state by removing the deleted item
+      setItems((prevItems) => {
+        const updatedItems = { ...prevItems };
+        delete updatedItems[selectedItem.id];
+        return updatedItems;
+      });
+  
+      // Show a success message or perform any additional actions
+      alert("Item deleted from the menu.");
+  
+      // Clear the form data and selected item state
+      setFormData({
+        dishName: "",
+        price: "",
+        rating: "",
+        id: "",
+        category: "",
+      });
+      setSelectedItem(null);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      // Handle the error condition and show an error message
+      alert("Error deleting item. Please try again.");
+    }
   };
+  
 
   return (
     <div className=" mx-auto md:pl-96">
@@ -132,18 +177,18 @@ const UpdateItemForm = () => {
             <label
               htmlFor="item-select"
               className="block text-gray-700 font-medium mb-2"
-              >
+            >
               Select an Item
             </label>
             <select
               id="item-select"
               className="w-full border border-gray-300 rounded-md py-2 px-3 mb-2"
               onChange={handleSelectChange}
-              >
+            >
               <option value="">Select an item</option>
-              {items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.dishName}
+              {Object.keys(items).map((itemId) => (
+                <option key={itemId} value={itemId}>
+                  {items[itemId].dishName}
                 </option>
               ))}
             </select>
@@ -151,7 +196,6 @@ const UpdateItemForm = () => {
         </div>
         <div className="w-full md:w-2/3">
           {selectedItem && (
-              
             <div>
               <div className="bg-white shadow-md rounded-md p-4 mb-4">
                 <div className="mb-4">
@@ -222,29 +266,25 @@ const UpdateItemForm = () => {
                     className="w-full border border-gray-300 rounded-md py-2 px-3"
                   />
                 </div>
-               
 
                 <div className="mb-4 space-x-2 flex flex-row">
                   <button
                     // type="submit"
                     onClick={handleSubmit}
                     className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out"
-                    >
+                  >
                     Update Item
                   </button>
                   <button
-              onClick={handleDeleteItem}
-              className="bg-red-500  hover:bg-red-800 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out flex flex-row  justify-center items-center"
-              >
-              <MdDeleteSweep className="text-xl " />{" "}
-              <span>Delete Items</span>{" "}
-            </button>
+                    onClick={handleDelete}
+                    className="bg-red-500  hover:bg-red-800 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out flex flex-row  justify-center items-center"
+                  >
+                    <MdDeleteSweep className="text-xl " />{" "}
+                    <span>Delete Items</span>{" "}
+                  </button>
                 </div>
               </div>
             </div>
-
-          
-             
           )}
         </div>
       </div>
