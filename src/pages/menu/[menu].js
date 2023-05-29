@@ -8,21 +8,21 @@ import { useAuth } from "@/context/AuthContext";
 
 const Menu = () => {
   const router = useRouter();
-  const { user,signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
   const [restaurantDocs, setRestaurantDocs] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const tableNo = router.query.tableno;
   const restaurant = router.query.restaurant;
-  const menu = router.query.menu;
+  const restroId = router.query.menu;
 
   useEffect(() => {
     const getRestaurants = async () => {
-      if (menu) {
+      if (restroId) {
         setIsLoading(true);
         const q = query(
           collection(firestore, "Restaurants"),
-          where("id", "==", menu),
+          where("id", "==", restroId),
           where("name", "==", restaurant)
         );
         const querySnapshot = await getDocs(q);
@@ -41,7 +41,7 @@ const Menu = () => {
       }
     };
     getRestaurants();
-  }, [menu, restaurant]);
+  }, [restroId, restaurant]);
 
   if (isLoading) {
     return (
@@ -64,13 +64,6 @@ const Menu = () => {
   }
 
   const { numTables } = restaurantDocs[0];
-  // let message = false;
-  // if (parseInt(tableNo) < 1 || parseInt(tableNo) > parseInt(numTables)) {
-  //   message = true;
-  // } else {
-  //   message = false;
-  // }
-  // console.log(message);
   if (parseInt(tableNo) < 1 || parseInt(tableNo) > parseInt(numTables)) {
     return (
       <div className="h-screen flex justify-center items-center">
@@ -80,9 +73,9 @@ const Menu = () => {
   }
 
   return (
-     <div className="">
+    <div className="">
       {user ? (
-        <MenuPage tableNo={tableNo} restroId={menu} />
+        <MenuPage tableNo={tableNo} restroId={restroId} />
       ) : (
         <div className="flex flex-col items-center  min-h-screen pt-24 bg-white  pb-8">
           Please Login First

@@ -11,32 +11,23 @@ import {
 import { firestore } from "../utils/initFirebase";
 
 import { motion } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
 const AdminOrders = ({ orders }) => {
+  console.log(orders)
+  const { restaurantId } = useAuth();
   const [receiverName, setReceiverName] = useState("");
-
-
-  const handleCashPayment = async (tableNo) => {
-    const ordersRef = collection(firestore, "Orders");
-    const q = query(
-      ordersRef,
-      where("tableNo", "==", tableNo),
-      where("paymentStatus", "==", "pending")
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      console.log(`Updating document with ID: ${doc.id}`);
-      await updateDoc(doc.ref, {
-        paymentStatus: "paid",
-        paymentMode: "cash",
-        status: "old",
-        receiverName: receiverName, // add this line to update the receiverName field in the database
-      });
+  console.log("restaurant id from  Useauth:", restaurantId);
+  const handleCashPayment = async (orderId) => {
+    const ordersRef = doc(firestore, "Orders", restaurantId);
+    console.log(`Updating document with ID: ${ordersRef.id}`);
+    await updateDoc(ordersRef, {
+      [`orders.${orderId}.paymentStatus`]: "paid",
+      [`orders.${orderId}.paymentMode`]: "cash",
+      [`orders.${orderId}.status`]: "old",
+      [`orders.${orderId}.receiverName`]: receiverName,
     });
-
   };
-
-
-
+  
   if (orders.length === 0) {
     return (
       <div className="md:pl-80 max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
@@ -98,7 +89,7 @@ const AdminOrders = ({ orders }) => {
                 )}
                 {order.paymentStatus === "pending" && (
                   <button
-                    onClick={async () => handleCashPayment(order.tableNo)}
+                    onClick={async () => handleCashPayment(order.orderId)}
                     className="p-2 bg-green-500 px-4 rounded-r-lg hover:bg-green-600 hover:text-white text-gray-900"
                   >
                     Approve Payment

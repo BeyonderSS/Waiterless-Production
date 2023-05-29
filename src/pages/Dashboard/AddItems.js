@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import {
   getDownloadURL,
   getStorage,
@@ -42,28 +42,26 @@ const AddItems = () => {
       setImage(e.target.files[0]);
     }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     // Read the image file from the input
     if (!image) {
       console.error("No image provided");
       return;
     }
-    console.log(restaurantId + formData.id);
+  
     // Create a reference to the Firebase Storage location
     const storage = getStorage();
     const storageRef = ref(storage, `images/${restaurantId + formData.id}`);
-
+  
     // Upload the image and listen for state changes, errors, and successful uploads
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         // Display the progress of the upload
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setLoading(true);
         console.log(`Upload is ${progress}% done`);
         console.log(loading);
@@ -75,17 +73,21 @@ const AddItems = () => {
       async () => {
         // On successful upload, get the download URL and update the state
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-        // Insert the data into the Firestore database
-        const itemsRef = collection(firestore, "Menu");
-        const q = query(itemsRef, where("id", "==", formData.id));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          alert("An item with the same ID already exists.");
-          return;
+  
+    
+  
+        // Check if the restaurant document already exists
+        const restaurantDocRef = doc(firestore, "Menu", restaurantId);
+        const restaurantDocSnapshot = await getDoc(restaurantDocRef);
+  
+        if (!restaurantDocSnapshot.exists()) {
+          // Create a new restaurant document
+          await setDoc(restaurantDocRef, {});
+        
         }
-
-        await addDoc(itemsRef, {
+  
+        // Add the menu item to the restaurant's menu map
+        const menuData = {
           dishName: formData.dishName,
           price: formData.price,
           image: downloadURL,
@@ -93,17 +95,47 @@ const AddItems = () => {
           id: formData.id,
           category: formData.category,
           restaurantId: restaurantId,
-        });
-
+        };
+  
+        const restaurantMenuDocRef = doc(firestore, "Menu", restaurantId);
+        const restaurantMenuDocSnapshot = await getDoc(restaurantMenuDocRef);
+        if (!restaurantDocSnapshot.exists()) {
+          // Create a new restaurant document
+          await setDoc(restaurantDocRef, {});
+          await setDoc(restaurantDocRef, {
+            menu: {
+              [formData.id]: menuData
+            }
+          });
+          
+        }
+       else if (restaurantMenuDocSnapshot.exists()) {
+          const existingMenu = restaurantMenuDocSnapshot.data().menu;
+          if (existingMenu[formData.id]) {
+            alert("An item with the same ID already exists. Please choose a different ID.");
+            setLoading(false);
+            return;
+          }
+          await updateDoc(restaurantMenuDocRef, {
+            [`menu.${formData.id}`]: menuData
+          });
+        } else {
+          await setDoc(restaurantMenuDocRef, {
+            menu: {
+              [formData.id]: menuData
+            }
+          });
+        }
+  
         setLoading(false);
         alert("Item added to menu.");
-
+  
         setFormData({
           dishName: "",
           price: "",
           rating: "",
           id: "",
-          category: "",
+          category: ""
         });
         setImage(null);
         setUrl(null);
@@ -111,7 +143,10 @@ const AddItems = () => {
     );
     console.log(typeof loading);
   };
-
+  
+  
+  
+  
   console.log(url);
   const [preloading, setPreLoading] = useState(true); // State variable for loading status
   useEffect(() => {

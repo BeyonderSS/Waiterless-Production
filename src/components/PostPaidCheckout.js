@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
   const { user } = useAuth();
   const router = useRouter();
   const [alertVisible, setAlertVisible] = useState(false); // State to control the visibility of the alert
-
+  const [restroId, setRestroId] = useState();
   // console.log(user);
+  if (cartItems.length != 0) {
+    console.log(cartItems[0].restaurantId);
+  }
 
   const placeOrder = async () => {
     try {
@@ -29,40 +32,68 @@ const PostPaidCheckout = ({ cartItems, tableNo, clearCart, onOrderPlaced }) => {
       );
       const today = new Date();
       const date = today.toDateString();
+      const restaurantId = cartItems[0].restaurantId;
+      localStorage.setItem("OrderRestro", restaurantId);
+      // Check if document with restaurantId exists
+      const orderRef = doc(firestore, "Orders", restaurantId);
+      const orderSnapshot = await getDoc(orderRef);
 
-      // Build orderData object with required data and total
-      const orderData = {
-        orderId: Math.random().toString(36).substr(2, 9), // generates a random alphanumeric string of length 9
-        createdAt: date,
-        tableNo: tableNo,
-        orderby: user.displayName,
-        userEmail: user.email,
-        status: "new",
-        paymentStatus: "pending",
-        items: cartItems,
-        restaurantId: cartItems[0].restaurantId,
-        total: total,
-      };
+      const orderId = Math.random().toString(36).substr(2, 9);
+      if (orderSnapshot.exists()) {
+        // Update existing document
+        const existingData = orderSnapshot.data();
+        const orders = existingData.orders || {};
 
-      const ordersRef = collection(firestore, "Orders");
-      await addDoc(ordersRef, orderData);
+        orders[orderId] = {
+          createdAt: date,
+          tableNo: tableNo,
+          orderby: user.displayName,
+          userEmail: user.email,
+          status: "new",
+          paymentStatus: "pending",
+          items: cartItems,
+          total: total,
+          restaurantId: restaurantId,
+          orderId: orderId,
+        };
+
+        await updateDoc(orderRef, { orders });
+      } else {
+        // Create new document
+        const orderData = {
+          orderId: Math.random().toString(36).substr(2, 9),
+          createdAt: date,
+          tableNo: tableNo,
+          orderby: user.displayName,
+          userEmail: user.email,
+          status: "new",
+          paymentStatus: "pending",
+          items: cartItems,
+          total: total,
+          restaurantId: restaurantId,
+          orderId: orderId,
+        };
+
+        await setDoc(orderRef, { orders: { [orderData.orderId]: orderData } });
+      }
 
       // clearCart();
-      setAlertVisible(true); // Show the alert when the order is placed successfully
+      setAlertVisible(true);
       setTimeout(() => {
         setAlertVisible(false);
       }, 3000);
     } catch (error) {
-      console.error("Error creating order:", error);
+      console.error("Error creating/updating order:", error);
     }
   };
+
   useEffect(() => {
     if (!alertVisible) {
       // If the alert is not visible, call the onOrderPlaced callback function
       onOrderPlaced();
     }
   }, [alertVisible]);
-
+  // console.log("restroidCheckout:", restroId);
   return (
     <div className="h-screen  flex flex-col  ">
       {alertVisible && (

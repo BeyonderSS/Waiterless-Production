@@ -6,6 +6,7 @@ import {
   query,
   orderBy,
   where,
+  doc,
 } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
 import { useAuth } from "../context/AuthContext";
@@ -14,25 +15,28 @@ export default function useOrders() {
   const { restaurantId, user } = useAuth();
   const today = new Date();
   const date = today.toDateString();
+
+  
   useEffect(() => {
     console.log(restaurantId);
     if (restaurantId) {
-      const ordersRef = collection(firestore, "Orders");
-      const q = query(
-        ordersRef,
-        where("restaurantId", "==", restaurantId),
-        where("createdAt", "==", date),
-        orderBy("status")
-      );
+      const ordersRef = doc(firestore, "Orders", restaurantId);
 
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newOrders = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+      const unsubscribe = onSnapshot(ordersRef, (snapshot) => {
+        const ordersData = snapshot.data().orders;
+        console.log("Orders Data:", ordersData);
 
-        console.log(newOrders);
-        setOrders(newOrders);
+        // Sort orders by status, with "new" statuses at the top
+        const sortedOrders = Object.values(ordersData).sort((a, b) => {
+          if (a.status === "new" && b.status !== "new") {
+            return -1; // "new" status comes before other statuses
+          } else if (a.status !== "new" && b.status === "new") {
+            return 1; // "new" status comes after other statuses
+          }
+          return 0; // Preserve the original order for orders with the same status
+        });
+
+        setOrders(sortedOrders);
       });
 
       // Cleanup function

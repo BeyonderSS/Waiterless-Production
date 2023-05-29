@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaStar, FaPlus, FaMinus } from "react-icons/fa";
 import { MdOutlineFastfood } from "react-icons/md";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
-import { BarLoader, PropagateLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 import { RxCross1 } from "react-icons/rx";
-import PrePaidCheckout from "./PrePaidCheckout";
 import PostPaidCheckout from "./PostPaidCheckout";
 import CategoryBubble from "./CategoryBubble";
-import { useRouter } from "next/router";
-import Alert from "./Alert";
 import Link from "next/link";
 
 const MenuPage = ({ tableNo, restroId }) => {
@@ -31,12 +35,6 @@ const MenuPage = ({ tableNo, restroId }) => {
   const handleOrderPlaced = () => {
     clearCart(); // Call clearCart after the order is placed and the alert disappears
   };
-  //  useEffect(() => {
-  //    const storedCartItems = localStorage.getItem("cartItems");
-  //    if (storedCartItems) {
-  //      setCartItems(JSON.parse(storedCartItems));
-  //    }
-  //  }, []);
 
   function handleCartItemsChange(cartItems) {
     if (cartItems.length === 0) {
@@ -64,22 +62,26 @@ const MenuPage = ({ tableNo, restroId }) => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       setloading(true);
-      const menuCollectionRef = collection(firestore, "Menu");
-      const menuQuery = query(
-        menuCollectionRef,
-        where("restaurantId", "==", restroId)
-      );
-      const menuSnapshot = await getDocs(menuQuery);
-      const menuData = menuSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMenuItems(menuData);
-      setloading(false);
+      const restaurantDocRef = doc(firestore, "Menu", restroId);
+      const restaurantDocSnapshot = await getDoc(restaurantDocRef);
+      const menuDataMap = restaurantDocSnapshot.data()?.menu; // Assuming menuData is a map
 
-      // Get the unique category names from the menu data
-      const categories = [...new Set(menuData.map((item) => item.category))];
-      setCategories(categories);
+      if (menuDataMap && typeof menuDataMap === "object") {
+        // Check if menuDataMap exists and is an object (map)
+        const menuData = Object.values(menuDataMap); // Convert the map into an array
+
+        console.log("menuData", menuData);
+        setMenuItems(menuData);
+        console.log("menuItems", menuItems);
+        setloading(false);
+
+        // Get the unique category names from the menu data
+        const categories = [...new Set(menuData.map((item) => item.category))];
+        setCategories(categories);
+        console.log(categories);
+      } else {
+        console.log("menuData is not a valid map");
+      }
     };
     fetchMenuItems();
   }, []);
@@ -89,6 +91,7 @@ const MenuPage = ({ tableNo, restroId }) => {
   // Filter menu items by category and log the results
   useEffect(() => {
     const filteredMenuItems = {};
+    console.log("menuItems", menuItems);
 
     menuItems.forEach((item) => {
       if (!filteredMenuItems[item.category]) {
@@ -145,7 +148,7 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-row justify-center items-center pl-96  md:pl-0 scrollbar-none overflow-x-scroll animate-m w-96 md:w-full space-x-4 overflow-y-hidden">
+          <div className="flex flex-row justify-center items-center   md:pl-0 scrollbar-none overflow-x-scroll animate-m w-96 md:w-full space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
