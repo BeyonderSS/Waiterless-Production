@@ -36,7 +36,7 @@ const DashNav = () => {
 
   return (
     <div>
-      <div className="w-full  bg-green-400 shadow-lg fixed top-0 z-50">
+      <div className="w-full  bg-[#009FBD] shadow-lg fixed top-0 z-50">
         <div className="flex flex-row justify-between items-center p-5">
           <div>
             <button
@@ -47,12 +47,12 @@ const DashNav = () => {
               <FaBars className="h-8 w-8  fill-current text-gray-100 cursor-pointer" />
             </button>
           </div>
-          <div className="flex items-center hover:text-green-800 ">
+          <div className="flex items-center hover:text-orange-800 ">
             {user ? (
               <ProfileDropdown/>
             ) : (
               <div onClick={signInWithGoogle} className="cursor-pointer">
-                <div className="flex justify-center items-center space-x-2 text-lg bg-green-200 px-2 rounded-full   ">
+                <div className="flex justify-center items-center space-x-2 text-lg bg-orange-200 px-2 rounded-full   ">
                   <FiLogIn />
                   <span>Login</span>
                 </div>
@@ -61,7 +61,7 @@ const DashNav = () => {
           </div>{" "}
         </div>
         <div className="hidden md:block">
-          <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
+          <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-[#009FBD] rounded-r-3xl  translate-x-0 md:translate-x-0">
             <Link href={"/"}>
               <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer  transform duration-100 ease-in-out ">
                 Waiterless.Tech{" "}
@@ -136,11 +136,11 @@ const DashNav = () => {
           <div
             ref={menuRef}
             onClick={() => setIsMenuOpen(false)}
-            className={`scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl shadow-xl ${
+            className={`scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-[#009FBD] rounded-r-3xl shadow-xl ${
               isMenuOpen ? "translate-x-0" : "-translate-x-96"
             }`}
           >
-            <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-green-400 rounded-r-3xl  translate-x-0 md:translate-x-0">
+            <div className="scrollbar-none h-screen transform duration-500 ease-in-out fixed top-0 left-0 w-80 z-50 overflow-y-auto bg-[#009FBD] rounded-r-3xl  translate-x-0 md:translate-x-0">
               <Link href={"/"}>
                 <h1 className="text-3xl font-semibold flex flex-col justify-center items-center text-white py-4 cursor-pointer  transform duration-100 ease-in-out ">
                   Waiterless.Tech{" "}
