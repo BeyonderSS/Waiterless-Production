@@ -5,6 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 import NotAuth from "@/components/NotAuth";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
+import { useExpiry } from "@/context/ExpiryContext";
+import Bill from "@/components/Bill";
+import { PropagateLoader } from "react-spinners";
 
 const website = [
   { name: "/home", value: 1230 },
@@ -50,30 +53,12 @@ const data = [
 const dataFormatter = (number) =>
   Intl.NumberFormat("us").format(number).toString();
 
-const categories = [
-  {
-    title: "Total Sales",
-    metric: "gjkb",
-    metricPrev: "bhjn",
-  },
-  {
-    title: "Profit",
-    metric: "$ 40,598",
-    metricPrev: "$ 45,564",
-  },
-  {
-    title: "Customers",
-    metric: "1,072",
-    metricPrev: "856",
-  },
-];
-
 export default function PlaygroundPage() {
   const [orders, setOrders] = useState([]);
   const [filterByDate, setFilterByDate] = useState([]);
-
+  const { expiryDate, expiry ,bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
-
+// console.log(expiryDate,expiry,bill)
   useEffect(() => {
     const fetchItems = async () => {
       console.log(restaurantId);
@@ -96,7 +81,7 @@ export default function PlaygroundPage() {
   const date = today.toDateString();
   useEffect(() => {
     const filterByDate = async () => {
-      console.log(restaurantId);
+      // console.log(restaurantId);
       if (restaurantId) {
         const ordersRef = collection(firestore, "Orders");
         const q = query(
@@ -129,7 +114,6 @@ export default function PlaygroundPage() {
   }, [filterByDate]);
 
   // console.log(orders);
-
 
   // No of orders and total revenue every month
   const ordersByMonth = {};
@@ -183,14 +167,32 @@ export default function PlaygroundPage() {
 
   totalData.sort((a, b) => {
     return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
-});
+  });
 
-  // console.log("Orders Data:",ordersData);
-  console.log("total data:",totalData);
+
+  const [loading, setLoading] = useState(true); // State variable for loading status
+  useEffect(() => {
+    // Simulate loading for 3 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer); // Clear the timer when component unmounts
+  }, []);
+  if (loading) {
+    // Show loader while loading is true
+    return (
+      <div className="flex justify-center items-center min-h-screen pt-24 md:pl-80 bg-white pb-8">
+        <PropagateLoader color="#4ADE80" loading={loading} />
+      </div>
+    );
+  }
 
   return (
     <main className="pt-20 ">
-      {role == "Admin" && (
+      {expiry == true && role == "Admin" && <Bill />}
+   {/* && expiry == false &&  */}
+      {role == "Admin"  && expiry == false && (
         <div className="p-4 md:p-10 md:pl-96 ">
           <div className="">
             <Grid className="gap-6" numColsSm={2} numColsLg={3}>

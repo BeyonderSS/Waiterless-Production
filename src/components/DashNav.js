@@ -8,6 +8,7 @@ import {
   AiOutlineBell,
   AiOutlineAppstoreAdd,
 } from "react-icons/ai";
+import {TbFileInvoice} from "react-icons/tb"
 import { useAuth } from "@/context/AuthContext";
 import { GrUpdate } from "react-icons/gr";
 import { HiOutlineQrCode } from "react-icons/hi2";
@@ -117,6 +118,16 @@ const DashNav = () => {
                   <span>Qr Codes</span>
                 </div>
               </Link>
+              <Link
+                className="hover:bg-black/20 p-2 w-full  rounded-xl cursor-pointer"
+                href="/Dashboard/InvoiceHistory"
+              >
+                {" "}
+                <div className="px-1 flex flex-row justify-start space-x-2 text-lg items-center">
+                  <TbFileInvoice className="text-2xl" />
+                  <span>Invoices</span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -184,6 +195,16 @@ const DashNav = () => {
                   <div className="px-1 flex flex-row justify-start space-x-2 text-lg items-center">
                     <HiOutlineQrCode className="text-2xl" />
                     <span>Qr Codes</span>
+                  </div>
+                </Link>
+                <Link
+                  className="hover:bg-black/20 p-2 w-full  rounded-xl cursor-pointer"
+                  href="/Dashboard/InvoiceHistory"
+                >
+                  {" "}
+                  <div className="px-1 flex flex-row justify-start space-x-2 text-lg items-center">
+                    <TbFileInvoice className="text-2xl" />
+                    <span>Invoices</span>
                   </div>
                 </Link>
               </div>

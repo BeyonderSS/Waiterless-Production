@@ -11,8 +11,11 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { firestore } from "../../utils/initFirebase";
+import { useExpiry } from "@/context/ExpiryContext";
+import Bill from "@/components/Bill";
 
 const UpdateProfile = () => {
+  const {expiry} = useExpiry()
   const { user, signInWithGoogle, handleSignOut, role, restaurantId } =
     useAuth();
   const [restaurant, setRestaurant] = useState(null);
@@ -94,6 +97,8 @@ const UpdateProfile = () => {
 
 
   return (
+    <div>
+      {/* {expiry == true && role == "Admin" && <Bill />} */}
     <div className="md:pl-96 pt-24">
       {restaurant ? (
         <form>
@@ -124,7 +129,7 @@ const UpdateProfile = () => {
               id="name"
               value={name}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+              />
           </div>
           <div className="mb-4">
             <label
@@ -154,7 +159,7 @@ const UpdateProfile = () => {
               value={rId}
               onChange={(e) => setRId(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+              />
           </div>
           <div className="mb-4">
             <label
@@ -169,7 +174,7 @@ const UpdateProfile = () => {
               value={rKey}
               onChange={(e) => setRKey(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+              />
           </div>
           <button
             type="button"
@@ -183,6 +188,7 @@ const UpdateProfile = () => {
         <div>Loading...</div>
       )}
     </div>
+            </div>
   );
 };
 
