@@ -9,6 +9,7 @@ import Script from "next/script";
 import { useEffect } from "react";
 import DashNav from "@/components/DashNav";
 import Head from "next/head";
+import { ExpiryProvider } from "@/context/ExpiryContext";
 
 const bellotaTextBold = Bellota_Text({
   weight: "700",
@@ -52,6 +53,7 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
       `/Dashboard/AddItems`,
       `/Dashboard/UpdateMenu`,
       `/Dashboard/GenerateQr`,
+      `/Dashboard/InvoiceHistory`
     ].includes(appProps.router.pathname)
   )
     return (
@@ -61,8 +63,10 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
           <link rel="shortcut icon" href="/favicon.svg" />
         </Head>
         <AuthProvider>
-          <DashNav />
-          <Component {...pageProps} />;
+          <ExpiryProvider>
+            <DashNav />
+            <Component {...pageProps} />;
+          </ExpiryProvider>
         </AuthProvider>
       </div>
     );
