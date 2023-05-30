@@ -7,18 +7,19 @@ import {
   orderBy,
   where,
   doc,
+  getDoc,
 } from "firebase/firestore";
 import { firestore } from "@/utils/initFirebase";
 import { useAuth } from "../context/AuthContext";
 export default function useOrders() {
   const [orders, setOrders] = useState([]);
+  const [staticO , setStaticO] = useState([]);
   const { restaurantId, user } = useAuth();
   const today = new Date();
   const date = today.toDateString();
-
   
   useEffect(() => {
-    console.log(restaurantId);
+    
     if (restaurantId) {
       const ordersRef = doc(firestore, "Orders", restaurantId);
 
@@ -46,5 +47,27 @@ export default function useOrders() {
     }
   }, [restaurantId, date]);
 
-  return orders;
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      if (restaurantId) {
+        const collectionRef = collection(firestore, "Orders");
+        const docRef = doc(collectionRef, restaurantId);
+
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+          const orderData = docSnapshot.data().orders;
+          console.log(orderData);
+
+          setStaticO(orderData);
+        } else {
+          console.log("No orders found.");
+        }
+      }
+    };
+
+    fetchMenuItems();
+  }, [restaurantId]);
+  
+
+  return [orders,staticO];
 }

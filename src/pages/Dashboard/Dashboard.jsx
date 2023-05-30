@@ -55,10 +55,11 @@ const dataFormatter = (number) =>
   Intl.NumberFormat("us").format(number).toString();
 
 export default function PlaygroundPage() {
-  const orders = useOrders();
+  const [staticO] = useOrders();
   const [filterByDate, setFilterByDate] = useState([]);
   const { expiryDate, expiry, bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
+  const orders = staticO;
   // console.log(expiryDate,expiry,bill)
   const [grandTotal, setGrandTotal] = useState(0);
   const [fliterTotal, setFilterTotal] = useState(0);
@@ -70,8 +71,7 @@ export default function PlaygroundPage() {
     const total = filterByDate.reduce((acc, order) => acc + order.total, 0);
     setFilterTotal(total);
   }, [filterByDate]);
-
-  // console.log(orders);
+  console.log("Static Order Data",staticO);
 
   // No of orders and total revenue every month
   const ordersByMonth = {};
