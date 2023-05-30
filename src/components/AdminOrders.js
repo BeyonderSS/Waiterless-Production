@@ -42,11 +42,12 @@ const AdminOrders = ({ orders }) => {
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
           {orders.map((order) => (
+            
             <motion.div
               initial={{ x: 200, opacity: 0 }}
               animate={{ x: 0, scale: 1, opacity: 100 }}
               transition={{ duration: 0.5, stiffness: 200 }}
-              key={order.id}
+              key={order.orderId}
               className="bg-white rounded-lg shadow-md p-4 mb-4"
               style={{
                 borderLeft: `5px solid ${
@@ -55,6 +56,7 @@ const AdminOrders = ({ orders }) => {
                 backgroundColor: order.status === "new" ? "#f46c6c" : "#F3F4F6",
               }}
             >
+              
               <p className="font-bold">Order ID: {order.orderId}</p>
               <p>Order By: {order.orderby}</p>
               <p>Payment Status: {order.paymentStatus}</p>
@@ -71,7 +73,11 @@ const AdminOrders = ({ orders }) => {
                   </li>
                 ))}
               </ul>
-              <div className="flex flex-col md:flex-row md:justify-end md:items-center mt-4">
+              <div className="flex flex-col md:flex-col md:justify-end md:items-end mt-4">
+              <div className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0 ">
+                    Payment Recived By.{" "}
+                    <span className="font-semibold"> hello</span>
+                  </div>
                 {order.receiverName && (
                   <div className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0 ">
                     Payment Recived By.{" "}
