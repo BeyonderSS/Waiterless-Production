@@ -137,7 +137,7 @@ export const ExpiryProvider = ({ children }) => {
     } else if (numTables <= 40) {
       setRate(0.19);
     } else {
-      setRate(0.1);
+      setRate(0.10);
     }
   }, [numTables]);
 
