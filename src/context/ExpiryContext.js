@@ -10,6 +10,7 @@ import {
 import { firestore } from "../utils/initFirebase";
 import { useAuth } from "@/context/AuthContext";
 import shortid from "shortid";
+import useOrders from "@/utils/useOrders";
 
 export const ExpiryContext = createContext();
 export const useExpiry = () => useContext(ExpiryContext); // Use ExpiryContext here
@@ -21,10 +22,11 @@ export const ExpiryProvider = ({ children }) => {
   const [restroId, setRestroId] = useState();
   const [expiryDate, setExpiryDate] = useState();
   const { user, restaurantId } = useAuth();
-  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState([]);
   const today = new Date();
   const date = today.toDateString();
-
+  const orders = useOrders();
+  // console.log("Test Expiiry orders:",orders)
   useEffect(() => {
     if (restaurantId) {
       const fetchRestaurant = async () => {
@@ -55,24 +57,24 @@ export const ExpiryProvider = ({ children }) => {
 
   //   billing for the admin dashboard
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      // console.log(restaurantId);
-      if (restaurantId) {
-        const ordersRef = collection(firestore, "Orders");
-        const q = query(ordersRef, where("restaurantId", "==", restaurantId));
-        const querySnapshot = await getDocs(q);
+  // useEffect(() => {
+  //   const fetchItems = async () => {
+  //     // console.log(restaurantId);
+  //     if (restaurantId) {
+  //       const ordersRef = collection(firestore, "Orders");
+  //       const q = query(ordersRef, where("restaurantId", "==", restaurantId));
+  //       const querySnapshot = await getDocs(q);
 
-        const orders = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setOrders(orders);
-      }
-    };
-    fetchItems();
-    // Cleanup function
-  }, [restaurantId, user]);
+  //       const orders = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setOrders(orders);
+  //     }
+  //   };
+  //   fetchItems();
+  //   // Cleanup function
+  // }, [restaurantId, user]);
 
   // No of orders and total revenue every month
   const ordersByMonth = {};
@@ -192,7 +194,7 @@ export const ExpiryProvider = ({ children }) => {
         noOrders,
         GST,
         grandTotal,
-        invoiceNo
+        invoiceNo,
       }}
     >
       {children}

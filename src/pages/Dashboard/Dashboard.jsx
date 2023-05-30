@@ -8,6 +8,7 @@ import { firestore } from "@/utils/initFirebase";
 import { useExpiry } from "@/context/ExpiryContext";
 import Bill from "@/components/Bill";
 import { PropagateLoader } from "react-spinners";
+import useOrders from "@/utils/useOrders";
 
 const website = [
   { name: "/home", value: 1230 },
@@ -54,54 +55,11 @@ const dataFormatter = (number) =>
   Intl.NumberFormat("us").format(number).toString();
 
 export default function PlaygroundPage() {
-  const [orders, setOrders] = useState([]);
+  const orders = useOrders();
   const [filterByDate, setFilterByDate] = useState([]);
-  const { expiryDate, expiry ,bill } = useExpiry();
+  const { expiryDate, expiry, bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
-// console.log(expiryDate,expiry,bill)
-  useEffect(() => {
-    const fetchItems = async () => {
-      console.log(restaurantId);
-      if (restaurantId) {
-        const ordersRef = collection(firestore, "Orders");
-        const q = query(ordersRef, where("restaurantId", "==", restaurantId));
-        const querySnapshot = await getDocs(q);
-
-        const orders = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setOrders(orders);
-      }
-    };
-    fetchItems();
-    // Cleanup function
-  }, [restaurantId, user]);
-  const today = new Date();
-  const date = today.toDateString();
-  useEffect(() => {
-    const filterByDate = async () => {
-      // console.log(restaurantId);
-      if (restaurantId) {
-        const ordersRef = collection(firestore, "Orders");
-        const q = query(
-          ordersRef,
-          where("restaurantId", "==", restaurantId),
-          where("createdAt", "==", date)
-        );
-        const querySnapshot = await getDocs(q);
-
-        const orders = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setFilterByDate(orders);
-      }
-    };
-    filterByDate();
-    // Cleanup function
-  }, [restaurantId, user, date]);
-
+  // console.log(expiryDate,expiry,bill)
   const [grandTotal, setGrandTotal] = useState(0);
   const [fliterTotal, setFilterTotal] = useState(0);
   useEffect(() => {
@@ -169,7 +127,6 @@ export default function PlaygroundPage() {
     return monthNames.indexOf(a.Month) - monthNames.indexOf(b.Month);
   });
 
-
   const [loading, setLoading] = useState(true); // State variable for loading status
   useEffect(() => {
     // Simulate loading for 3 seconds
@@ -191,8 +148,8 @@ export default function PlaygroundPage() {
   return (
     <main className="pt-20 ">
       {expiry == true && role == "Admin" && <Bill />}
-   {/* && expiry == false &&  */}
-      {role == "Admin"  && expiry == false && (
+      {/* && expiry == false &&  */}
+      {role == "Admin" && expiry == false && (
         <div className="p-4 md:p-10 md:pl-96 ">
           <div className="">
             <Grid className="gap-6" numColsSm={2} numColsLg={3}>

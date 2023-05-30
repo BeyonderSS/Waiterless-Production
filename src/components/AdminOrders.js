@@ -37,8 +37,8 @@ const AdminOrders = ({ orders }) => {
   }
 
   return (
-    <div className="bg-green-100 md:pl-96">
-      <div className="max-w-7xl mx-auto px-4 pt-24">
+    <div className="bg-green-100 md:pl-96 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 pt-24 ">
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
           {orders.map((order) => (

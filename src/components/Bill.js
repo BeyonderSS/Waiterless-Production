@@ -18,7 +18,7 @@ const Bill = () => {
     grandTotal,
     invoiceNo,
   } = useExpiry();
-
+  
   return (
     <div className="md:pl-80  overflow-x-hidden">
       <motion.div
