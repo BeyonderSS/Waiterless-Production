@@ -25,7 +25,8 @@ export const ExpiryProvider = ({ children }) => {
   // const [orders, setOrders] = useState([]);
   const today = new Date();
   const date = today.toDateString();
-  const orders = useOrders();
+  const [staticO] = useOrders();
+  const orders = staticO;
   // console.log("Test Expiiry orders:",orders)
   useEffect(() => {
     if (restaurantId) {
