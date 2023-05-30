@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
 
 const OrdersDashboard = () => {
-  const orders = useOrders();
+  const [orders] = useOrders();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
   const { expiry } = useExpiry();
   const [loading, setLoading] = useState(true); // State variable for loading status
