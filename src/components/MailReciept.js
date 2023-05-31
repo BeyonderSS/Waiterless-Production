@@ -1,5 +1,6 @@
 import React from "react";
 import { FaTelegramPlane } from "react-icons/fa";
+import MailInvoice from "./MailInvoice";
 
 const MailReceipt = ({
   senderEmail,
@@ -11,28 +12,14 @@ const MailReceipt = ({
   items,
 }) => {
   const handleMail = () => {
-    const receipt = `
-      Order Summary
-      -------------
-      Order ID: ${orderId}
-      Ordered By: ${orderBy}
-      Table No: ${tableNo}
-      
-      Items:
-      ${items
-        .map(
-          ({ dishName, price, quantity }) =>
-            `- ${dishName}: $${price} x ${quantity}`
-        )
-        .join("\n")}
-      
-      Grand Total: $${grandTotal}
-    `;
-
-    console.log(receipt);
-
     const mailTo = `mailto:${recipientEmail}?subject=Order Receipt&body=${encodeURIComponent(
-      receipt
+      `<html><body>${MailInvoice({
+        orderId,
+        orderBy,
+        tableNo,
+        grandTotal,
+        items,
+      })}</body></html>`
     )}&cc=${senderEmail}`;
 
     window.location.href = mailTo;
