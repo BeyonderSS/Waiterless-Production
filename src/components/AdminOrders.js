@@ -12,9 +12,11 @@ import { firestore } from "../utils/initFirebase";
 
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import { FaTelegramPlane } from "react-icons/fa";
+import MailReciept from "./MailReciept";
 const AdminOrders = ({ orders }) => {
-  console.log(orders)
-  const { restaurantId } = useAuth();
+  console.log(orders);
+  const { restaurantId,user } = useAuth();
   const [receiverName, setReceiverName] = useState("");
   console.log("restaurant id from  Useauth:", restaurantId);
   const handleCashPayment = async (orderId) => {
@@ -27,7 +29,7 @@ const AdminOrders = ({ orders }) => {
       [`orders.${orderId}.receiverName`]: receiverName,
     });
   };
-  
+
   if (orders.length === 0) {
     return (
       <div className="md:pl-80 max-w-7xl h-screen mx-auto px-4 pt-24 flex justify-center items-center ">
@@ -42,7 +44,6 @@ const AdminOrders = ({ orders }) => {
         <h1 className="text-3xl font-bold mb-4">Orders</h1>
         <div>
           {orders.map((order) => (
-            
             <motion.div
               initial={{ x: 200, opacity: 0 }}
               animate={{ x: 0, scale: 1, opacity: 100 }}
@@ -56,7 +57,6 @@ const AdminOrders = ({ orders }) => {
                 backgroundColor: order.status === "new" ? "#f46c6c" : "#F3F4F6",
               }}
             >
-              
               <p className="font-bold">Order ID: {order.orderId}</p>
               <p>Order By: {order.orderby}</p>
               <p>Payment Status: {order.paymentStatus}</p>
@@ -73,11 +73,18 @@ const AdminOrders = ({ orders }) => {
                   </li>
                 ))}
               </ul>
-              <div className="flex flex-col md:flex-col md:justify-end md:items-end mt-4">
-              <div className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0 ">
-                    Payment Recived By.{" "}
-                    <span className="font-semibold"> hello</span>
-                  </div>
+              <div className="flex flex-col md:flex-row md:justify-end md:items-end mt-4">
+                {order.paymentStatus === "paid" && (
+                  <MailReciept
+                    items={order.items}
+                    grandTotal={order.total}
+                    tableNo={order.tableNo}
+                    orderBy={order.orderby}
+                    orderId={order.orderId}
+                    senderEmail={user.email}
+                    recipientEmail={order.userEmail}
+                  />
+                )}
                 {order.receiverName && (
                   <div className="p-2 rounded-l-lg md:mr-2 mb-2 md:mb-0 ">
                     Payment Recived By.{" "}
@@ -96,7 +103,7 @@ const AdminOrders = ({ orders }) => {
                 {order.paymentStatus === "pending" && (
                   <button
                     onClick={async () => handleCashPayment(order.orderId)}
-                    className="p-2 bg-green-500 px-4 rounded-r-lg hover:bg-green-600 hover:text-white text-gray-900"
+                    className="p-2 bg-green-500 px-4 rounded-r-xl hover:bg-green-600 hover:text-white text-gray-900"
                   >
                     Approve Payment
                   </button>
