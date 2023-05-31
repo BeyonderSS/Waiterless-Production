@@ -27,11 +27,11 @@ const MailReceipt = ({
 
     const link = `https://waiterless.tech/invoices/abc?orderId=${orderId}&orderBy=${encodeURIComponent(
       orderBy
-    )}&tableNo=${tableNo}&grandTotal=${grandTotal}&items=${JSON.stringify(
-      modifiedItems
+    )}&tableNo=${tableNo}&grandTotal=${grandTotal}&items=${encodeURIComponent(
+      JSON.stringify(modifiedItems)
     )}`;
-
-    const subject = "Invoice and Gratitude from Restaurant";
+    console.log(link);
+    const subject = "Invoice and Gratitude from Waiterless";
     const body = `Dear Customer,\n\nThank you for dining at our restaurant! We appreciate your visit and hope you had a wonderful experience. We would like to express our gratitude for choosing us and encourage you to keep visiting our establishment in the future.\n\nAs a token of our appreciation, we have prepared the invoice for your recent order. Please find the attached link to access your invoice:\n${link}\n\nThank you again for choosing Waiterless, and we look forward to serving you again soon!\n\nBest regards,\nTeam Waiterless`;
 
     const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(
