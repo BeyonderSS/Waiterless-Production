@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 import { FaTelegramPlane } from "react-icons/fa";
 import MailInvoice from "./MailInvoice";
 import html2canvas from "html2canvas";
@@ -13,36 +14,69 @@ const MailReceipt = ({
   grandTotal,
   items,
 }) => {
-  const mailContent = useRef(null);
+  console.log("items in button", items);
 
   const handleMail = () => {
-    // Convert MailInvoice component into a canvas
-    html2canvas(mailContent.current).then((canvas) => {
-      // Convert canvas to PDF
-      const pdf = new jsPDF();
-      const imgData = canvas.toDataURL("image/png");
-      pdf.addImage(imgData, "PNG", 0, 0);
-
-      // Compose email with PDF attachment
-      const subject = `Order Receipt for Order ID: ${orderId}`;
-      const body = `Dear Customer,\n\nThank you for your order! Please find attached your order receipt.\n\nBest Regards,\nThe Restaurant`;
-
-      const mailToLink = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
-      // Attach PDF to email
-      const attachment = pdf.output("dataurlstring");
-      window.location.href = `${mailToLink}&attachment=${attachment}`;
+    const modifiedItems = items.map((item) => {
+      return {
+        dishName: item.dishName,
+        price: item.price,
+        quantity: item.quantity,
+      };
     });
+
+    const link = `https://waiterless.tech/invoices/abc?orderId=${orderId}&orderBy=${encodeURIComponent(
+      orderBy
+    )}&tableNo=${tableNo}&grandTotal=${grandTotal}&items=${JSON.stringify(
+      modifiedItems
+    )}`;
+
+    const subject = "Invoice and Gratitude from Restaurant";
+    const body = `Dear Customer,\n\nThank you for dining at our restaurant! We appreciate your visit and hope you had a wonderful experience. We would like to express our gratitude for choosing us and encourage you to keep visiting our establishment in the future.\n\nAs a token of our appreciation, we have prepared the invoice for your recent order. Please find the attached link to access your invoice:\n${link}\n\nThank you again for choosing Waiterless, and we look forward to serving you again soon!\n\nBest regards,\nTeam Waiterless`;
+
+    const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}&from=${encodeURIComponent(
+      senderEmail
+    )}`;
+
+    // Use the mailto: protocol to open the user's default email client
+    window.location.href = mailtoLink;
   };
 
+  // const handleDownload = () => {
+  //   const input = document.getElementById("mail-invoice");
+
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF();
+
+  //     const imgProps = pdf.getImageProperties(imgData);
+  //     const pdfWidth = pdf.internal.pageSize.getWidth();
+  //     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  //     pdf.save("mail-invoice.pdf");
+  //   });
+  // };
+
   return (
-    <div ref={mailContent}>
-      <MailInvoice
-        orderId={orderId}
-        orderBy={orderBy}
-        tableNo={tableNo}
-        grandTotal={grandTotal}
-        items={items}
-      />
+    <div>
+      {/* <div id="mail-invoice">
+        <MailInvoice
+          orderId={orderId}
+          orderBy={orderBy}
+          tableNo={tableNo}
+          grandTotal={grandTotal}
+          items={items}
+        />
+      </div> */}
+      {/* <button
+        onClick={handleDownload}
+        className="flex justify-center items-center p-2 rounded-xl md:mr-2 mb-2 md:mb-0 text-white bg-blue-500 hover:bg-blue-600 hover:text-gray-200 transition ease-in-out duration-200"
+      >
+        <FaTelegramPlane className="pr-2 text-2xl" /> Download
+      </button> */}
       <button
         onClick={handleMail}
         className="flex justify-center items-center p-2 rounded-xl md:mr-2 mb-2 md:mb-0 text-white bg-blue-500 hover:bg-blue-600 hover:text-gray-200 transition ease-in-out duration-200"
