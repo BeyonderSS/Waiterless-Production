@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOMServer from "react-dom/server";
 import { FaTelegramPlane } from "react-icons/fa";
 import MailInvoice from "./MailInvoice";
 
@@ -12,14 +13,18 @@ const MailReceipt = ({
   items,
 }) => {
   const handleMail = () => {
-    const mailTo = `mailto:${recipientEmail}?subject=Order Receipt&body=${encodeURIComponent(
-      `<html><body>${MailInvoice({
-        orderId,
-        orderBy,
-        tableNo,
-        grandTotal,
-        items,
-      })}</body></html>`
+    const mailBody = ReactDOMServer.renderToString(
+      <MailInvoice
+        orderId={orderId}
+        orderBy={orderBy}
+        tableNo={tableNo}
+        grandTotal={grandTotal}
+        items={items}
+      />
+    );
+
+    const mailTo = `mailto:${recipientEmail}?subject=Order Invoice&body=${encodeURIComponent(
+      `<html><body>${mailBody}</body></html>`
     )}&cc=${senderEmail}`;
 
     window.location.href = mailTo;
