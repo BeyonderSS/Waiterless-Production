@@ -2,7 +2,7 @@ import MailInvoice from "@/components/MailInvoice";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-const invoices = () => {
+const Invoices = () => {
   const router = useRouter();
   const [orderId, setOrderId] = useState();
   const [orderBy, setOrderBy] = useState();
@@ -42,4 +42,4 @@ const invoices = () => {
   );
 };
 
-export default invoices;
+export default Invoices;
