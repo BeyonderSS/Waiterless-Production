@@ -148,7 +148,7 @@ const MenuPage = ({ tableNo, restroId }) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-row justify-center items-center   md:pl-0 scrollbar-none overflow-x-scroll animate-m w-96 md:w-full space-x-4 overflow-y-hidden">
+          <div className="flex flex-row justify-center items-center   md:pl-0 scrollbar-none overflow-x-scroll animate-m w-80 md:w-full space-x-4 overflow-y-hidden">
             {categories &&
               categories.map((category) => (
                 <div
