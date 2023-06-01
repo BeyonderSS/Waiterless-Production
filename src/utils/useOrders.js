@@ -24,6 +24,8 @@ export default function useOrders() {
       const ordersRef = doc(firestore, "Orders", restaurantId);
 
       const unsubscribe = onSnapshot(ordersRef, (snapshot) => {
+       
+        if(snapshot.data() != undefined){
         const ordersData = snapshot.data().orders;
         console.log("Orders Data:", ordersData);
 
@@ -37,7 +39,7 @@ export default function useOrders() {
           return 0; // Preserve the original order for orders with the same status
         });
 
-        setOrders(sortedOrders);
+        setOrders(sortedOrders);}
       });
 
       // Cleanup function

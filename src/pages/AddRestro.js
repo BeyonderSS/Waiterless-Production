@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import {
-  addDoc,
   collection,
   doc,
-  getDocs,
-  query,
-  where,
+  getDoc,
+  setDoc,
+  
 } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { motion } from "framer-motion";
@@ -32,26 +31,25 @@ const AddRestro = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Generate custom restaurant id
     const customId =
       name.toLowerCase().replace(/\s+/g, "") +
       Math.random().toString(36).substr(2, 9) +
       Date.now();
-
-    // Check if restaurant with same id already exists in database
+    // Check if restaurant with same admin email already exists in the database
     const restaurantsRef = collection(firestore, "Restaurants");
-    const q = query(restaurantsRef, where("id", "==", customId));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      setError("A restaurant with that name already exists.");
+    
+    const docRef = doc(restaurantsRef, email);
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+      setError("A restaurant with that email already exists.");
       setSuccess(false);
       return;
     }
-
-    // Add new restaurant to database
+  
+    // Add new restaurant to database with admin email as document ID
     try {
-      await addDoc(restaurantsRef, {
+      const docRef = doc(restaurantsRef, email);
+      await setDoc(docRef, {
         id: customId,
         name,
         numTables,
@@ -59,7 +57,7 @@ const AddRestro = () => {
         adminEmail: email,
         expiry: expirationDate,
       });
-
+  
       setError("");
       setSuccess(true);
       setName("");
@@ -71,7 +69,7 @@ const AddRestro = () => {
       setSuccess(false);
     }
   };
-
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}

@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import { auth, firestore } from "../utils/initFirebase";
 import { useContext } from "react";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 
 const AuthContext = createContext({});
@@ -43,53 +43,58 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function handleDB() {
       if (user) {
-        const usersRef = query(
-          collection(firestore, "users"),
-          where("email", "==", user.email)
-        );
-        try {
-          const querySnapshot = await getDocs(usersRef);
-          if (querySnapshot.size === 0) {
-            const restaurantsRef = collection(firestore, "Restaurants");
-            const restaurantsSnapshot = await getDocs(restaurantsRef);
-            let role = "User";
-            let restaurantId = null;
-            restaurantsSnapshot.forEach((doc) => {
-              if (doc.data().adminEmail === user.email) {
-                role = "Admin";
-                restaurantId = doc.data().id;
-              }
-            });
-            const docRef = await addDoc(collection(firestore, "users"), {
+        const userRef = doc(collection(firestore, "users"), user.email);
+        const userSnapshot = await getDoc(userRef);
+        if (!userSnapshot.exists()) {
+          const restaurantRef = doc(collection(firestore, "Restaurants"), user.email);
+          const restaurantSnapshotPromise = getDoc(restaurantRef);
+          let role = "User";
+          let restaurantId = null;
+  
+          const restaurantSnapshot = await restaurantSnapshotPromise;
+          console.log(restaurantSnapshot.data())
+          if (restaurantSnapshot.exists()) {
+            role = "Admin";
+            const restaurantData = restaurantSnapshot.data();
+            if (restaurantData.hasOwnProperty("id")) {
+              restaurantId = restaurantData.id;
+            }
+          }
+          
+  
+          try {
+            const docRef = await setDoc(userRef, {
               uid: user.uid,
               email: user.email,
               displayName: user.displayName,
               role: role,
               restaurantId: restaurantId,
             });
-            console.log("Document written with ID: ", docRef.id);
+            console.log("Document written with ID: ", userSnapshot.id);
             setRole(role);
             setRestaurantId(restaurantId);
             // router.push("/");
-          } else {
-            querySnapshot.forEach((doc) => {
-              const role = doc.data().role;
-              const displayName = doc.data().displayName;
-              const restaurantId = doc.data().restaurantId;
-              setDisplayName(displayName);
-              setRole(role);
-              setRestaurantId(restaurantId);
-              localStorage.setItem("restaurantId",restaurantId)
-            });
+          } catch (error) {
+            console.log("Error creating user document: ", error);
           }
-        } catch (error) {
-          console.log("Error getting documents: ", error);
+        } else {
+          const role = userSnapshot.data().role;
+          const displayName = userSnapshot.data().displayName;
+          const restaurantId = userSnapshot.data().restaurantId;
+          setDisplayName(displayName);
+          setRole(role);
+          setRestaurantId(restaurantId);
+          localStorage.setItem("restaurantId", restaurantId);
         }
       }
     }
   
     handleDB();
   }, [user]);
+  
+  
+  
+  
   
 
   const signInWithGoogle = async () => {
