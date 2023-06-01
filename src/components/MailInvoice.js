@@ -21,8 +21,8 @@ const MailInvoice = ({
       const pdf = new jsPDF();
 
       const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfWidth = pdf.internal.pageSize.getWidth() / 1.05;
+      const pdfHeight = (imgProps.height * pdfWidth) / 1.05 / imgProps.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("mail-invoice.pdf");
