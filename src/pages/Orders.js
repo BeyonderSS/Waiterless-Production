@@ -53,7 +53,7 @@ function Orders() {
         console.log("Orders Data:", orderData);
         const filteredOrders = Object.values(orderData).filter(
           (order) =>
-            order.paymentStatus === "pending" && order.status === "new"
+          order.userEmail === user.email &&   order.paymentStatus === "pending" && order.status === "new"  
         );
         setOrders(filteredOrders);
       });
