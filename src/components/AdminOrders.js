@@ -16,7 +16,7 @@ import { FaTelegramPlane } from "react-icons/fa";
 import MailReciept from "./MailReciept";
 const AdminOrders = ({ orders }) => {
   console.log(orders);
-  const { restaurantId,user } = useAuth();
+  const { restaurantId, user } = useAuth();
   const [receiverName, setReceiverName] = useState("");
   console.log("restaurant id from  Useauth:", restaurantId);
   const handleCashPayment = async (orderId) => {

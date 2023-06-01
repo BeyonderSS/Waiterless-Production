@@ -1,7 +1,14 @@
 import MenuPage from "@/components/MenuPage";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../../utils/initFirebase";
 import { PropagateLoader } from "react-spinners";
 import { useAuth } from "@/context/AuthContext";
@@ -15,33 +22,32 @@ const Menu = () => {
   const tableNo = router.query.tableno;
   const restaurant = router.query.restaurant;
   const restroId = router.query.menu;
-
+  const adminEmail = router.query.adminEmail;
+  console.log(adminEmail);
   useEffect(() => {
     const getRestaurants = async () => {
       if (restroId) {
         setIsLoading(true);
-        const q = query(
-          collection(firestore, "Restaurants"),
-          where("id", "==", restroId),
-          where("name", "==", restaurant)
-        );
-        const querySnapshot = await getDocs(q);
-        const restaurants = [];
-        querySnapshot.forEach((doc) => {
-          const { id, name, numTables } = doc.data();
-          restaurants.push({ id, name, numTables });
-        });
-        if (restaurants.length > 0) {
-          setRestaurantDocs(restaurants);
+        const docRef = doc(firestore, "Restaurants", adminEmail);
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists() && docSnapshot.data().name === restaurant) {
+          const data = docSnapshot.data();
+          const restaurant = {
+            id: adminEmail,
+            name: data.name,
+            numTables: data.numTables,
+          };
+          setRestaurantDocs([restaurant]);
           setErrorMessage(null);
         } else {
-          setErrorMessage("This Menu is not Registered please rescan the QR");
+          setErrorMessage("This Menu is not Registered. Please rescan the QR.");
         }
         setIsLoading(false);
       }
     };
     getRestaurants();
-  }, [restroId, restaurant]);
+  }, [restroId, restaurant, adminEmail]);
 
   if (isLoading) {
     return (

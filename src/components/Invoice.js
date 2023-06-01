@@ -13,6 +13,7 @@ import { firestore } from "../utils/initFirebase";
 import { Router, useRouter } from "next/router";
 const Invoice = ({
   restroName,
+  address,
   numTables,
   restroId,
   rate,
@@ -171,6 +172,7 @@ const Invoice = ({
                       Billed To
                     </p>
                     <p className="uppercase">{restroName}</p>
+                    <p>{address}</p>
                   </div>
                   <div className="text-sm font-light text-slate-500">
                     <p className="text-sm font-normal text-slate-700">

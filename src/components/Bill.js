@@ -17,8 +17,9 @@ const Bill = () => {
     GST,
     grandTotal,
     invoiceNo,
+    address,
   } = useExpiry();
-  
+
   return (
     <div className="md:pl-80  overflow-x-hidden">
       <motion.div
@@ -51,6 +52,7 @@ const Bill = () => {
         numTables={numTables}
         restroId={restroId}
         invoiceNo={invoiceNo}
+        address={address}
       />{" "}
     </div>
   );

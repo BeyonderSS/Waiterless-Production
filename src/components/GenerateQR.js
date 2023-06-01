@@ -1,4 +1,12 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -15,21 +23,20 @@ const GenerateQR = () => {
   useEffect(() => {
     if (user) {
       const fetchRestaurants = async () => {
-        const q = query(
-          collection(firestore, "Restaurants"),
-          where("adminEmail", "==", user.email)
-        );
-        const querySnapshot = await getDocs(q);
-        const restaurants = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          restaurants.push({
+        const docRef = doc(firestore, "Restaurants", user.email);
+        const docSnapshot = await getDoc(docRef);
+
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          const restaurant = {
             id: data.id,
             name: data.name,
             numTables: data.numTables,
-          });
-        });
-        setRestaurantData(restaurants);
+          };
+          setRestaurantData([restaurant]);
+        } else {
+          setRestaurantData([]);
+        }
       };
       fetchRestaurants();
     }
@@ -38,10 +45,13 @@ const GenerateQR = () => {
   const generateQRCodes = () => {
     const codes = [];
     restaurantData.forEach((restaurant) => {
+      console.log(restaurant);
       for (let i = 1; i <= restaurant.numTables; i++) {
         const link = `https://waiterless.tech/menu/${
           restaurant.id
-        }?restaurant=${encodeURIComponent(restaurant.name)}&tableno=${i}`;
+        }?restaurant=${encodeURIComponent(
+          restaurant.name
+        )}&tableno=${i}&adminEmail=${encodeURIComponent(user.email)}`;
         // console.log(link);
         codes.push(<QRCodeCanvas key={`${restaurant.id}-${i}`} value={link} />);
       }

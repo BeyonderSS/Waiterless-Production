@@ -20,6 +20,7 @@ export const ExpiryProvider = ({ children }) => {
   const [restroName, setRestroName] = useState();
   const [numTables, setNumTables] = useState();
   const [restroId, setRestroId] = useState();
+  const [address,setAddress]=useState()
   const [expiryDate, setExpiryDate] = useState();
   const { user, restaurantId } = useAuth();
   // const [orders, setOrders] = useState([]);
@@ -41,6 +42,7 @@ export const ExpiryProvider = ({ children }) => {
           setRestroId(doc.data().id);
           setNumTables(doc.data().numTables);
           setExpiryDate(doc.data().expiry);
+          setAddress(doc.data().address)
         });
       };
       fetchRestaurant();
@@ -196,6 +198,7 @@ export const ExpiryProvider = ({ children }) => {
         GST,
         grandTotal,
         invoiceNo,
+        address
       }}
     >
       {children}

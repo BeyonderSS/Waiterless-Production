@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { FaTelegramPlane } from "react-icons/fa";
 import MailInvoice from "./MailInvoice";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+import { firestore } from "../utils/initFirebase";
 const MailReceipt = ({
   senderEmail,
   recipientEmail,
@@ -15,6 +24,22 @@ const MailReceipt = ({
   items,
 }) => {
   console.log("items in button", items);
+  const adminEmail = senderEmail;
+
+  const [restaurantData, setRestaurantData] = useState(null);
+
+  useEffect(() => {
+    const fetchRestaurantData = async () => {
+      const restaurantRef = doc(firestore, "Restaurants", adminEmail);
+      const restaurantSnapshot = await getDoc(restaurantRef);
+      if (restaurantSnapshot.exists()) {
+        const data = restaurantSnapshot.data();
+        setRestaurantData(data);
+      }
+    };
+    fetchRestaurantData();
+  }, [adminEmail]);
+  console.log("restaurant data:", restaurantData);
 
   const handleMail = () => {
     const modifiedItems = items.map((item) => {
@@ -29,6 +54,10 @@ const MailReceipt = ({
       orderBy
     )}&tableNo=${tableNo}&grandTotal=${grandTotal}&items=${encodeURIComponent(
       JSON.stringify(modifiedItems)
+    )}&address=${encodeURIComponent(restaurantData.address)}&GSTNo=${
+      restaurantData.gstin
+    }&phone=${restaurantData.phone}&restroName=${encodeURIComponent(
+      restaurantData.name
     )}`;
     console.log(link);
     const subject = "Invoice and Gratitude from Waiterless";

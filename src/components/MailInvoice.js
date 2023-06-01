@@ -2,7 +2,17 @@ import React from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-const MailInvoice = ({ orderId, orderBy, tableNo, grandTotal, items }) => {
+const MailInvoice = ({
+  restroName,
+  orderId,
+  orderBy,
+  tableNo,
+  grandTotal,
+  items,
+  address,
+  phone,
+  GSTNo,
+}) => {
   const handleDownload = () => {
     const input = document.getElementById("mail-invoice");
 
@@ -18,11 +28,12 @@ const MailInvoice = ({ orderId, orderBy, tableNo, grandTotal, items }) => {
       pdf.save("mail-invoice.pdf");
     });
   };
-  console.log("Items innside MailInvoice", items);
+
   return (
-    <div className="flex flex-col justify-center items-center space-y-2">
+    <div className="flex flex-col justify-center items-center space-y-4">
       <div className="bg-white rounded-lg shadow-md p-6 w-80" id="mail-invoice">
-        <h2 className="text-2xl font-semibold mb-4">Order Invoice</h2>
+        <h2 className="text-2xl font-semibold mb-4">{restroName}</h2>
+        <h3 className="text-lg font-semibold mb-4">Order Invoice</h3>
         <div className="flex justify-between items-center mb-4">
           <span className="font-medium">Order ID:</span>
           <span>{orderId}</span>
@@ -44,20 +55,32 @@ const MailInvoice = ({ orderId, orderBy, tableNo, grandTotal, items }) => {
                 className="flex justify-between items-center mb-1"
               >
                 <span>{dishName}</span>
-                <span>{`$${price} x ${quantity}`}</span>
+                <span>{`₹${price} x ${quantity}`}</span>
               </div>
             ))}
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-4">
+          <span className="font-medium">Address:</span>
+          <span>{address}</span>
+        </div>
+        <div className="flex justify-between items-center mb-4">
+          <span className="font-medium">Phone:</span>
+          <span>{phone}</span>
+        </div>
+        <div className="flex justify-between items-center mb-4">
+          <span className="font-medium">GST No:</span>
+          <span>{GSTNo}</span>
+        </div>
+        <div className="flex justify-between items-center border-t pt-4">
           <span className="font-medium">Grand Total:</span>
-          <span>{`$${grandTotal}`}</span>
+          <span>{`₹${grandTotal}`}</span>
         </div>
       </div>
       <button
         onClick={handleDownload}
-        className="p-2 bg-blue-400 rounded-xl text-xl px-4 text-white hover:text-gray-200 hover:bg-blue-600"
+        className="p-2 bg-blue-500 rounded-lg text-lg px-4 text-white hover:text-gray-200 hover:bg-blue-600"
       >
-        download
+        Download Invoice
       </button>
     </div>
   );
