@@ -75,7 +75,7 @@ const GenerateQR = () => {
         >
         Generate QR Codes
       </button> */}
-        <div className="">
+        <div className="pt-24">
           {qrCodes.length > 0 ? (
             <div>
               <div className="grid md:grid-cols-5 grid-cols-1 gap-4 mt-8">
@@ -90,12 +90,13 @@ const GenerateQR = () => {
                     >
                       {qr}
                       <div className="text-gray-500 text-sm flex flex-col justify-center items-center">
-                        Waiterless.tech <span>PoweredBy Flourishers Edge</span>
+                        {restaurantData[0].name}
+                        <span>Waiterless.tech</span>
                       </div>
+                      <p className="mt-2 font-medium text-gray-700">{`Table No. ${
+                        index + 1
+                      }`}</p>
                     </div>
-                    <p className="mt-2 font-medium text-gray-700">{`Table No. ${
-                      index + 1
-                    }`}</p>
                     <button
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full mt-4"
                       onClick={() => handleDownload(index)}
