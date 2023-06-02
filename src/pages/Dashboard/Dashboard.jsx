@@ -56,7 +56,6 @@ const dataFormatter = (number) =>
 
 export default function PlaygroundPage() {
   const [staticO] = useOrders();
-  const [filterByDate, setFilterByDate] = useState([]);
   const { expiryDate, expiry, bill } = useExpiry();
   const { user, restaurantId, role, signInWithGoogle } = useAuth();
   const orders = staticO;
@@ -68,9 +67,19 @@ export default function PlaygroundPage() {
     setGrandTotal(total);
   }, [orders]);
   useEffect(() => {
-    const total = filterByDate.reduce((acc, order) => acc + order.total, 0);
+    const currentDate = new Date().toLocaleDateString(); // Get the current date in the format "MM/DD/YYYY"
+    
+    const total = orders.reduce((acc, order) => {
+      const orderDate = new Date(order.createdAt).toLocaleDateString(); // Convert the order date to the same format as currentDate
+      if (orderDate === currentDate) {
+        return acc + order.total;
+      }
+      return acc;
+    }, 0);
+  
     setFilterTotal(total);
-  }, [filterByDate]);
+  }, [orders]);
+  
   console.log("Static Order Data",staticO);
 
   // No of orders and total revenue every month
