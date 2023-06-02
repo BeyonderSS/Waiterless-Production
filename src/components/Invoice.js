@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../utils/initFirebase";
 import { Router, useRouter } from "next/router";
+import { useAuth } from "@/context/AuthContext";
 const Invoice = ({
   restroName,
   address,
@@ -28,8 +29,9 @@ const Invoice = ({
   paymentDate,
 }) => {
   const router = useRouter();
-
+  const {user}=useAuth()
   const makePayment = async () => {
+    if(user){
     const res = await initializeRazorpay();
 
     if (!res) {
@@ -74,14 +76,23 @@ const Invoice = ({
           console.log(lastDateOfMonth);
 
           const restaurantsCollection = collection(firestore, "Restaurants");
-          const q = query(restaurantsCollection, where("id", "==", restroId));
-          const querySnapshot = await getDocs(q);
+          const docRef = doc(restaurantsCollection, user.email);
 
-          const updatePromises = querySnapshot.docs.map((doc) => {
-            return updateDoc(doc.ref, { expiry: lastDateOfMonth });
-          });
-
-          await Promise.all(updatePromises);
+          try {
+            const updatePromises = await updateDoc(docRef, { expiry: lastDateOfMonth });
+          
+            if (!updatePromises || !Array.isArray(updatePromises)) {
+              throw new Error("Invalid updatePromises value");
+            }
+          
+            await Promise.all(updatePromises);
+            console.log("Expiry date updated successfully.");
+          
+            // Rest of the code...
+          } catch (error) {
+            console.error("Error updating expiry date:", error);
+          }
+          
           console.log("Expiry date updated successfully.");
 
           // Create invoice document in Firestore
@@ -123,6 +134,7 @@ const Invoice = ({
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+  }
   };
   const initializeRazorpay = () => {
     return new Promise((resolve) => {
