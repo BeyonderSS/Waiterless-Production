@@ -66,7 +66,7 @@ const GenerateQR = () => {
   const handleDownload = (index) => {
     const qrElement = document.getElementById(`qr-${index}`);
 
-    html2canvas(qrElement, { scale: 4, width: 595, height: 842 }).then(
+    html2canvas(qrElement, { scale: 6, width: 450, height: 660 }).then(
       (canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF();
@@ -92,18 +92,18 @@ const GenerateQR = () => {
                 {qrCodes.map((qr, index) => (
                   <div
                     key={index}
-                    className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-4"
+                    className="flex flex-col items-center justify-center mx-2 bg-white rounded-lg shadow-md p-4"
                   >
                     <div
                       id={`qr-${index}`}
                       className="flex flex-col space-y-4 justify-center items-center"
                     >
                       {qr}
-                      <div className="text-gray-500 text-sm flex flex-col justify-center items-center">
+                      <div className="text-gray-900 text-sm font-semibold flex flex-col justify-center items-center">
                         {restaurantData[0].name}
-                        <span>Waiterless.tech</span>
+                        <span>Waiterless</span>
                       </div>
-                      <p className="mt-2 font-medium text-gray-700">{`Table No. ${
+                      <p className="mt-2 font-semibold text-gray-900">{`Table No. ${
                         index + 1
                       }`}</p>
                     </div>
