@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import DashNav from "@/components/DashNav";
 import Head from "next/head";
 import { ExpiryProvider } from "@/context/ExpiryContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const bellotaTextBold = Bellota_Text({
   weight: "700",
@@ -53,7 +54,7 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
       `/Dashboard/AddItems`,
       `/Dashboard/UpdateMenu`,
       `/Dashboard/GenerateQr`,
-      `/Dashboard/InvoiceHistory`
+      `/Dashboard/InvoiceHistory`,
     ].includes(appProps.router.pathname)
   )
     return (
@@ -66,6 +67,8 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
           <ExpiryProvider>
             <DashNav />
             <Component {...pageProps} />;
+            <Analytics />
+
           </ExpiryProvider>
         </AuthProvider>
       </div>
@@ -81,6 +84,8 @@ export default function MyApp({ Component, pageProps, ...appProps }) {
         <div className="select-none ">
           <Header />
           <Component {...pageProps} />
+          <Analytics />
+
           <Footer />
         </div>
       </main>
