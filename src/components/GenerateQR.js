@@ -47,7 +47,7 @@ const GenerateQR = () => {
     restaurantData.forEach((restaurant) => {
       console.log(restaurant);
       for (let i = 1; i <= restaurant.numTables; i++) {
-        const link = `https://waiterless.tech/menu/${
+        const link = `https://waiterless-production.vercel.app/menu/${
           restaurant.id
         }?restaurant=${encodeURIComponent(
           restaurant.name
