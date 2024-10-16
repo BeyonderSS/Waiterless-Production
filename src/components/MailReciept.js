@@ -50,7 +50,7 @@ const MailReceipt = ({
       };
     });
 
-    const link = `https://waiterless.tech/invoices/abc?orderId=${orderId}&orderBy=${encodeURIComponent(
+    const link = `https://waiterless-production.vercel.app/invoices/abc?orderId=${orderId}&orderBy=${encodeURIComponent(
       orderBy
     )}&tableNo=${tableNo}&grandTotal=${grandTotal}&items=${encodeURIComponent(
       JSON.stringify(modifiedItems)
